@@ -1,0 +1,12 @@
+{
+  "name": "jason-invest",
+  "version": "1.0.0",
+  "private": true,
+  "description": "JASON INVEST - Plateforme web",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": "20.x"
+  }
+}

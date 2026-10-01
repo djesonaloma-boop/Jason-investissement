@@ -1,0 +1,2620 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>JASON INVEST — Notifications</title>
+
+<link rel="stylesheet" href="style.css">
+
+<style>
+:root{
+    --bg:#040914;
+    --surface:#0a1424;
+    --surface2:#0f1d31;
+    --surface3:#14243c;
+    --gold:#d8b45a;
+    --gold-light:#f4df9a;
+    --text:#f5f7fb;
+    --muted:#8d9aae;
+    --border:rgba(255,255,255,.08);
+    --success:#32d583;
+    --danger:#ff6678;
+    --blue:#4d91ff;
+    --warning:#f5b942;
+}
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family:Arial,Helvetica,sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    min-height:100vh;
+    overflow-x:hidden;
+}
+
+a{
+    text-decoration:none;
+    color:inherit;
+}
+
+button{
+    font:inherit;
+}
+
+/* =====================================================
+   FOND ANIMÉ
+===================================================== */
+
+body::before{
+    content:"";
+    position:fixed;
+    inset:-35%;
+    z-index:-5;
+
+    background:
+        radial-gradient(
+            circle at 15% 20%,
+            rgba(216,180,90,.13),
+            transparent 25%
+        ),
+        radial-gradient(
+            circle at 85% 25%,
+            rgba(52,120,255,.13),
+            transparent 28%
+        ),
+        radial-gradient(
+            circle at 50% 90%,
+            rgba(112,65,255,.09),
+            transparent 30%
+        );
+
+    animation:
+        backgroundMove
+        16s
+        ease-in-out
+        infinite
+        alternate;
+}
+
+@keyframes backgroundMove{
+
+    0%{
+        transform:translate3d(-2%,0,0) scale(1);
+    }
+
+    50%{
+        transform:translate3d(2%,-2%,0) scale(1.04);
+    }
+
+    100%{
+        transform:translate3d(-1%,2%,0) scale(1.08);
+    }
+}
+
+.glow{
+    position:fixed;
+    border-radius:50%;
+    pointer-events:none;
+    z-index:-4;
+    filter:blur(2px);
+    opacity:.25;
+}
+
+.glow.one{
+    width:190px;
+    height:190px;
+    top:10%;
+    right:4%;
+    background:rgba(216,180,90,.15);
+    animation:floatGlow 9s ease-in-out infinite;
+}
+
+.glow.two{
+    width:240px;
+    height:240px;
+    left:3%;
+    bottom:4%;
+    background:rgba(60,110,255,.13);
+    animation:floatGlow 12s ease-in-out infinite reverse;
+}
+
+@keyframes floatGlow{
+
+    0%,100%{
+        transform:translate(0,0);
+    }
+
+    50%{
+        transform:translate(25px,-30px);
+    }
+}
+
+/* PARTICULES */
+
+.particles{
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    z-index:-3;
+    overflow:hidden;
+}
+
+.particle{
+    position:absolute;
+    width:3px;
+    height:3px;
+    border-radius:50%;
+    background:rgba(244,223,154,.6);
+    animation:particleUp linear infinite;
+}
+
+.particle:nth-child(1){
+    left:7%;
+    top:90%;
+    animation-duration:12s;
+}
+
+.particle:nth-child(2){
+    left:18%;
+    top:70%;
+    animation-duration:15s;
+}
+
+.particle:nth-child(3){
+    left:32%;
+    top:85%;
+    animation-duration:11s;
+}
+
+.particle:nth-child(4){
+    left:45%;
+    top:75%;
+    animation-duration:17s;
+}
+
+.particle:nth-child(5){
+    left:61%;
+    top:90%;
+    animation-duration:13s;
+}
+
+.particle:nth-child(6){
+    left:73%;
+    top:65%;
+    animation-duration:16s;
+}
+
+.particle:nth-child(7){
+    left:86%;
+    top:80%;
+    animation-duration:10s;
+}
+
+.particle:nth-child(8){
+    left:95%;
+    top:60%;
+    animation-duration:14s;
+}
+
+@keyframes particleUp{
+
+    from{
+        transform:translateY(80px);
+        opacity:0;
+    }
+
+    20%{
+        opacity:1;
+    }
+
+    80%{
+        opacity:.7;
+    }
+
+    to{
+        transform:translateY(-700px);
+        opacity:0;
+    }
+}
+
+/* =====================================================
+   STRUCTURE
+===================================================== */
+
+.app{
+    min-height:100vh;
+    display:flex;
+}
+
+/* =====================================================
+   SIDEBAR
+===================================================== */
+
+.sidebar{
+    width:255px;
+    position:fixed;
+    left:0;
+    top:0;
+    bottom:0;
+    z-index:1000;
+
+    background:rgba(5,12,24,.95);
+    backdrop-filter:blur(18px);
+
+    border-right:1px solid var(--border);
+
+    overflow-y:auto;
+
+    box-shadow:
+        12px 0 40px
+        rgba(0,0,0,.18);
+
+    transition:.3s;
+}
+
+.brand{
+    padding:24px 20px;
+    border-bottom:1px solid var(--border);
+}
+
+.brand-title{
+    font-size:22px;
+    font-weight:800;
+    color:var(--gold-light);
+    letter-spacing:.7px;
+    text-shadow:
+        0 0 20px
+        rgba(216,180,90,.2);
+}
+
+.brand-subtitle{
+    color:var(--muted);
+    font-size:12px;
+    margin-top:5px;
+}
+
+.user-mini{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:18px 20px;
+    border-bottom:1px solid var(--border);
+}
+
+.user-avatar{
+    width:42px;
+    height:42px;
+    min-width:42px;
+
+    border-radius:50%;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--gold-light),
+            var(--gold)
+        );
+
+    color:#111;
+    font-weight:800;
+
+    box-shadow:
+        0 0 22px
+        rgba(216,180,90,.18);
+}
+
+.user-mini strong{
+    display:block;
+    font-size:14px;
+}
+
+.user-mini span{
+    display:block;
+    color:var(--muted);
+    font-size:11px;
+    margin-top:4px;
+
+    max-width:150px;
+    overflow:hidden;
+    white-space:nowrap;
+    text-overflow:ellipsis;
+}
+
+.nav{
+    padding:14px 12px;
+}
+
+.nav-title{
+    color:#66758b;
+    font-size:10px;
+    text-transform:uppercase;
+    letter-spacing:1px;
+    padding:10px;
+}
+
+.nav a{
+    display:flex;
+    align-items:center;
+    gap:11px;
+
+    padding:12px 13px;
+    margin-bottom:4px;
+
+    border-radius:9px;
+
+    color:#b8c2d2;
+    font-size:14px;
+
+    transition:.25s;
+}
+
+.nav a:hover{
+    background:rgba(216,180,90,.08);
+    color:var(--gold-light);
+    transform:translateX(3px);
+}
+
+.nav a.active{
+    background:
+        linear-gradient(
+            90deg,
+            rgba(216,180,90,.16),
+            rgba(216,180,90,.03)
+        );
+
+    color:var(--gold-light);
+
+    border-left:3px solid var(--gold);
+
+    box-shadow:
+        inset 0 0 20px
+        rgba(216,180,90,.03);
+}
+
+.nav-icon{
+    width:20px;
+    text-align:center;
+}
+
+.logout-btn{
+    width:calc(100% - 24px);
+    margin:10px 12px 20px;
+
+    padding:12px;
+
+    border-radius:9px;
+
+    border:1px solid
+        rgba(255,102,120,.2);
+
+    background:
+        rgba(255,102,120,.06);
+
+    color:#ff8997;
+
+    cursor:pointer;
+
+    transition:.25s;
+}
+
+.logout-btn:hover{
+    background:
+        rgba(255,102,120,.13);
+
+    transform:translateY(-2px);
+}
+
+/* =====================================================
+   MAIN
+===================================================== */
+
+.main{
+    width:calc(100% - 255px);
+    margin-left:255px;
+    min-height:100vh;
+}
+
+.topbar{
+    height:70px;
+
+    padding:0 28px;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    position:sticky;
+    top:0;
+    z-index:500;
+
+    background:
+        rgba(5,11,22,.76);
+
+    backdrop-filter:blur(17px);
+
+    border-bottom:1px solid var(--border);
+}
+
+.topbar-left{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.mobile-menu{
+    display:none;
+
+    width:40px;
+    height:40px;
+
+    border:1px solid var(--border);
+    border-radius:8px;
+
+    background:var(--surface);
+    color:white;
+
+    cursor:pointer;
+}
+
+.topbar-title{
+    font-size:16px;
+    font-weight:700;
+}
+
+.top-notification{
+    position:relative;
+}
+
+.top-notification button{
+    width:42px;
+    height:42px;
+
+    border-radius:50%;
+
+    border:1px solid var(--border);
+
+    background:var(--surface);
+
+    color:white;
+
+    cursor:pointer;
+
+    transition:.25s;
+}
+
+.top-notification button:hover{
+    color:var(--gold-light);
+    border-color:rgba(216,180,90,.45);
+    transform:scale(1.06);
+}
+
+.top-badge{
+    position:absolute;
+
+    right:4px;
+    top:3px;
+
+    min-width:16px;
+    height:16px;
+
+    padding:0 4px;
+
+    border-radius:20px;
+
+    background:var(--danger);
+    color:white;
+
+    font-size:9px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    box-shadow:
+        0 0 12px
+        rgba(255,102,120,.4);
+}
+
+/* =====================================================
+   CONTENT
+===================================================== */
+
+.content{
+    max-width:1100px;
+    margin:auto;
+    padding:34px 30px;
+}
+
+/* =====================================================
+   HERO NOTIFICATIONS
+===================================================== */
+
+.notification-hero{
+    position:relative;
+
+    padding:28px;
+
+    margin-bottom:22px;
+
+    border-radius:20px;
+
+    overflow:hidden;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(216,180,90,.13),
+            rgba(13,29,50,.92) 45%,
+            rgba(7,17,31,.95)
+        );
+
+    border:1px solid
+        rgba(216,180,90,.14);
+
+    box-shadow:
+        0 25px 60px
+        rgba(0,0,0,.16);
+
+    animation:
+        fadeUp
+        .7s
+        ease
+        both;
+}
+
+.notification-hero::after{
+    content:"";
+
+    position:absolute;
+
+    width:180px;
+    height:180px;
+
+    right:-60px;
+    top:-70px;
+
+    border-radius:50%;
+
+    background:
+        rgba(216,180,90,.08);
+
+    filter:blur(3px);
+
+    animation:
+        heroFloat
+        7s
+        ease-in-out
+        infinite;
+}
+
+@keyframes heroFloat{
+
+    0%,100%{
+        transform:translate(0,0);
+    }
+
+    50%{
+        transform:translate(-15px,20px);
+    }
+}
+
+.hero-icon{
+    width:55px;
+    height:55px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border-radius:16px;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--gold-light),
+            var(--gold)
+        );
+
+    color:#111;
+
+    font-size:25px;
+
+    margin-bottom:15px;
+
+    box-shadow:
+        0 10px 35px
+        rgba(216,180,90,.16);
+
+    animation:
+        bellPulse
+        2.5s
+        ease-in-out
+        infinite;
+}
+
+@keyframes bellPulse{
+
+    0%,100%{
+        transform:rotate(0);
+    }
+
+    8%{
+        transform:rotate(8deg);
+    }
+
+    16%{
+        transform:rotate(-8deg);
+    }
+
+    24%{
+        transform:rotate(4deg);
+    }
+
+    32%{
+        transform:rotate(0);
+    }
+}
+
+.notification-hero h1{
+    font-size:30px;
+    margin-bottom:8px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #fff,
+            var(--gold-light)
+        );
+
+    -webkit-background-clip:text;
+    background-clip:text;
+
+    color:transparent;
+}
+
+.notification-hero p{
+    color:var(--muted);
+    line-height:1.6;
+    max-width:700px;
+}
+
+/* =====================================================
+   SUMMARY
+===================================================== */
+
+.summary-grid{
+    display:grid;
+    grid-template-columns:
+        repeat(3,1fr);
+
+    gap:12px;
+
+    margin-bottom:20px;
+}
+
+.summary-card{
+    padding:18px;
+
+    border-radius:15px;
+
+    background:
+        rgba(10,20,36,.82);
+
+    backdrop-filter:blur(14px);
+
+    border:1px solid var(--border);
+
+    animation:
+        fadeUp
+        .7s
+        ease
+        both;
+
+    transition:.3s;
+}
+
+.summary-card:nth-child(1){
+    animation-delay:.08s;
+}
+
+.summary-card:nth-child(2){
+    animation-delay:.16s;
+}
+
+.summary-card:nth-child(3){
+    animation-delay:.24s;
+}
+
+.summary-card:hover{
+    transform:translateY(-4px);
+    border-color:
+        rgba(216,180,90,.25);
+}
+
+.summary-top{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+
+.summary-icon{
+    width:40px;
+    height:40px;
+
+    border-radius:12px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    background:var(--surface2);
+
+    font-size:18px;
+}
+
+.summary-card:nth-child(1)
+.summary-icon{
+    color:var(--gold-light);
+}
+
+.summary-card:nth-child(2)
+.summary-icon{
+    color:var(--danger);
+}
+
+.summary-card:nth-child(3)
+.summary-icon{
+    color:var(--success);
+}
+
+.summary-number{
+    margin-top:14px;
+
+    font-size:24px;
+    font-weight:800;
+}
+
+.summary-label{
+    margin-top:4px;
+
+    color:var(--muted);
+    font-size:11px;
+}
+
+/* =====================================================
+   ACTION BAR
+===================================================== */
+
+.action-bar{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    gap:15px;
+
+    margin-bottom:18px;
+
+    padding:15px;
+
+    background:
+        rgba(10,20,36,.84);
+
+    backdrop-filter:blur(14px);
+
+    border:1px solid var(--border);
+
+    border-radius:14px;
+
+    animation:
+        fadeUp
+        .7s
+        .25s
+        ease
+        both;
+}
+
+.notification-count{
+    color:var(--muted);
+    font-size:13px;
+}
+
+.notification-count strong{
+    color:var(--gold-light);
+}
+
+.actions{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+}
+
+.action-btn{
+    border:1px solid var(--border);
+
+    background:var(--surface2);
+
+    color:#dfe5ef;
+
+    padding:9px 12px;
+
+    border-radius:8px;
+
+    cursor:pointer;
+
+    font-size:12px;
+
+    transition:.25s;
+}
+
+.action-btn:hover{
+    border-color:
+        rgba(216,180,90,.5);
+
+    color:var(--gold-light);
+
+    transform:translateY(-2px);
+}
+
+/* =====================================================
+   FILTERS
+===================================================== */
+
+.filters{
+    display:flex;
+    gap:8px;
+
+    overflow-x:auto;
+
+    padding-bottom:8px;
+    margin-bottom:20px;
+
+    scrollbar-width:none;
+
+    animation:
+        fadeUp
+        .7s
+        .32s
+        ease
+        both;
+}
+
+.filters::-webkit-scrollbar{
+    display:none;
+}
+
+.filter{
+    white-space:nowrap;
+
+    padding:9px 13px;
+
+    border:1px solid var(--border);
+
+    background:
+        rgba(10,20,36,.8);
+
+    color:var(--muted);
+
+    border-radius:20px;
+
+    cursor:pointer;
+
+    font-size:12px;
+
+    transition:.25s;
+}
+
+.filter:hover{
+    color:var(--gold-light);
+    border-color:
+        rgba(216,180,90,.4);
+    transform:translateY(-1px);
+}
+
+.filter.active{
+    background:
+        linear-gradient(
+            135deg,
+            var(--gold-light),
+            var(--gold)
+        );
+
+    border-color:var(--gold);
+
+    color:#111;
+
+    font-weight:700;
+
+    box-shadow:
+        0 6px 20px
+        rgba(216,180,90,.14);
+}
+
+/* =====================================================
+   SECTION TITLE
+===================================================== */
+
+.section-title{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    margin:0 2px 12px;
+}
+
+.section-title h2{
+    font-size:16px;
+}
+
+.section-title span{
+    color:var(--muted);
+    font-size:11px;
+}
+
+/* =====================================================
+   NOTIFICATIONS LIST
+===================================================== */
+
+.notifications{
+    display:flex;
+    flex-direction:column;
+    gap:11px;
+}
+
+/* notification card */
+
+.notification{
+    position:relative;
+
+    display:flex;
+    align-items:flex-start;
+
+    gap:14px;
+
+    padding:17px;
+
+    background:
+        rgba(10,20,36,.84);
+
+    backdrop-filter:blur(14px);
+
+    border:1px solid var(--border);
+
+    border-radius:15px;
+
+    transition:.3s;
+
+    animation:
+        notificationIn
+        .6s
+        ease
+        both;
+}
+
+.notification:nth-child(1){
+    animation-delay:.1s;
+}
+
+.notification:nth-child(2){
+    animation-delay:.16s;
+}
+
+.notification:nth-child(3){
+    animation-delay:.22s;
+}
+
+.notification:nth-child(4){
+    animation-delay:.28s;
+}
+
+.notification:nth-child(5){
+    animation-delay:.34s;
+}
+
+@keyframes notificationIn{
+
+    from{
+        opacity:0;
+        transform:
+            translateY(18px)
+            scale(.98);
+    }
+
+    to{
+        opacity:1;
+        transform:
+            translateY(0)
+            scale(1);
+    }
+}
+
+.notification:hover{
+    transform:translateY(-3px);
+
+    border-color:
+        rgba(216,180,90,.28);
+
+    box-shadow:
+        0 18px 40px
+        rgba(0,0,0,.16);
+}
+
+/* NON LUE */
+
+.notification.unread{
+    background:
+        linear-gradient(
+            100deg,
+            rgba(216,180,90,.10),
+            rgba(10,20,36,.9) 50%
+        );
+}
+
+.notification.unread::before{
+    content:"";
+
+    position:absolute;
+
+    left:0;
+    top:12px;
+    bottom:12px;
+
+    width:4px;
+
+    background:var(--gold);
+
+    border-radius:5px;
+
+    box-shadow:
+        0 0 12px
+        rgba(216,180,90,.4);
+}
+
+/* ICONE */
+
+.notification-icon{
+    width:46px;
+    height:46px;
+    min-width:46px;
+
+    border-radius:13px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,.06),
+            rgba(255,255,255,.015)
+        );
+
+    border:1px solid
+        rgba(255,255,255,.05);
+
+    font-size:20px;
+}
+
+.notification.deposit
+.notification-icon{
+    color:var(--success);
+}
+
+.notification.withdraw
+.notification-icon{
+    color:var(--danger);
+}
+
+.notification.investment
+.notification-icon{
+    color:var(--blue);
+}
+
+.notification.vip
+.notification-icon{
+    color:var(--gold-light);
+}
+
+.notification.system
+.notification-icon{
+    color:var(--warning);
+}
+
+/* CONTENU */
+
+.notification-content{
+    flex:1;
+    min-width:0;
+}
+
+.notification-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+
+    gap:15px;
+}
+
+.notification-title{
+    font-size:14px;
+    font-weight:700;
+}
+
+.notification-date{
+    color:#68778c;
+    font-size:10px;
+    white-space:nowrap;
+}
+
+.notification-text{
+    color:var(--muted);
+
+    font-size:12px;
+
+    line-height:1.65;
+
+    margin-top:7px;
+}
+
+.notification-actions{
+    display:flex;
+    gap:7px;
+    margin-top:11px;
+}
+
+.small-btn{
+    border:1px solid var(--border);
+
+    background:transparent;
+
+    color:#9da9bb;
+
+    border-radius:7px;
+
+    padding:6px 9px;
+
+    cursor:pointer;
+
+    font-size:10px;
+
+    transition:.25s;
+}
+
+.small-btn:hover{
+    color:var(--gold-light);
+
+    border-color:
+        rgba(216,180,90,.4);
+
+    transform:translateY(-1px);
+}
+
+.small-btn:disabled{
+    cursor:default;
+}
+
+.unread-dot{
+    width:8px;
+    height:8px;
+
+    min-width:8px;
+
+    margin-top:5px;
+
+    border-radius:50%;
+
+    background:var(--gold);
+
+    box-shadow:
+        0 0 12px
+        rgba(216,180,90,.55);
+
+    animation:
+        unreadPulse
+        1.8s
+        infinite;
+}
+
+@keyframes unreadPulse{
+
+    0%,100%{
+        transform:scale(1);
+        opacity:1;
+    }
+
+    50%{
+        transform:scale(1.5);
+        opacity:.55;
+    }
+}
+
+/* =====================================================
+   EMPTY
+===================================================== */
+
+.empty-state{
+    display:none;
+
+    text-align:center;
+
+    padding:55px 20px;
+
+    background:
+        rgba(10,20,36,.82);
+
+    border:1px dashed
+        rgba(255,255,255,.12);
+
+    border-radius:16px;
+
+    animation:
+        fadeUp
+        .5s
+        ease
+        both;
+}
+
+.empty-icon{
+    width:66px;
+    height:66px;
+
+    margin:0 auto 15px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border-radius:50%;
+
+    background:var(--surface2);
+
+    font-size:28px;
+
+    box-shadow:
+        0 0 30px
+        rgba(216,180,90,.08);
+}
+
+.empty-state h2{
+    font-size:17px;
+    margin-bottom:7px;
+}
+
+.empty-state p{
+    color:var(--muted);
+    font-size:12px;
+}
+
+/* =====================================================
+   INFO
+===================================================== */
+
+.info-panel{
+    margin-top:22px;
+
+    padding:18px;
+
+    background:
+        rgba(10,20,36,.76);
+
+    backdrop-filter:blur(12px);
+
+    border:1px solid var(--border);
+
+    border-radius:14px;
+
+    animation:
+        fadeUp
+        .7s
+        .5s
+        ease
+        both;
+}
+
+.info-panel h3{
+    color:var(--gold-light);
+
+    font-size:14px;
+
+    margin-bottom:7px;
+}
+
+.info-panel p{
+    color:var(--muted);
+
+    font-size:12px;
+
+    line-height:1.7;
+}
+
+/* =====================================================
+   FOOTER
+===================================================== */
+
+footer{
+    text-align:center;
+
+    padding:35px 20px;
+
+    color:#647287;
+
+    font-size:11px;
+}
+
+/* =====================================================
+   ANIMATION GÉNÉRALE
+===================================================== */
+
+@keyframes fadeUp{
+
+    from{
+        opacity:0;
+        transform:translateY(20px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media(max-width:850px){
+
+    .sidebar{
+        transform:translateX(-100%);
+    }
+
+    .sidebar.open{
+        transform:translateX(0);
+    }
+
+    .main{
+        width:100%;
+        margin-left:0;
+    }
+
+    .mobile-menu{
+        display:block;
+    }
+
+    .content{
+        padding:24px 16px;
+    }
+
+    .summary-grid{
+        grid-template-columns:1fr;
+    }
+}
+
+@media(max-width:600px){
+
+    .topbar{
+        padding:0 15px;
+    }
+
+    .notification-hero{
+        padding:22px;
+    }
+
+    .notification-hero h1{
+        font-size:24px;
+    }
+
+    .action-bar{
+        flex-direction:column;
+        align-items:flex-start;
+    }
+
+    .notification{
+        padding:15px 13px;
+    }
+
+    .notification-top{
+        display:block;
+    }
+
+    .notification-date{
+        display:block;
+        margin-top:5px;
+    }
+
+    .notification-icon{
+        width:41px;
+        min-width:41px;
+        height:41px;
+        font-size:18px;
+    }
+
+    .summary-number{
+        font-size:21px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- FOND -->
+
+<div class="glow one"></div>
+<div class="glow two"></div>
+
+<div class="particles">
+
+    <span class="particle"></span>
+    <span class="particle"></span>
+    <span class="particle"></span>
+    <span class="particle"></span>
+    <span class="particle"></span>
+    <span class="particle"></span>
+    <span class="particle"></span>
+    <span class="particle"></span>
+
+</div>
+
+
+<div class="app">
+
+<!-- =====================================================
+     SIDEBAR
+===================================================== -->
+
+<aside class="sidebar" id="sidebar">
+
+    <div class="brand">
+
+        <div class="brand-title">
+            JASON INVEST
+        </div>
+
+        <div class="brand-subtitle">
+            Espace client
+        </div>
+
+    </div>
+
+
+    <div class="user-mini">
+
+        <div class="user-avatar" id="userAvatar">
+            J
+        </div>
+
+        <div>
+
+            <strong id="userName">
+                Client
+            </strong>
+
+            <span id="userEmail">
+                Compte connecté
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <nav class="nav">
+
+        <div class="nav-title">
+            Menu principal
+        </div>
+
+
+        <a href="dashboard.html">
+            <span class="nav-icon">⌂</span>
+            Dashboard
+        </a>
+
+
+        <a href="investissement.html">
+            <span class="nav-icon">📈</span>
+            Investissement
+        </a>
+
+
+        <a href="tache.html">
+            <span class="nav-icon">📝</span>
+            Tâche du jour
+        </a>
+
+
+        <a href="activites.html">
+            <span class="nav-icon">📢</span>
+            Activités
+        </a>
+
+
+        <a href="fidelite.html">
+            <span class="nav-icon">⭐</span>
+            Fidélité
+        </a>
+
+
+        <a href="parrainage.html">
+            <span class="nav-icon">👥</span>
+            Parrainage
+        </a>
+
+
+        <a href="historique.html">
+            <span class="nav-icon">🧾</span>
+            Historique
+        </a>
+
+
+        <a
+            href="notification.html"
+            class="active">
+
+            <span class="nav-icon">
+                🔔
+            </span>
+
+            Notifications
+
+        </a>
+
+
+        <div class="nav-title">
+            Compte
+        </div>
+
+
+        <a href="profil.html">
+            <span class="nav-icon">👤</span>
+            Profil
+        </a>
+
+
+        <a href="translation.html">
+            <span class="nav-icon">💰</span>
+            Dépôt & Retrait
+        </a>
+
+
+        <a href="support.html">
+            <span class="nav-icon">🎧</span>
+            Support
+        </a>
+
+    </nav>
+
+
+    <button
+        class="logout-btn"
+        id="logoutBtn"
+        data-action="logout">
+
+        🚪 Déconnexion
+
+    </button>
+
+</aside>
+
+
+<!-- =====================================================
+     MAIN
+===================================================== -->
+
+<main class="main">
+
+
+<header class="topbar">
+
+    <div class="topbar-left">
+
+        <button
+            class="mobile-menu"
+            id="mobileMenu">
+
+            ☰
+
+        </button>
+
+
+        <div class="topbar-title">
+            Notifications
+        </div>
+
+    </div>
+
+
+    <div class="top-notification">
+
+        <button
+            type="button"
+            onclick="window.scrollTo({
+                top:0,
+                behavior:'smooth'
+            })">
+
+            🔔
+
+        </button>
+
+
+        <span
+            class="top-badge"
+            id="topBadge">
+
+            0
+
+        </span>
+
+    </div>
+
+</header>
+
+
+<section class="content">
+
+
+<!-- =====================================================
+     HERO
+===================================================== -->
+
+<div class="notification-hero">
+
+    <div class="hero-icon">
+        🔔
+    </div>
+
+    <h1>
+        Centre de notifications
+    </h1>
+
+    <p>
+        Retrouvez ici les informations importantes
+        concernant votre compte, vos dépôts, retraits,
+        investissements, fidélité et activités JASON INVEST.
+    </p>
+
+</div>
+
+
+<!-- =====================================================
+     RÉSUMÉ
+===================================================== -->
+
+<div class="summary-grid">
+
+
+    <div class="summary-card">
+
+        <div class="summary-top">
+
+            <div>
+                <div class="summary-label">
+                    Total
+                </div>
+            </div>
+
+            <div class="summary-icon">
+                🔔
+            </div>
+
+        </div>
+
+        <div
+            class="summary-number"
+            id="totalNotifications">
+
+            5
+
+        </div>
+
+        <div class="summary-label">
+            Notifications disponibles
+        </div>
+
+    </div>
+
+
+    <div class="summary-card">
+
+        <div class="summary-top">
+
+            <div>
+                <div class="summary-label">
+                    Non lues
+                </div>
+            </div>
+
+            <div class="summary-icon">
+                🔴
+            </div>
+
+        </div>
+
+        <div
+            class="summary-number"
+            id="summaryUnread">
+
+            2
+
+        </div>
+
+        <div class="summary-label">
+            À consulter
+        </div>
+
+    </div>
+
+
+    <div class="summary-card">
+
+        <div class="summary-top">
+
+            <div>
+                <div class="summary-label">
+                    État
+                </div>
+            </div>
+
+            <div class="summary-icon">
+                ✓
+            </div>
+
+        </div>
+
+        <div
+            class="summary-number"
+            id="summaryStatus">
+
+            Actif
+
+        </div>
+
+        <div class="summary-label">
+            Synchronisation disponible
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     ACTIONS
+===================================================== -->
+
+<div class="action-bar">
+
+    <div class="notification-count">
+
+        <strong id="unreadCount">
+            2
+        </strong>
+
+        notification(s) non lue(s)
+
+    </div>
+
+
+    <div class="actions">
+
+        <button
+            class="action-btn"
+            id="markAllBtn">
+
+            ✓ Tout marquer comme lu
+
+        </button>
+
+
+        <button
+            class="action-btn"
+            id="refreshBtn">
+
+            ↻ Actualiser
+
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     FILTRES
+===================================================== -->
+
+<div class="filters">
+
+    <button
+        class="filter active"
+        data-filter="all">
+
+        Toutes
+
+    </button>
+
+
+    <button
+        class="filter"
+        data-filter="deposit">
+
+        💰 Dépôts
+
+    </button>
+
+
+    <button
+        class="filter"
+        data-filter="withdraw">
+
+        💸 Retraits
+
+    </button>
+
+
+    <button
+        class="filter"
+        data-filter="investment">
+
+        📈 Investissements
+
+    </button>
+
+
+    <button
+        class="filter"
+        data-filter="vip">
+
+        ⭐ VIP & Fidélité
+
+    </button>
+
+
+    <button
+        class="filter"
+        data-filter="system">
+
+        📢 Système
+
+    </button>
+
+</div>
+
+
+<!-- =====================================================
+     TITRE DE LISTE
+===================================================== -->
+
+<div class="section-title">
+
+    <h2>
+        Notifications récentes
+    </h2>
+
+    <span>
+        Plus récentes en premier
+    </span>
+
+</div>
+
+
+<!-- =====================================================
+     LISTE
+===================================================== -->
+
+<div
+    class="notifications"
+    id="notifications">
+
+
+    <!-- 1 — NON LUE -->
+
+    <article
+        class="notification deposit unread"
+        data-type="deposit"
+        data-id="demo-1">
+
+        <div class="notification-icon">
+            💰
+        </div>
+
+
+        <div class="notification-content">
+
+            <div class="notification-top">
+
+                <div class="notification-title">
+                    Dépôt en attente
+                </div>
+
+                <div class="notification-date">
+                    Aujourd'hui
+                </div>
+
+            </div>
+
+
+            <div class="notification-text">
+
+                Votre demande de dépôt est enregistrée.
+                Elle sera traitée après vérification
+                de la transaction.
+
+            </div>
+
+
+            <div class="notification-actions">
+
+                <button
+                    class="small-btn mark-read">
+
+                    ✓ Marquer comme lu
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <div class="unread-dot"></div>
+
+    </article>
+
+
+    <!-- 2 — NON LUE -->
+
+    <article
+        class="notification system unread"
+        data-type="system"
+        data-id="demo-2">
+
+        <div class="notification-icon">
+            📢
+        </div>
+
+
+        <div class="notification-content">
+
+            <div class="notification-top">
+
+                <div class="notification-title">
+                    Bienvenue sur JASON INVEST
+                </div>
+
+                <div class="notification-date">
+                    Aujourd'hui
+                </div>
+
+            </div>
+
+
+            <div class="notification-text">
+
+                Votre espace client est prêt.
+                Consultez votre tableau de bord,
+                vos investissements, votre fidélité
+                et votre historique.
+
+            </div>
+
+
+            <div class="notification-actions">
+
+                <button
+                    class="small-btn mark-read">
+
+                    ✓ Marquer comme lu
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <div class="unread-dot"></div>
+
+    </article>
+
+
+    <!-- 3 -->
+
+    <article
+        class="notification investment"
+        data-type="investment"
+        data-id="demo-3">
+
+        <div class="notification-icon">
+            📈
+        </div>
+
+
+        <div class="notification-content">
+
+            <div class="notification-top">
+
+                <div class="notification-title">
+                    Informations investissement
+                </div>
+
+                <div class="notification-date">
+                    Récent
+                </div>
+
+            </div>
+
+
+            <div class="notification-text">
+
+                Consultez vos investissements et leur
+                évolution depuis votre tableau de bord.
+
+            </div>
+
+        </div>
+
+    </article>
+
+
+    <!-- 4 -->
+
+    <article
+        class="notification vip"
+        data-type="vip"
+        data-id="demo-4">
+
+        <div class="notification-icon">
+            ⭐
+        </div>
+
+
+        <div class="notification-content">
+
+            <div class="notification-top">
+
+                <div class="notification-title">
+                    Programme fidélité
+                </div>
+
+                <div class="notification-date">
+                    Récent
+                </div>
+
+            </div>
+
+
+            <div class="notification-text">
+
+                Vos points de fidélité et votre niveau
+                VIP sont disponibles dans votre espace fidélité.
+
+            </div>
+
+        </div>
+
+    </article>
+
+
+    <!-- 5 -->
+
+    <article
+        class="notification withdraw"
+        data-type="withdraw"
+        data-id="demo-5">
+
+        <div class="notification-icon">
+            💸
+        </div>
+
+
+        <div class="notification-content">
+
+            <div class="notification-top">
+
+                <div class="notification-title">
+                    Retraits
+                </div>
+
+                <div class="notification-date">
+                    Information
+                </div>
+
+            </div>
+
+
+            <div class="notification-text">
+
+                Les demandes de retrait peuvent nécessiter
+                une validation avant leur traitement.
+
+            </div>
+
+        </div>
+
+    </article>
+
+</div>
+
+
+<!-- =====================================================
+     EMPTY
+===================================================== -->
+
+<div
+    class="empty-state"
+    id="emptyState">
+
+    <div class="empty-icon">
+        🔔
+    </div>
+
+    <h2>
+        Aucune notification
+    </h2>
+
+    <p>
+        Vous n'avez aucune notification
+        dans cette catégorie.
+    </p>
+
+</div>
+
+
+<!-- =====================================================
+     INFO
+===================================================== -->
+
+<div class="info-panel">
+
+    <h3>
+        🔐 Notifications sécurisées
+    </h3>
+
+    <p>
+
+        Les notifications de votre compte pourront être
+        générées automatiquement par le serveur :
+        dépôts, retraits, investissements, fidélité,
+        VIP, tâches et informations générales.
+
+        La lecture des notifications sera synchronisée
+        avec votre compte lorsque les routes JSON/API
+        correspondantes seront connectées.
+
+    </p>
+
+</div>
+
+</section>
+
+
+<footer>
+    JASON INVEST © 2026 — Espace client
+</footer>
+
+
+</main>
+
+</div>
+
+
+<!-- =====================================================
+     JS CENTRAL
+===================================================== -->
+
+<script src="app.js"></script>
+
+
+<script>
+(function(){
+
+    const sidebar =
+        document.getElementById("sidebar");
+
+    const mobileMenu =
+        document.getElementById("mobileMenu");
+
+    const notifications =
+        document.getElementById("notifications");
+
+    const emptyState =
+        document.getElementById("emptyState");
+
+    const unreadCount =
+        document.getElementById("unreadCount");
+
+    const topBadge =
+        document.getElementById("topBadge");
+
+    const totalNotifications =
+        document.getElementById(
+            "totalNotifications"
+        );
+
+    const summaryUnread =
+        document.getElementById(
+            "summaryUnread"
+        );
+
+    const refreshBtn =
+        document.getElementById(
+            "refreshBtn"
+        );
+
+    const markAllBtn =
+        document.getElementById(
+            "markAllBtn"
+        );
+
+
+    /* =========================================
+       MENU MOBILE
+    ========================================= */
+
+    if(mobileMenu){
+
+        mobileMenu.addEventListener(
+            "click",
+            function(){
+
+                sidebar.classList.toggle(
+                    "open"
+                );
+
+            }
+        );
+
+    }
+
+
+    /* =========================================
+       COMPTEURS
+    ========================================= */
+
+    function updateCounters(){
+
+        const all =
+            document.querySelectorAll(
+                ".notification"
+            );
+
+        const unread =
+            document.querySelectorAll(
+                ".notification.unread"
+            );
+
+
+        if(totalNotifications){
+
+            totalNotifications.textContent =
+                all.length;
+
+        }
+
+
+        if(unreadCount){
+
+            unreadCount.textContent =
+                unread.length;
+
+        }
+
+
+        if(summaryUnread){
+
+            summaryUnread.textContent =
+                unread.length;
+
+        }
+
+
+        if(topBadge){
+
+            topBadge.textContent =
+                unread.length;
+
+            topBadge.style.display =
+                unread.length
+                    ? "flex"
+                    : "none";
+
+        }
+
+    }
+
+
+    /* =========================================
+       MARQUER UNE NOTIFICATION COMME LUE
+    ========================================= */
+
+    function markAsRead(notification){
+
+        if(!notification){
+            return;
+        }
+
+
+        notification.classList.remove(
+            "unread"
+        );
+
+
+        const dot =
+            notification.querySelector(
+                ".unread-dot"
+            );
+
+
+        if(dot){
+            dot.remove();
+        }
+
+
+        const button =
+            notification.querySelector(
+                ".mark-read"
+            );
+
+
+        if(button){
+
+            button.textContent =
+                "✓ Lu";
+
+            button.disabled =
+                true;
+
+            button.style.opacity =
+                ".5";
+
+        }
+
+
+        updateCounters();
+
+
+        /*
+         * API future :
+         *
+         * PATCH
+         * /api/notifications/:id
+         *
+         * {
+         *    read:true
+         * }
+         */
+
+    }
+
+
+    document
+        .querySelectorAll(".mark-read")
+        .forEach(function(button){
+
+            button.addEventListener(
+                "click",
+                function(){
+
+                    markAsRead(
+                        button.closest(
+                            ".notification"
+                        )
+                    );
+
+                }
+            );
+
+        });
+
+
+    /* =========================================
+       TOUT LIRE
+    ========================================= */
+
+    if(markAllBtn){
+
+        markAllBtn.addEventListener(
+            "click",
+            function(){
+
+                document
+                    .querySelectorAll(
+                        ".notification.unread"
+                    )
+                    .forEach(function(notification){
+
+                        markAsRead(
+                            notification
+                        );
+
+                    });
+
+                updateCounters();
+
+            }
+        );
+
+    }
+
+
+    /* =========================================
+       FILTRES
+    ========================================= */
+
+    document
+        .querySelectorAll(".filter")
+        .forEach(function(filter){
+
+            filter.addEventListener(
+                "click",
+                function(){
+
+                    document
+                        .querySelectorAll(
+                            ".filter"
+                        )
+                        .forEach(function(item){
+
+                            item.classList.remove(
+                                "active"
+                            );
+
+                        });
+
+
+                    filter.classList.add(
+                        "active"
+                    );
+
+
+                    const selected =
+                        filter.dataset.filter;
+
+
+                    let visible = 0;
+
+
+                    document
+                        .querySelectorAll(
+                            ".notification"
+                        )
+                        .forEach(function(notification){
+
+                            const type =
+                                notification.dataset.type;
+
+
+                            if(
+                                selected === "all" ||
+                                type === selected
+                            ){
+
+                                notification.style.display =
+                                    "flex";
+
+                                visible++;
+
+                            }else{
+
+                                notification.style.display =
+                                    "none";
+
+                            }
+
+                        });
+
+
+                    if(emptyState){
+
+                        emptyState.style.display =
+                            visible === 0
+                                ? "block"
+                                : "none";
+
+                    }
+
+                }
+            );
+
+        });
+
+
+    /* =========================================
+       ACTUALISATION
+    ========================================= */
+
+    if(refreshBtn){
+
+        refreshBtn.addEventListener(
+            "click",
+            async function(){
+
+                refreshBtn.disabled =
+                    true;
+
+                refreshBtn.textContent =
+                    "⟳ Actualisation...";
+
+
+                try{
+
+                    if(
+                        window.JASON_APP &&
+                        typeof
+                        window.JASON_APP
+                        .loadNotifications ===
+                        "function"
+                    ){
+
+                        await
+                        window.JASON_APP
+                        .loadNotifications();
+
+                    }else{
+
+                        /*
+                         * L'API centrale sera utilisée
+                         * automatiquement lorsque
+                         * /api/notifications sera prête.
+                         */
+
+                        await new Promise(
+                            resolve =>
+                            setTimeout(
+                                resolve,
+                                500
+                            )
+                        );
+
+                    }
+
+                }catch(error){
+
+                    console.log(
+                        error
+                    );
+
+                }
+
+
+                refreshBtn.disabled =
+                    false;
+
+                refreshBtn.textContent =
+                    "↻ Actualiser";
+
+            }
+        );
+
+    }
+
+
+    /* =========================================
+       INITIALISATION
+    ========================================= */
+
+    updateCounters();
+
+})();
+</script>
+
+</body>
+</html>

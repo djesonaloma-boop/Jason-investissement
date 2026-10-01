@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Fidélité — JASON INVEST</title>
+
+<link rel="stylesheet" href="./style.css">
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #050a14;
+    color: #fff;
+}
+
+.page {
+    min-height: 100vh;
+    padding: 20px 15px 40px;
+}
+
+.container {
+    width: 100%;
+    max-width: 900px;
+    margin: auto;
+}
+
+/* HEADER */
+
+.header {
+    background: #0b1424;
+    border: 1px solid #1b2a40;
+    border-radius: 16px;
+    padding: 18px;
+    margin-bottom: 20px;
+}
+
+.header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+}
+
+.brand {
+    font-size: 20px;
+    font-weight: 800;
+}
+
+.brand span {
+    color: #d8b45a;
+}
+
+.back-button {
+    text-decoration: none;
+    color: #d8b45a;
+    font-size: 13px;
+}
+
+.back-button:hover {
+    text-decoration: underline;
+}
+
+/* TITRE */
+
+.title-box {
+    text-align: center;
+    margin: 25px 0;
+}
+
+.title-box h1 {
+    margin: 0;
+    font-size: 28px;
+}
+
+.title-box p {
+    color: #8997aa;
+    font-size: 14px;
+}
+
+/* MESSAGE */
+
+.message {
+    display: none;
+    padding: 13px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    text-align: center;
+    font-size: 13px;
+}
+
+.message.show {
+    display: block;
+}
+
+.message.error {
+    background: rgba(220, 53, 69, .15);
+    color: #ff8995;
+}
+
+.message.success {
+    background: rgba(40, 167, 69, .15);
+    color: #7ee89a;
+}
+
+.message.info {
+    background: rgba(23, 162, 184, .15);
+    color: #71d9e8;
+}
+
+/* POINTS */
+
+.points-card {
+    background: linear-gradient(
+        135deg,
+        #111d31,
+        #0a1322
+    );
+
+    border: 1px solid #33445d;
+    border-radius: 18px;
+    padding: 25px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.points-label {
+    color: #8997aa;
+    font-size: 13px;
+}
+
+.points {
+    color: #d8b45a;
+    font-size: 42px;
+    font-weight: 900;
+    margin: 10px 0;
+}
+
+.points-value {
+    color: #aeb9c9;
+    font-size: 13px;
+}
+
+/* VIP */
+
+.vip-card {
+    background: #0b1424;
+    border: 1px solid #1b2a40;
+    border-radius: 16px;
+    padding: 22px;
+    margin-bottom: 20px;
+}
+
+.vip-card h2 {
+    margin-top: 0;
+    font-size: 19px;
+}
+
+.vip-level {
+    color: #d8b45a;
+    font-size: 24px;
+    font-weight: 800;
+    margin: 10px 0;
+}
+
+.progress {
+    width: 100%;
+    height: 10px;
+    background: #172337;
+    border-radius: 20px;
+    overflow: hidden;
+    margin: 15px 0 8px;
+}
+
+.progress-bar {
+    height: 100%;
+    width: 0%;
+    background: #d8b45a;
+    border-radius: 20px;
+    transition: width .5s ease;
+}
+
+.progress-info {
+    display: flex;
+    justify-content: space-between;
+    color: #718096;
+    font-size: 11px;
+}
+
+/* CARDS */
+
+.card {
+    background: #0b1424;
+    border: 1px solid #1b2a40;
+    border-radius: 16px;
+    padding: 22px;
+    margin-bottom: 20px;
+}
+
+.card h2 {
+    margin-top: 0;
+    font-size: 19px;
+}
+
+/* RÉCOMPENSES */
+
+.reward {
+    padding: 15px;
+    background: #07101d;
+    border: 1px solid #1d2c42;
+    border-radius: 12px;
+    margin-top: 12px;
+}
+
+.reward h3 {
+    margin: 0 0 6px;
+    font-size: 15px;
+}
+
+.reward p {
+    margin: 0;
+    color: #8997aa;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.reward-value {
+    margin-top: 8px;
+    color: #d8b45a;
+    font-weight: bold;
+}
+
+/* INFO */
+
+.info {
+    color: #8997aa;
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+/* LOADING */
+
+.loading {
+    text-align: center;
+    color: #8997aa;
+    padding: 20px;
+}
+
+/* FOOTER */
+
+.footer {
+    text-align: center;
+    color: #526176;
+    font-size: 11px;
+    margin-top: 25px;
+}
+
+/* MOBILE */
+
+@media (max-width: 600px) {
+
+    .page {
+        padding: 12px 10px 30px;
+    }
+
+    .points {
+        font-size: 36px;
+    }
+
+    .header-top {
+        align-items: flex-start;
+    }
+
+    .title-box h1 {
+        font-size: 24px;
+    }
+
+    .vip-level {
+        font-size: 21px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="page">
+
+<div class="container">
+
+    <!-- HEADER -->
+
+    <header class="header">
+
+        <div class="header-top">
+
+            <div class="brand">
+                JASON <span>INVEST</span>
+            </div>
+
+            <a
+                href="dashboard.html"
+                class="back-button"
+            >
+                ← Tableau de bord
+            </a>
+
+        </div>
+
+    </header>
+
+
+    <!-- TITRE -->
+
+    <section class="title-box">
+
+        <h1>
+            Programme de fidélité
+        </h1>
+
+        <p>
+            Cumulez des points et découvrez vos avantages.
+        </p>
+
+    </section>
+
+
+    <!-- MESSAGE -->
+
+    <div
+        id="message"
+        class="message"
+    ></div>
+
+
+    <!-- POINTS -->
+
+    <section class="points-card">
+
+        <div class="points-label">
+            MES POINTS
+        </div>
+
+        <div
+            id="points"
+            class="points"
+            data-user-points
+        >
+            0
+        </div>
+
+        <div
+            class="points-value"
+            id="pointsValue"
+        >
+            100 points = 1 000 FC
+        </div>
+
+    </section>
+
+
+    <!-- VIP -->
+
+    <section class="vip-card">
+
+        <h2>
+            Mon niveau VIP
+        </h2>
+
+        <div
+            id="vipLevel"
+            class="vip-level"
+        >
+            Bronze
+        </div>
+
+        <div class="progress">
+
+            <div
+                id="progressBar"
+                class="progress-bar"
+            ></div>
+
+        </div>
+
+        <div class="progress-info">
+
+            <span id="currentPoints">
+                0 points
+            </span>
+
+            <span id="nextLevel">
+                500 points
+            </span>
+
+        </div>
+
+    </section>
+
+
+    <!-- RÉCOMPENSES -->
+
+    <section class="card">
+
+        <h2>
+            Mes récompenses
+        </h2>
+
+        <div id="rewardsContainer">
+
+            <div class="reward">
+
+                <h3>
+                    100 points
+                </h3>
+
+                <p>
+                    Première récompense de fidélité.
+                </p>
+
+                <div class="reward-value">
+                    Valeur : 1 000 FC
+                </div>
+
+            </div>
+
+            <div class="reward">
+
+                <h3>
+                    500 points
+                </h3>
+
+                <p>
+                    Récompense fidélité supérieure.
+                </p>
+
+                <div class="reward-value">
+                    Valeur : 5 000 FC
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- COMMENT GAGNER -->
+
+    <section class="card">
+
+        <h2>
+            Comment gagner des points ?
+        </h2>
+
+        <p class="info">
+            Les points de fidélité peuvent être attribués
+            selon les dépenses et les opérations effectuées
+            sur la plateforme.
+        </p>
+
+        <p class="info">
+            Exemple : chaque tranche de 1 000 FC éligible
+            peut permettre de recevoir 10 points selon les
+            règles définies par l'administration.
+        </p>
+
+    </section>
+
+
+    <!-- DESCRIPTION -->
+
+    <section class="card">
+
+        <h2>
+            À propos du programme
+        </h2>
+
+        <p
+            id="description"
+            class="info"
+        >
+            Le programme de fidélité JASON INVEST permet
+            aux utilisateurs de suivre leurs points et les
+            avantages associés.
+        </p>
+
+    </section>
+
+
+    <!-- FOOTER -->
+
+    <footer class="footer">
+
+        © <span id="year"></span> JASON INVEST
+
+    </footer>
+
+</div>
+
+</div>
+
+
+<!-- =====================================================
+     JS CENTRAL
+     ===================================================== -->
+
+<script src="app.js"></script>
+
+<script>
+
+/*
+    Cette petite partie ne contient pas la logique API.
+    Elle sert uniquement à afficher l'année et à compléter
+    l'interface de fidélité avec les données déjà chargées
+    par app.js.
+*/
+
+document.getElementById("year").textContent =
+    new Date().getFullYear();
+
+
+/* -------------------------------------------------------
+   NIVEAU VIP
+------------------------------------------------------- */
+
+function updateFidelityVip(points) {
+
+    points = Number(points || 0);
+
+    let level = "Bronze";
+    let minimum = 0;
+    let maximum = 500;
+
+    if (points >= 3000) {
+
+        level = "Diamant";
+        minimum = 3000;
+        maximum = 5000;
+
+    } else if (points >= 1500) {
+
+        level = "Or";
+        minimum = 1500;
+        maximum = 3000;
+
+    } else if (points >= 500) {
+
+        level = "Argent";
+        minimum = 500;
+        maximum = 1500;
+
+    }
+
+    let progress = 0;
+
+    if (level === "Diamant") {
+
+        progress = 100;
+
+    } else {
+
+        progress =
+            ((points - minimum) /
+            (maximum - minimum)) * 100;
+
+        progress =
+            Math.max(
+                0,
+                Math.min(100, progress)
+            );
+    }
+
+    const levelElement =
+        document.getElementById("vipLevel");
+
+    const progressElement =
+        document.getElementById("progressBar");
+
+    const currentElement =
+        document.getElementById("currentPoints");
+
+    const nextElement =
+        document.getElementById("nextLevel");
+
+
+    if (levelElement) {
+
+        levelElement.textContent =
+            level;
+
+    }
+
+
+    if (progressElement) {
+
+        progressElement.style.width =
+            progress + "%";
+
+    }
+
+
+    if (currentElement) {
+
+        currentElement.textContent =
+            points.toLocaleString("fr-FR") +
+            " points";
+
+    }
+
+
+    if (nextElement) {
+
+        if (level === "Diamant") {
+
+            nextElement.textContent =
+                "Niveau maximum";
+
+        } else {
+
+            nextElement.textContent =
+                maximum.toLocaleString("fr-FR") +
+                " points";
+
+        }
+
+    }
+
+}
+
+
+/* -------------------------------------------------------
+   OBSERVER LES MODIFICATIONS DU DOM
+------------------------------------------------------- */
+
+const fidelityPoints =
+    document.getElementById("points");
+
+
+if (fidelityPoints) {
+
+    const observer =
+        new MutationObserver(() => {
+
+            const points =
+                Number(
+                    fidelityPoints.textContent
+                    .replace(/\s/g, "")
+                    .replace(/,/g, "")
+                );
+
+            updateFidelityVip(points);
+
+        });
+
+
+    observer.observe(
+        fidelityPoints,
+        {
+            childList: true,
+            characterData: true,
+            subtree: true
+        }
+    );
+
+
+    updateFidelityVip(
+        Number(
+            fidelityPoints.textContent
+            .replace(/\s/g, "")
+        )
+    );
+
+}
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,2956 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>JASON INVEST — Tableau de bord</title>
+
+<style>
+
+/* =========================================================
+   RESET
+========================================================= */
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  font-family:Arial,Helvetica,sans-serif;
+  background:#050b14;
+  color:#fff;
+  min-height:100vh;
+  overflow-x:hidden;
+}
+
+button,
+a{
+  font-family:inherit;
+}
+
+/* =========================================================
+   FOND ANIMÉ
+========================================================= */
+
+body::before{
+  content:"";
+  position:fixed;
+  width:500px;
+  height:500px;
+  top:-180px;
+  left:-180px;
+  border-radius:50%;
+  background:radial-gradient(
+    circle,
+    rgba(216,170,69,.16),
+    transparent 70%
+  );
+  filter:blur(20px);
+  animation:orb1 9s ease-in-out infinite alternate;
+  pointer-events:none;
+  z-index:-2;
+}
+
+body::after{
+  content:"";
+  position:fixed;
+  width:550px;
+  height:550px;
+  right:-220px;
+  bottom:-220px;
+  border-radius:50%;
+  background:radial-gradient(
+    circle,
+    rgba(52,126,255,.14),
+    transparent 70%
+  );
+  filter:blur(20px);
+  animation:orb2 11s ease-in-out infinite alternate;
+  pointer-events:none;
+  z-index:-2;
+}
+
+@keyframes orb1{
+  from{
+    transform:translate(0,0) scale(1);
+  }
+  to{
+    transform:translate(80px,100px) scale(1.25);
+  }
+}
+
+@keyframes orb2{
+  from{
+    transform:translate(0,0) scale(1);
+  }
+  to{
+    transform:translate(-80px,-70px) scale(1.2);
+  }
+}
+
+/* =========================================================
+   PARTICULES
+========================================================= */
+
+.particles{
+  position:fixed;
+  inset:0;
+  overflow:hidden;
+  pointer-events:none;
+  z-index:-1;
+}
+
+.particle{
+  position:absolute;
+  width:3px;
+  height:3px;
+  border-radius:50%;
+  background:#d8aa45;
+  opacity:.35;
+  animation:floatParticle linear infinite;
+}
+
+@keyframes floatParticle{
+  from{
+    transform:translateY(110vh) translateX(0);
+    opacity:0;
+  }
+
+  15%{
+    opacity:.45;
+  }
+
+  80%{
+    opacity:.3;
+  }
+
+  to{
+    transform:translateY(-10vh) translateX(60px);
+    opacity:0;
+  }
+}
+
+/* =========================================================
+   SIDEBAR
+========================================================= */
+
+.sidebar{
+  position:fixed;
+  top:0;
+  left:0;
+  bottom:0;
+  width:270px;
+
+  background:rgba(11,24,41,.94);
+  backdrop-filter:blur(18px);
+
+  border-right:1px solid rgba(255,255,255,.08);
+
+  z-index:2000;
+  overflow-y:auto;
+
+  transform:translateX(-100%);
+  transition:transform .35s ease;
+}
+
+.sidebar.open{
+  transform:translateX(0);
+}
+
+.logo{
+  padding:25px 22px;
+  font-size:25px;
+  font-weight:900;
+
+  border-bottom:1px solid rgba(255,255,255,.08);
+
+  letter-spacing:.3px;
+}
+
+.logo span{
+  color:#d8aa45;
+}
+
+.logo::after{
+  content:"";
+  display:block;
+  width:55px;
+  height:2px;
+  margin-top:7px;
+
+  background:#d8aa45;
+
+  animation:logoLine 2.5s ease-in-out infinite alternate;
+}
+
+@keyframes logoLine{
+  from{
+    width:35px;
+  }
+  to{
+    width:80px;
+  }
+}
+
+/* =========================================================
+   USER
+========================================================= */
+
+.user-mini{
+  padding:20px;
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+.user-mini-top{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.avatar{
+  width:44px;
+  height:44px;
+
+  border-radius:50%;
+
+  background:#d8aa45;
+  color:#07111f;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  font-weight:900;
+
+  flex-shrink:0;
+  overflow:hidden;
+
+  box-shadow:
+    0 0 0 3px rgba(216,170,69,.08),
+    0 0 20px rgba(216,170,69,.12);
+}
+
+.avatar img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.user-mini-name{
+  font-size:15px;
+  font-weight:700;
+  margin-bottom:4px;
+}
+
+.user-mini-email{
+  font-size:12px;
+  color:#8fa1b7;
+  word-break:break-all;
+}
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+.nav-title{
+  padding:20px 20px 10px;
+  color:#70839b;
+  font-size:11px;
+  text-transform:uppercase;
+  letter-spacing:1px;
+  font-weight:700;
+}
+
+.nav{
+  padding:0 12px;
+}
+
+.nav button{
+  width:100%;
+  border:0;
+
+  background:transparent;
+  color:#c8d2df;
+
+  padding:14px 15px;
+
+  border-radius:10px;
+  margin-bottom:5px;
+
+  text-align:left;
+  font-size:14px;
+
+  cursor:pointer;
+
+  transition:
+    background .25s,
+    color .25s,
+    transform .25s;
+}
+
+.nav button:hover{
+  background:#12253d;
+  color:#fff;
+  transform:translateX(3px);
+}
+
+.nav button.active{
+  background:linear-gradient(
+    90deg,
+    rgba(216,170,69,.17),
+    rgba(216,170,69,.05)
+  );
+
+  color:#d8aa45;
+  font-weight:700;
+
+  box-shadow:
+    inset 3px 0 #d8aa45;
+}
+
+.nav button.logout{
+  color:#ff7777;
+}
+
+.nav button.logout:hover{
+  background:rgba(255,70,70,.10);
+}
+
+/* =========================================================
+   OVERLAY
+========================================================= */
+
+.menu-overlay{
+  position:fixed;
+  inset:0;
+
+  background:rgba(0,0,0,.68);
+
+  backdrop-filter:blur(3px);
+
+  z-index:1500;
+
+  display:none;
+}
+
+.menu-overlay.show{
+  display:block;
+}
+
+/* =========================================================
+   MAIN
+========================================================= */
+
+.main{
+  min-height:100vh;
+  margin-left:0;
+}
+
+/* =========================================================
+   TOPBAR
+========================================================= */
+
+.topbar{
+  height:70px;
+
+  background:rgba(11,24,41,.82);
+  backdrop-filter:blur(18px);
+
+  border-bottom:1px solid rgba(255,255,255,.08);
+
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+
+  padding:0 20px;
+
+  position:sticky;
+  top:0;
+
+  z-index:1000;
+}
+
+.topbar-left{
+  display:flex;
+  align-items:center;
+  gap:14px;
+}
+
+.mobile-menu{
+  width:44px;
+  height:44px;
+
+  border:1px solid rgba(255,255,255,.12);
+
+  background:#12253d;
+  color:#fff;
+
+  border-radius:10px;
+
+  font-size:25px;
+
+  cursor:pointer;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  transition:.25s;
+}
+
+.mobile-menu:hover{
+  background:#193653;
+  transform:scale(1.04);
+}
+
+.topbar-title{
+  font-size:18px;
+  font-weight:700;
+}
+
+.topbar-right{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.topbar-btn{
+  width:42px;
+  height:42px;
+
+  border:1px solid rgba(255,255,255,.10);
+
+  background:#12253d;
+  color:#fff;
+
+  border-radius:10px;
+
+  cursor:pointer;
+
+  font-size:18px;
+
+  transition:.25s;
+}
+
+.topbar-btn:hover{
+  background:#193653;
+  transform:translateY(-2px);
+}
+
+/* =========================================================
+   CONTENT
+========================================================= */
+
+.content{
+  padding:25px;
+  max-width:1400px;
+  margin:auto;
+}
+
+.welcome{
+  margin-bottom:25px;
+
+  animation:fadeUp .65s ease both;
+}
+
+.welcome h1{
+  font-size:27px;
+  margin-bottom:8px;
+}
+
+.welcome h1 span{
+  color:#d8aa45;
+}
+
+.welcome p{
+  color:#8fa1b7;
+  font-size:14px;
+}
+
+/* =========================================================
+   ANIMATION CARDS
+========================================================= */
+
+.stats .stat-card:nth-child(1){
+  animation-delay:.05s;
+}
+
+.stats .stat-card:nth-child(2){
+  animation-delay:.10s;
+}
+
+.stats .stat-card:nth-child(3){
+  animation-delay:.15s;
+}
+
+.stats .stat-card:nth-child(4){
+  animation-delay:.20s;
+}
+
+.stat-card,
+.panel,
+.investment-action{
+  animation:fadeUp .65s ease both;
+}
+
+@keyframes fadeUp{
+  from{
+    opacity:0;
+    transform:translateY(22px);
+  }
+
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+/* =========================================================
+   STATS
+========================================================= */
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:16px;
+  margin-bottom:20px;
+}
+
+.stat-card{
+  position:relative;
+  overflow:hidden;
+
+  background:rgba(11,24,41,.88);
+
+  border:1px solid rgba(255,255,255,.07);
+
+  border-radius:14px;
+
+  padding:20px;
+
+  transition:
+    transform .3s,
+    border-color .3s,
+    box-shadow .3s;
+}
+
+.stat-card::before{
+  content:"";
+
+  position:absolute;
+
+  width:100px;
+  height:100px;
+
+  right:-45px;
+  top:-45px;
+
+  border-radius:50%;
+
+  background:rgba(216,170,69,.08);
+
+  transition:.4s;
+}
+
+.stat-card:hover{
+  transform:translateY(-5px);
+
+  border-color:rgba(216,170,69,.25);
+
+  box-shadow:
+    0 15px 40px rgba(0,0,0,.22);
+}
+
+.stat-card:hover::before{
+  transform:scale(2);
+}
+
+.stat-title{
+  color:#8294aa;
+  font-size:11px;
+  font-weight:700;
+  margin-bottom:12px;
+}
+
+.stat-value{
+  font-size:23px;
+  font-weight:900;
+  margin-bottom:8px;
+}
+
+.stat-value.gold{
+  color:#d8aa45;
+}
+
+.stat-value.blue{
+  color:#54a8ff;
+}
+
+.stat-sub{
+  color:#70839b;
+  font-size:12px;
+}
+
+/* =========================================================
+   INVESTISSEMENT
+========================================================= */
+
+.investment-action{
+  position:relative;
+  overflow:hidden;
+
+  background:linear-gradient(
+    135deg,
+    rgba(16,36,60,.95),
+    rgba(12,25,43,.95)
+  );
+
+  border:1px solid rgba(216,170,69,.25);
+
+  border-radius:14px;
+
+  padding:22px;
+
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+
+  gap:20px;
+  margin-bottom:20px;
+}
+
+.investment-action::after{
+  content:"";
+
+  position:absolute;
+
+  top:0;
+  left:-120%;
+
+  width:80%;
+  height:100%;
+
+  background:linear-gradient(
+    90deg,
+    transparent,
+    rgba(255,255,255,.06),
+    transparent
+  );
+
+  transform:skewX(-20deg);
+
+  animation:shine 5s ease-in-out infinite;
+}
+
+@keyframes shine{
+  0%,55%{
+    left:-120%;
+  }
+
+  75%,100%{
+    left:140%;
+  }
+}
+
+.investment-action h3{
+  margin-bottom:7px;
+}
+
+.investment-action p{
+  color:#8fa1b7;
+  font-size:13px;
+}
+
+.investment-button{
+  position:relative;
+  z-index:2;
+
+  background:#d8aa45;
+  color:#07111f;
+
+  text-decoration:none;
+
+  padding:12px 18px;
+
+  border-radius:9px;
+
+  font-size:13px;
+  font-weight:800;
+
+  white-space:nowrap;
+
+  transition:.25s;
+
+  box-shadow:
+    0 5px 20px rgba(216,170,69,.14);
+}
+
+.investment-button:hover{
+  transform:translateY(-2px);
+  box-shadow:
+    0 8px 25px rgba(216,170,69,.25);
+}
+
+/* =========================================================
+   GRID
+========================================================= */
+
+.dashboard-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:18px;
+}
+
+.panel{
+  background:rgba(11,24,41,.88);
+
+  border:1px solid rgba(255,255,255,.07);
+
+  border-radius:14px;
+
+  padding:20px;
+
+  transition:
+    transform .3s,
+    border-color .3s;
+}
+
+.panel:hover{
+  border-color:rgba(255,255,255,.12);
+  transform:translateY(-2px);
+}
+
+.panel-title{
+  font-size:16px;
+  font-weight:800;
+  margin-bottom:18px;
+}
+
+.activity-empty{
+  color:#70839b;
+  font-size:13px;
+  padding:25px 0;
+  text-align:center;
+}
+
+/* =========================================================
+   TÂCHE DU JOUR
+========================================================= */
+
+.task-dashboard-card{
+  background:linear-gradient(
+    135deg,
+    #122842,
+    #0d1b2d
+  );
+
+  border:1px solid rgba(216,170,69,.22);
+
+  border-radius:13px;
+
+  padding:18px;
+
+  display:flex;
+  align-items:flex-start;
+
+  gap:15px;
+
+  position:relative;
+  overflow:hidden;
+}
+
+.task-dashboard-card::before{
+  content:"";
+
+  position:absolute;
+
+  width:160px;
+  height:160px;
+
+  right:-80px;
+  top:-80px;
+
+  border-radius:50%;
+
+  background:rgba(216,170,69,.08);
+
+  animation:taskOrb 5s ease-in-out infinite alternate;
+}
+
+@keyframes taskOrb{
+  from{
+    transform:scale(1);
+  }
+
+  to{
+    transform:scale(1.4);
+  }
+}
+
+.task-dashboard-icon{
+  width:48px;
+  height:48px;
+
+  border-radius:12px;
+
+  background:rgba(216,170,69,.12);
+
+  border:1px solid rgba(216,170,69,.20);
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  font-size:23px;
+
+  flex-shrink:0;
+
+  position:relative;
+  z-index:2;
+
+  animation:pulseIcon 2.5s ease-in-out infinite;
+}
+
+@keyframes pulseIcon{
+  0%,100%{
+    box-shadow:0 0 0 rgba(216,170,69,0);
+  }
+
+  50%{
+    box-shadow:0 0 20px rgba(216,170,69,.18);
+  }
+}
+
+.task-dashboard-content{
+  flex:1;
+  min-width:0;
+  position:relative;
+  z-index:2;
+}
+
+.task-dashboard-status{
+  display:inline-block;
+
+  padding:5px 9px;
+
+  border-radius:20px;
+
+  background:rgba(216,170,69,.10);
+
+  color:#d8aa45;
+
+  font-size:10px;
+  font-weight:800;
+
+  text-transform:uppercase;
+
+  margin-bottom:9px;
+}
+
+.task-dashboard-content h3{
+  font-size:16px;
+  margin-bottom:6px;
+}
+
+.task-dashboard-content p{
+  color:#8294aa;
+  font-size:12px;
+  line-height:1.5;
+  margin-bottom:15px;
+}
+
+.task-dashboard-info{
+  display:flex;
+  gap:25px;
+  margin-bottom:15px;
+}
+
+.task-dashboard-info div{
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+}
+
+.task-dashboard-info span{
+  color:#70839b;
+  font-size:10px;
+}
+
+.task-dashboard-info strong{
+  color:#fff;
+  font-size:14px;
+}
+
+#taskGain{
+  color:#d8aa45;
+}
+
+.task-dashboard-button{
+  display:block;
+
+  width:100%;
+
+  padding:11px;
+
+  background:#d8aa45;
+  color:#07111f;
+
+  text-align:center;
+
+  text-decoration:none;
+
+  border-radius:8px;
+
+  font-size:12px;
+  font-weight:900;
+
+  transition:.25s;
+}
+
+.task-dashboard-button:hover{
+  transform:translateY(-2px);
+  opacity:.92;
+
+  box-shadow:
+    0 8px 20px rgba(216,170,69,.18);
+}
+
+/* =========================================================
+   ACTIONS RAPIDES
+========================================================= */
+
+.quick-actions{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+
+.quick-action{
+  border:1px solid rgba(255,255,255,.07);
+
+  background:#101f34;
+  color:#fff;
+
+  border-radius:11px;
+
+  padding:13px;
+
+  display:flex;
+  align-items:center;
+
+  gap:10px;
+
+  text-align:left;
+
+  cursor:pointer;
+
+  transition:
+    transform .25s,
+    background .25s,
+    border-color .25s;
+}
+
+.quick-action:hover{
+  background:#152b45;
+
+  transform:translateY(-3px);
+
+  border-color:rgba(216,170,69,.18);
+}
+
+.quick-icon{
+  font-size:20px;
+}
+
+.quick-action strong{
+  display:block;
+  font-size:13px;
+  margin-bottom:4px;
+}
+
+.quick-action span{
+  display:block;
+  font-size:10px;
+  color:#7e91a8;
+}
+
+/* =========================================================
+   VIP
+========================================================= */
+
+.vip-card{
+  background:linear-gradient(
+    135deg,
+    #172d47,
+    #0d1c30
+  );
+
+  border-radius:12px;
+
+  padding:20px;
+
+  text-align:center;
+
+  position:relative;
+  overflow:hidden;
+}
+
+.vip-card::before{
+  content:"";
+
+  position:absolute;
+
+  width:130px;
+  height:130px;
+
+  left:-65px;
+  top:-65px;
+
+  border-radius:50%;
+
+  background:rgba(216,170,69,.08);
+
+  animation:vipFloat 4s ease-in-out infinite alternate;
+}
+
+@keyframes vipFloat{
+  from{
+    transform:translate(0,0);
+  }
+
+  to{
+    transform:translate(35px,20px);
+  }
+}
+
+.vip-label{
+  color:#8294aa;
+  font-size:11px;
+  margin-bottom:8px;
+}
+
+.vip-level{
+  color:#d8aa45;
+  font-size:27px;
+  font-weight:900;
+  margin-bottom:18px;
+
+  position:relative;
+  z-index:2;
+}
+
+.vip-button{
+  width:100%;
+
+  border:0;
+
+  background:#d8aa45;
+  color:#07111f;
+
+  padding:12px;
+
+  border-radius:9px;
+
+  font-weight:800;
+
+  cursor:pointer;
+
+  position:relative;
+  z-index:2;
+
+  transition:.25s;
+}
+
+.vip-button:hover{
+  transform:translateY(-2px);
+}
+
+/* =========================================================
+   COMPTE
+========================================================= */
+
+.account-list{
+  display:flex;
+  flex-direction:column;
+}
+
+.account-row{
+  display:flex;
+  justify-content:space-between;
+
+  gap:15px;
+
+  padding:13px 0;
+
+  border-bottom:1px solid rgba(255,255,255,.06);
+}
+
+.account-row:last-child{
+  border-bottom:0;
+}
+
+.account-label{
+  color:#70839b;
+  font-size:13px;
+}
+
+.account-value{
+  color:#fff;
+  font-size:13px;
+
+  text-align:right;
+  word-break:break-word;
+}
+
+/* =========================================================
+   MESSAGE
+========================================================= */
+
+.message{
+  display:none;
+
+  padding:13px;
+
+  margin-bottom:18px;
+
+  border-radius:10px;
+
+  background:rgba(255,70,70,.10);
+
+  border:1px solid rgba(255,70,70,.20);
+
+  color:#ff9292;
+
+  font-size:13px;
+}
+
+.message.show{
+  display:block;
+
+  animation:fadeUp .4s ease;
+}
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.footer{
+  text-align:center;
+
+  color:#506278;
+
+  font-size:11px;
+
+  padding:30px 10px;
+}
+
+/* =========================================================
+   DESKTOP
+========================================================= */
+
+@media (min-width:1100px){
+
+  .sidebar{
+    transform:translateX(0);
+  }
+
+  .main{
+    margin-left:270px;
+  }
+
+  .menu-overlay{
+    display:none!important;
+  }
+
+  .mobile-menu{
+    display:none;
+  }
+}
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width:900px){
+
+  .stats{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .dashboard-grid{
+    grid-template-columns:1fr;
+  }
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width:600px){
+
+  .content{
+    padding:17px;
+  }
+
+  .topbar{
+    padding:0 14px;
+  }
+
+  .topbar-title{
+    font-size:16px;
+  }
+
+  .topbar-right .avatar{
+    display:none;
+  }
+
+  .stats{
+    grid-template-columns:1fr;
+  }
+
+  .investment-action{
+    flex-direction:column;
+    align-items:flex-start;
+  }
+
+  .investment-button{
+    width:100%;
+    text-align:center;
+  }
+
+  .quick-actions{
+    grid-template-columns:1fr;
+  }
+
+  .welcome h1{
+    font-size:23px;
+  }
+
+  .task-dashboard-card{
+    padding:15px;
+  }
+
+  .task-dashboard-icon{
+    width:42px;
+    height:42px;
+    font-size:20px;
+  }
+
+  .task-dashboard-info{
+    gap:18px;
+  }
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+<!-- =====================================================
+     PARTICULES
+===================================================== -->
+
+<div class="particles">
+
+  <span class="particle" style="left:5%;animation-duration:8s;"></span>
+  <span class="particle" style="left:12%;animation-duration:12s;animation-delay:2s;"></span>
+  <span class="particle" style="left:20%;animation-duration:10s;animation-delay:4s;"></span>
+  <span class="particle" style="left:29%;animation-duration:14s;animation-delay:1s;"></span>
+  <span class="particle" style="left:38%;animation-duration:9s;animation-delay:3s;"></span>
+  <span class="particle" style="left:47%;animation-duration:13s;animation-delay:5s;"></span>
+  <span class="particle" style="left:56%;animation-duration:11s;animation-delay:2s;"></span>
+  <span class="particle" style="left:65%;animation-duration:15s;animation-delay:4s;"></span>
+  <span class="particle" style="left:74%;animation-duration:9s;animation-delay:1s;"></span>
+  <span class="particle" style="left:83%;animation-duration:12s;animation-delay:3s;"></span>
+  <span class="particle" style="left:92%;animation-duration:10s;animation-delay:5s;"></span>
+
+</div>
+
+
+<!-- =====================================================
+     OVERLAY
+===================================================== -->
+
+<div
+  class="menu-overlay"
+  id="menuOverlay">
+</div>
+
+
+<!-- =====================================================
+     SIDEBAR
+===================================================== -->
+
+<aside
+  class="sidebar"
+  id="sidebar">
+
+  <div class="logo">
+    JASON<span> INVEST</span>
+  </div>
+
+
+  <div class="user-mini">
+
+    <div class="user-mini-top">
+
+      <div
+        class="avatar"
+        id="userAvatar">
+        U
+      </div>
+
+      <div>
+
+        <div
+          class="user-mini-name"
+          id="sidebarUserName">
+          Utilisateur
+        </div>
+
+        <div
+          class="user-mini-email"
+          id="sidebarUserEmail">
+          —
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <div class="nav-title">
+    Menu principal
+  </div>
+
+
+  <nav class="nav">
+
+    <button
+      class="active"
+      data-page="dashboard"
+      type="button">
+      🏠 &nbsp; Tableau de bord
+    </button>
+
+
+    <button
+      data-page="investissement"
+      type="button">
+      📈 &nbsp; Investissements
+    </button>
+
+
+    <button
+      data-page="tache"
+      type="button">
+      📝 &nbsp; Tâches quotidiennes
+    </button>
+
+
+    <button
+      data-page="activites"
+      type="button">
+      📊 &nbsp; Mes activités
+    </button>
+
+
+    <button
+      data-page="fidelite"
+      type="button">
+      ⭐ &nbsp; Fidélité
+    </button>
+
+
+    <button
+      data-page="vip"
+      type="button">
+      👑 &nbsp; VIP
+    </button>
+
+
+    <button
+      data-page="parrainage"
+      type="button">
+      👥 &nbsp; Parrainage
+    </button>
+
+
+    <button
+      data-page="historique"
+      type="button">
+      🧾 &nbsp; Historique
+    </button>
+
+
+    <button
+      data-page="support"
+      type="button">
+      💬 &nbsp; Support
+    </button>
+
+
+    <button
+      data-page="notification"
+      type="button">
+      🔔 &nbsp; Notifications
+    </button>
+
+  </nav>
+
+
+  <div class="nav-title">
+    Compte
+  </div>
+
+
+  <nav class="nav">
+
+    <button
+      data-page="profil"
+      type="button">
+      👤 &nbsp; Mon profil
+    </button>
+
+
+    <button
+      class="logout"
+      id="logoutButton"
+      type="button">
+      🚪 &nbsp; Déconnexion
+    </button>
+
+  </nav>
+
+</aside>
+
+
+<!-- =====================================================
+     MAIN
+===================================================== -->
+
+<main class="main">
+
+
+  <!-- TOPBAR -->
+
+  <header class="topbar">
+
+    <div class="topbar-left">
+
+      <button
+        class="mobile-menu"
+        id="menuToggle"
+        type="button"
+        aria-label="Ouvrir le menu">
+        ☰
+      </button>
+
+      <div class="topbar-title">
+        Tableau de bord
+      </div>
+
+    </div>
+
+
+    <div class="topbar-right">
+
+      <button
+        class="topbar-btn"
+        id="notificationButton"
+        type="button"
+        aria-label="Notifications">
+        🔔
+      </button>
+
+
+      <div
+        class="avatar"
+        id="topAvatar">
+        U
+      </div>
+
+    </div>
+
+  </header>
+
+
+  <!-- CONTENT -->
+
+  <section class="content">
+
+
+    <div
+      class="message"
+      id="message">
+    </div>
+
+
+    <!-- BIENVENUE -->
+
+    <div class="welcome">
+
+      <h1>
+
+        Bonjour,
+
+        <span id="welcomeName">
+          Utilisateur
+        </span>
+
+        👋
+
+      </h1>
+
+
+      <p>
+        Bienvenue sur votre espace personnel JASON INVEST.
+      </p>
+
+    </div>
+
+
+    <!-- =================================================
+         STATS
+    ================================================== -->
+
+    <div class="stats">
+
+
+      <div class="stat-card">
+
+        <div class="stat-title">
+          SOLDE DISPONIBLE
+        </div>
+
+        <div
+          class="stat-value gold"
+          id="balance">
+          0 FC
+        </div>
+
+        <div class="stat-sub">
+          Solde actuel du compte
+        </div>
+
+      </div>
+
+
+      <div class="stat-card">
+
+        <div class="stat-title">
+          INVESTISSEMENTS
+        </div>
+
+        <div
+          class="stat-value blue"
+          id="investment">
+          0 FC
+        </div>
+
+        <div class="stat-sub">
+          Montant investi
+        </div>
+
+      </div>
+
+
+      <div class="stat-card">
+
+        <div class="stat-title">
+          POINTS FIDÉLITÉ
+        </div>
+
+        <div
+          class="stat-value"
+          id="points">
+          0
+        </div>
+
+        <div class="stat-sub">
+          Points disponibles
+        </div>
+
+      </div>
+
+
+      <div class="stat-card">
+
+        <div class="stat-title">
+          STATUT VIP
+        </div>
+
+        <div
+          class="stat-value gold"
+          id="vipLevel">
+          Aucun
+        </div>
+
+        <div class="stat-sub">
+          Niveau actuel
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- =================================================
+         INVESTISSEMENT
+    ================================================== -->
+
+    <div class="investment-action">
+
+      <div>
+
+        <h3>
+          📈 Investissement
+        </h3>
+
+        <p>
+          Consultez les plans disponibles et choisissez
+          votre investissement.
+        </p>
+
+      </div>
+
+
+      <a
+        href="investissement.html"
+        class="investment-button">
+
+        Voir les investissements
+
+      </a>
+
+    </div>
+
+
+    <!-- =================================================
+         GRID
+    ================================================== -->
+
+    <div class="dashboard-grid">
+
+
+      <!-- =================================================
+           TÂCHE DU JOUR
+      ================================================== -->
+
+      <div class="panel">
+
+        <div class="panel-title">
+          📝 Tâche du jour
+        </div>
+
+
+        <div class="task-dashboard-card">
+
+
+          <div class="task-dashboard-icon">
+            ⏱️
+          </div>
+
+
+          <div class="task-dashboard-content">
+
+
+            <div
+              class="task-dashboard-status"
+              id="taskStatus">
+
+              Chargement...
+
+            </div>
+
+
+            <h3 id="taskTitle">
+
+              Tâche quotidienne
+
+            </h3>
+
+
+            <p id="taskDescription">
+
+              Complétez votre tâche quotidienne
+              pour valider le gain prévu par
+              votre investissement actif.
+
+            </p>
+
+
+            <div class="task-dashboard-info">
+
+
+              <div>
+
+                <span>
+                  Gain prévu
+                </span>
+
+                <strong id="taskGain">
+                  0 FC
+                </strong>
+
+              </div>
+
+
+              <div>
+
+                <span>
+                  Durée
+                </span>
+
+                <strong>
+                  5 min
+                </strong>
+
+              </div>
+
+
+            </div>
+
+
+            <a
+              href="tache.html"
+              class="task-dashboard-button">
+
+              📝 Ouvrir ma tâche
+
+            </a>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- =================================================
+           ACTIONS RAPIDES
+      ================================================== -->
+
+      <div class="panel">
+
+        <div class="panel-title">
+          Actions rapides
+        </div>
+
+
+        <div class="quick-actions">
+
+
+          <button
+            class="quick-action"
+            data-action="deposit"
+            type="button">
+
+            <div class="quick-icon">
+              💰
+            </div>
+
+            <div>
+
+              <strong>
+                Dépôt
+              </strong>
+
+              <span>
+                Ajouter des fonds
+              </span>
+
+            </div>
+
+          </button>
+
+
+          <button
+            class="quick-action"
+            data-action="withdraw"
+            type="button">
+
+            <div class="quick-icon">
+              💸
+            </div>
+
+            <div>
+
+              <strong>
+                Retrait
+              </strong>
+
+              <span>
+                Retirer des fonds
+              </span>
+
+            </div>
+
+          </button>
+
+
+          <button
+            class="quick-action"
+            data-action="investment"
+            type="button">
+
+            <div class="quick-icon">
+              📈
+            </div>
+
+            <div>
+
+              <strong>
+                Investissement
+              </strong>
+
+              <span>
+                Voir les plans
+              </span>
+
+            </div>
+
+          </button>
+
+
+          <button
+            class="quick-action"
+            data-action="tache"
+            type="button">
+
+            <div class="quick-icon">
+              📝
+            </div>
+
+            <div>
+
+              <strong>
+                Tâche du jour
+              </strong>
+
+              <span>
+                Travailler pendant 5 minutes
+              </span>
+
+            </div>
+
+          </button>
+
+
+          <button
+            class="quick-action"
+            data-action="fidelite"
+            type="button">
+
+            <div class="quick-icon">
+              ⭐
+            </div>
+
+            <div>
+
+              <strong>
+                Fidélité
+              </strong>
+
+              <span>
+                Voir mes points
+              </span>
+
+            </div>
+
+          </button>
+
+
+          <button
+            class="quick-action"
+            data-action="vip"
+            type="button">
+
+            <div class="quick-icon">
+              👑
+            </div>
+
+            <div>
+
+              <strong>
+                VIP
+              </strong>
+
+              <span>
+                Voir les niveaux VIP
+              </span>
+
+            </div>
+
+          </button>
+
+
+          <button
+            class="quick-action"
+            data-action="profil"
+            type="button">
+
+            <div class="quick-icon">
+              👤
+            </div>
+
+            <div>
+
+              <strong>
+                Mon profil
+              </strong>
+
+              <span>
+                Modifier mon compte
+              </span>
+
+            </div>
+
+          </button>
+
+
+        </div>
+
+      </div>
+
+
+      <!-- =================================================
+           ACTIVITÉS
+      ================================================== -->
+
+      <div class="panel">
+
+        <div class="panel-title">
+          Activités récentes
+        </div>
+
+
+        <div
+          class="activity-empty"
+          id="recentActivity">
+
+          Aucune activité récente à afficher.
+
+        </div>
+
+      </div>
+
+
+      <!-- =================================================
+           VIP
+      ================================================== -->
+
+      <div class="panel">
+
+        <div class="panel-title">
+          Mon statut VIP
+        </div>
+
+
+        <div class="vip-card">
+
+          <div class="vip-label">
+            NIVEAU ACTUEL
+          </div>
+
+
+          <div
+            class="vip-level"
+            id="vipCardLevel">
+
+            Aucun
+
+          </div>
+
+
+          <button
+            class="vip-button"
+            id="vipButton"
+            type="button">
+
+            Voir les niveaux VIP
+
+          </button>
+
+        </div>
+
+      </div>
+
+
+      <!-- =================================================
+           COMPTE
+      ================================================== -->
+
+      <div class="panel">
+
+        <div class="panel-title">
+          Informations du compte
+        </div>
+
+
+        <div class="account-list">
+
+
+          <div class="account-row">
+
+            <span class="account-label">
+              Nom
+            </span>
+
+            <span
+              class="account-value"
+              id="accountName">
+
+              —
+
+            </span>
+
+          </div>
+
+
+          <div class="account-row">
+
+            <span class="account-label">
+              E-mail
+            </span>
+
+            <span
+              class="account-value"
+              id="accountEmail">
+
+              —
+
+            </span>
+
+          </div>
+
+
+          <div class="account-row">
+
+            <span class="account-label">
+              Téléphone
+            </span>
+
+            <span
+              class="account-value"
+              id="accountPhone">
+
+              —
+
+            </span>
+
+          </div>
+
+
+          <div class="account-row">
+
+            <span class="account-label">
+              Statut
+            </span>
+
+            <span
+              class="account-value"
+              id="accountStatus">
+
+              —
+
+            </span>
+
+          </div>
+
+
+        </div>
+
+      </div>
+
+
+    </div>
+
+
+    <div class="footer">
+
+      © JASON INVEST — Tous droits réservés.
+
+    </div>
+
+
+  </section>
+
+</main>
+
+
+<!-- =====================================================
+     JAVASCRIPT
+===================================================== -->
+
+<script>
+
+"use strict";
+
+
+/* =========================================================
+   ÉLÉMENTS
+========================================================= */
+
+const sidebar =
+  document.getElementById("sidebar");
+
+const menuToggle =
+  document.getElementById("menuToggle");
+
+const menuOverlay =
+  document.getElementById("menuOverlay");
+
+const message =
+  document.getElementById("message");
+
+
+/* =========================================================
+   MENU
+========================================================= */
+
+function openMenu(){
+
+  sidebar.classList.add("open");
+
+  menuOverlay.classList.add("show");
+
+}
+
+
+function closeMenu(){
+
+  sidebar.classList.remove("open");
+
+  menuOverlay.classList.remove("show");
+
+}
+
+
+menuToggle.addEventListener(
+  "click",
+  function(){
+
+    if(
+      sidebar.classList.contains("open")
+    ){
+
+      closeMenu();
+
+    }else{
+
+      openMenu();
+
+    }
+
+  }
+);
+
+
+menuOverlay.addEventListener(
+  "click",
+  closeMenu
+);
+
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+const pages = {
+
+  dashboard:
+    "dashboard.html",
+
+  investissement:
+    "investissement.html",
+
+  tache:
+    "tache.html",
+
+  activites:
+    "activites.html",
+
+  fidelite:
+    "fidelite.html",
+
+  vip:
+    "vip.html",
+
+  parrainage:
+    "parrainage.html",
+
+  historique:
+    "historique.html",
+
+  support:
+    "support.html",
+
+  notification:
+    "notification.html",
+
+  profil:
+    "profil.html"
+
+};
+
+
+document
+  .querySelectorAll(
+    ".nav button[data-page]"
+  )
+  .forEach(function(button){
+
+    button.addEventListener(
+      "click",
+      function(){
+
+        const page =
+          this.dataset.page;
+
+        closeMenu();
+
+        if(pages[page]){
+
+          window.location.href =
+            pages[page];
+
+        }
+
+      }
+    );
+
+  });
+
+
+/* =========================================================
+   NOTIFICATIONS
+========================================================= */
+
+document
+  .getElementById("notificationButton")
+  .addEventListener(
+    "click",
+    function(){
+
+      window.location.href =
+        "notification.html";
+
+    }
+  );
+
+
+/* =========================================================
+   VIP
+========================================================= */
+
+document
+  .getElementById("vipButton")
+  .addEventListener(
+    "click",
+    function(){
+
+      window.location.href =
+        "vip.html";
+
+    }
+  );
+
+
+/* =========================================================
+   ACTIONS RAPIDES
+========================================================= */
+
+document
+  .querySelectorAll(".quick-action")
+  .forEach(function(button){
+
+    button.addEventListener(
+      "click",
+      function(){
+
+        const action =
+          this.dataset.action;
+
+
+        if(
+          action === "deposit"
+        ){
+
+          window.location.href =
+            "translation.html";
+
+          return;
+
+        }
+
+
+        if(
+          action === "withdraw"
+        ){
+
+          window.location.href =
+            "translation.html";
+
+          return;
+
+        }
+
+
+        if(
+          action === "investment"
+        ){
+
+          window.location.href =
+            "investissement.html";
+
+          return;
+
+        }
+
+
+        if(
+          action === "tache"
+        ){
+
+          window.location.href =
+            "tache.html";
+
+          return;
+
+        }
+
+
+        if(
+          action === "fidelite"
+        ){
+
+          window.location.href =
+            "fidelite.html";
+
+          return;
+
+        }
+
+
+        if(
+          action === "vip"
+        ){
+
+          window.location.href =
+            "vip.html";
+
+          return;
+
+        }
+
+
+        if(
+          action === "profil"
+        ){
+
+          window.location.href =
+            "profil.html";
+
+        }
+
+      }
+    );
+
+  });
+
+
+/* =========================================================
+   FORMAT FC
+========================================================= */
+
+function formatFC(value){
+
+  const number =
+    Number(value || 0);
+
+  return(
+    number.toLocaleString("fr-FR") +
+    " FC"
+  );
+
+}
+
+
+/* =========================================================
+   FORMAT NOMBRE
+========================================================= */
+
+function formatNumber(value){
+
+  return Number(
+    value || 0
+  ).toLocaleString("fr-FR");
+
+}
+
+
+/* =========================================================
+   EXTRAIRE UTILISATEUR
+========================================================= */
+
+function extractUser(data){
+
+  if(!data){
+
+    return null;
+
+  }
+
+  return(
+    data.user ||
+    (
+      data.data &&
+      data.data.user
+    ) ||
+    data.data ||
+    data
+  );
+
+}
+
+
+/* =========================================================
+   INITIAL
+========================================================= */
+
+function getInitial(name){
+
+  if(!name){
+
+    return "U";
+
+  }
+
+  return name
+    .trim()
+    .charAt(0)
+    .toUpperCase();
+
+}
+
+
+/* =========================================================
+   ERREUR
+========================================================= */
+
+function showError(text){
+
+  message.textContent =
+    text;
+
+  message.className =
+    "message show";
+
+}
+
+
+/* =========================================================
+   CHARGER UTILISATEUR
+========================================================= */
+
+async function loadUser(){
+
+  try{
+
+    const response =
+      await fetch(
+        "/api/user/me",
+        {
+          method:"GET",
+
+          credentials:"include",
+
+          headers:{
+            "Accept":
+              "application/json"
+          }
+        }
+      );
+
+
+    if(
+      response.status === 401
+    ){
+
+      window.location.href =
+        "index.html";
+
+      return;
+
+    }
+
+
+    const data =
+      await response
+        .json()
+        .catch(function(){
+
+          return {};
+
+        });
+
+
+    if(!response.ok){
+
+      throw new Error(
+        data.message ||
+        data.error ||
+        "Impossible de charger votre compte."
+      );
+
+    }
+
+
+    const user =
+      extractUser(data);
+
+
+    if(!user){
+
+      throw new Error(
+        "Informations du compte introuvables."
+      );
+
+    }
+
+
+    /* NOM */
+
+    const name =
+      user.name ||
+      user.full_name ||
+      user.fullName ||
+      "Utilisateur";
+
+
+    document
+      .getElementById("welcomeName")
+      .textContent =
+      name;
+
+
+    document
+      .getElementById("sidebarUserName")
+      .textContent =
+      name;
+
+
+    document
+      .getElementById("accountName")
+      .textContent =
+      name;
+
+
+    /* EMAIL */
+
+    const email =
+      user.email ||
+      "—";
+
+
+    document
+      .getElementById("sidebarUserEmail")
+      .textContent =
+      email;
+
+
+    document
+      .getElementById("accountEmail")
+      .textContent =
+      email;
+
+
+    /* PHONE */
+
+    const phone =
+      user.phone ||
+      user.telephone ||
+      "—";
+
+
+    document
+      .getElementById("accountPhone")
+      .textContent =
+      phone;
+
+
+    /* BALANCE */
+
+    const balance =
+      user.balance_fc ??
+      user.balance ??
+      0;
+
+
+    document
+      .getElementById("balance")
+      .textContent =
+      formatFC(balance);
+
+
+    /* INVESTISSEMENT */
+
+    const investment =
+      user.investment_fc ??
+      user.investment ??
+      0;
+
+
+    document
+      .getElementById("investment")
+      .textContent =
+      formatFC(investment);
+
+
+    /* POINTS */
+
+    const points =
+      user.points ??
+      user.fidelity_points ??
+      user.loyalty_points ??
+      0;
+
+
+    document
+      .getElementById("points")
+      .textContent =
+      formatNumber(points);
+
+
+    /* VIP */
+
+    const vip =
+      user.vip_level ||
+      user.vipLevel ||
+      user.vip ||
+      "Aucun";
+
+
+    document
+      .getElementById("vipLevel")
+      .textContent =
+      vip;
+
+
+    document
+      .getElementById("vipCardLevel")
+      .textContent =
+      vip;
+
+
+    /* STATUT */
+
+    const status =
+      user.status ||
+      "Actif";
+
+
+    document
+      .getElementById("accountStatus")
+      .textContent =
+      status;
+
+
+    /* AVATAR */
+
+    const initial =
+      getInitial(name);
+
+
+    document
+      .getElementById("userAvatar")
+      .textContent =
+      initial;
+
+
+    document
+      .getElementById("topAvatar")
+      .textContent =
+      initial;
+
+
+    /* PHOTO */
+
+    const photo =
+      user.photo ||
+      user.avatar ||
+      user.profile_photo ||
+      user.profilePhoto;
+
+
+    if(photo){
+
+      const sidebarAvatar =
+        document.getElementById(
+          "userAvatar"
+        );
+
+      const topAvatar =
+        document.getElementById(
+          "topAvatar"
+        );
+
+
+      sidebarAvatar.innerHTML =
+        `<img src="${photo}" alt="Photo">`;
+
+
+      topAvatar.innerHTML =
+        `<img src="${photo}" alt="Photo">`;
+
+    }
+
+  }catch(error){
+
+    console.error(
+      "Dashboard :",
+      error
+    );
+
+
+    showError(
+      error.message ||
+      "Erreur lors du chargement du compte."
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   TÂCHE DU JOUR
+========================================================= */
+
+async function loadTodayTask(){
+
+  try{
+
+    const response =
+      await fetch(
+        "/api/tasks/today",
+        {
+          method:"GET",
+
+          credentials:"include",
+
+          headers:{
+            "Accept":
+              "application/json"
+          }
+        }
+      );
+
+
+    if(
+      response.status === 401
+    ){
+
+      return;
+
+    }
+
+
+    if(!response.ok){
+
+      throw new Error(
+        "Impossible de charger la tâche."
+      );
+
+    }
+
+
+    const data =
+      await response
+        .json()
+        .catch(function(){
+
+          return {};
+
+        });
+
+
+    const task =
+      data.task ||
+      (
+        data.data &&
+        data.data.task
+      ) ||
+      data.data ||
+      null;
+
+
+    if(!task){
+
+      document
+        .getElementById("taskStatus")
+        .textContent =
+        "Aucune tâche";
+
+      document
+        .getElementById("taskTitle")
+        .textContent =
+        "Aucune tâche disponible";
+
+      document
+        .getElementById("taskDescription")
+        .textContent =
+        "Aucune tâche quotidienne n'est actuellement disponible.";
+
+      document
+        .getElementById("taskGain")
+        .textContent =
+        "0 FC";
+
+      return;
+
+    }
+
+
+    const status =
+      task.status ||
+      "À faire";
+
+
+    const title =
+      task.title ||
+      "Tâche quotidienne";
+
+
+    const description =
+      task.description ||
+      "Complétez votre tâche quotidienne.";
+
+
+    const gain =
+      task.gain_fc ??
+      task.gain ??
+      0;
+
+
+    document
+      .getElementById("taskStatus")
+      .textContent =
+      status;
+
+
+    document
+      .getElementById("taskTitle")
+      .textContent =
+      title;
+
+
+    document
+      .getElementById("taskDescription")
+      .textContent =
+      description;
+
+
+    document
+      .getElementById("taskGain")
+      .textContent =
+      formatFC(gain);
+
+
+  }catch(error){
+
+    console.error(
+      "Tâche :",
+      error
+    );
+
+    document
+      .getElementById("taskStatus")
+      .textContent =
+      "À faire";
+
+  }
+
+}
+
+
+/* =========================================================
+   DÉCONNEXION
+========================================================= */
+
+document
+  .getElementById("logoutButton")
+  .addEventListener(
+    "click",
+    async function(){
+
+      const button =
+        this;
+
+
+      button.disabled =
+        true;
+
+
+      button.textContent =
+        "Déconnexion...";
+
+
+      try{
+
+        await fetch(
+          "/api/auth/logout",
+          {
+            method:"POST",
+
+            credentials:"include",
+
+            headers:{
+              "Content-Type":
+                "application/json"
+            }
+          }
+        );
+
+      }catch(error){
+
+        console.error(
+          "Déconnexion :",
+          error
+        );
+
+      }
+
+
+      window.location.href =
+        "index.html";
+
+    }
+  );
+
+
+/* =========================================================
+   DÉMARRAGE
+========================================================= */
+
+loadUser();
+
+loadTodayTask();
+
+</script>
+
+</body>
+</html>

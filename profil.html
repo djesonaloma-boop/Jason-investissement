@@ -1,0 +1,2259 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Profil — JASON INVEST</title>
+
+<meta name="theme-color" content="#050912">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+<style>
+
+/* =========================================================
+   RESET TOTAL
+========================================================= */
+
+html{
+    margin:0 !important;
+    padding:0 !important;
+    border:0 !important;
+}
+
+body{
+    margin:0 !important;
+    padding:0 !important;
+    border:0 !important;
+    min-height:100vh;
+    font-family:Arial,Helvetica,sans-serif;
+    color:#f5f7fb;
+    background:
+        radial-gradient(
+            circle at 10% 10%,
+            rgba(34,91,160,.20),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 90% 15%,
+            rgba(216,180,90,.09),
+            transparent 25%
+        ),
+        linear-gradient(
+            135deg,
+            #030711,
+            #07101e,
+            #050912
+        );
+}
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+
+/* =========================================================
+   VARIABLES
+========================================================= */
+
+:root{
+    --bg:#050912;
+    --surface:#0b1424;
+    --surface2:#101c30;
+    --gold:#d8b45a;
+    --gold-light:#f3dc91;
+    --text:#f5f7fb;
+    --muted:#8d9bb0;
+    --border:rgba(216,180,90,.18);
+    --green:#35d07f;
+    --red:#ff6575;
+}
+
+
+/* =========================================================
+   SIDEBAR
+========================================================= */
+
+.sidebar{
+    position:fixed !important;
+    left:0 !important;
+    top:0 !important;
+    bottom:0 !important;
+
+    width:270px;
+
+    margin:0 !important;
+    padding:20px 15px !important;
+
+    background:rgba(5,9,18,.98);
+
+    border-right:1px solid var(--border);
+
+    backdrop-filter:blur(18px);
+
+    z-index:100;
+
+    overflow-y:auto;
+}
+
+.brand{
+    display:flex;
+    align-items:center;
+    gap:12px;
+
+    padding:8px 10px 20px !important;
+
+    margin:0 0 15px 0 !important;
+
+    border-bottom:1px solid rgba(255,255,255,.06);
+}
+
+.brand-logo{
+    width:46px;
+    height:46px;
+
+    border-radius:14px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--gold),
+            #86641f
+        );
+
+    color:#080b12;
+
+    font-size:20px;
+
+    box-shadow:
+        0 0 25px
+        rgba(216,180,90,.18);
+}
+
+.brand strong{
+    display:block;
+    font-size:15px;
+}
+
+.brand span{
+    display:block;
+
+    color:var(--muted);
+
+    font-size:10px;
+
+    margin-top:4px;
+}
+
+.mini-user{
+    display:flex;
+    align-items:center;
+
+    gap:10px;
+
+    padding:12px !important;
+
+    margin:0 0 15px 0 !important;
+
+    border-radius:15px;
+
+    background:
+        rgba(255,255,255,.025);
+
+    border:
+        1px solid
+        rgba(255,255,255,.06);
+}
+
+.mini-avatar{
+    width:42px;
+    height:42px;
+
+    border-radius:50%;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    background:#12223a;
+
+    color:var(--gold-light);
+
+    border:
+        2px solid
+        rgba(216,180,90,.3);
+
+    overflow:hidden;
+
+    flex-shrink:0;
+}
+
+.mini-avatar img{
+    width:100%;
+    height:100%;
+
+    object-fit:cover;
+}
+
+.mini-user strong{
+    display:block;
+
+    font-size:12px;
+
+    white-space:nowrap;
+
+    overflow:hidden;
+
+    text-overflow:ellipsis;
+}
+
+.mini-user span{
+    display:block;
+
+    color:var(--muted);
+
+    font-size:10px;
+
+    margin-top:3px;
+
+    white-space:nowrap;
+
+    overflow:hidden;
+
+    text-overflow:ellipsis;
+}
+
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+.nav{
+    display:flex;
+
+    flex-direction:column;
+
+    gap:5px;
+}
+
+.nav a{
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    padding:12px !important;
+
+    margin:0 !important;
+
+    border-radius:12px;
+
+    color:#b7c1d0;
+
+    text-decoration:none;
+
+    font-size:12px;
+
+    transition:.25s;
+}
+
+.nav a i{
+    width:20px;
+
+    text-align:center;
+}
+
+.nav a:hover{
+    color:#fff;
+
+    background:
+        rgba(255,255,255,.05);
+
+    transform:translateX(3px);
+}
+
+.nav a.active{
+    color:#fff;
+
+    background:
+        rgba(216,180,90,.10);
+
+    border:
+        1px solid
+        rgba(216,180,90,.17);
+}
+
+.nav a.active i{
+    color:var(--gold-light);
+}
+
+
+/* =========================================================
+   CONTENU PRINCIPAL
+========================================================= */
+
+.main{
+    margin-left:270px !important;
+
+    margin-top:0 !important;
+
+    padding:
+        0
+        28px
+        40px
+        28px !important;
+
+    min-height:100vh;
+}
+
+
+/* =========================================================
+   TOPBAR — AUCUN ESPACE AU-DESSUS
+========================================================= */
+
+.topbar{
+    width:100%;
+
+    height:58px;
+
+    margin:
+        0
+        0
+        10px
+        0 !important;
+
+    padding:
+        0 !important;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+}
+
+.back-button{
+    width:43px;
+    height:43px;
+
+    margin:0 !important;
+
+    padding:0 !important;
+
+    border-radius:12px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    color:#fff;
+
+    text-decoration:none;
+
+    background:
+        rgba(255,255,255,.045);
+
+    border:
+        1px solid
+        rgba(255,255,255,.08);
+
+    transition:.25s;
+}
+
+.back-button:hover{
+    color:var(--gold-light);
+
+    border-color:
+        rgba(216,180,90,.4);
+
+    transform:translateX(-3px);
+}
+
+.top-title h1{
+    font-size:19px;
+}
+
+.top-title p{
+    color:var(--muted);
+
+    font-size:10px;
+
+    margin-top:4px;
+}
+
+
+/* =========================================================
+   PROFIL HERO
+========================================================= */
+
+.profile-hero{
+    position:relative;
+
+    overflow:hidden;
+
+    padding:25px !important;
+
+    margin:
+        0 !important;
+
+    border-radius:22px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(216,180,90,.10),
+            rgba(255,255,255,.025)
+        ),
+        rgba(9,17,30,.90);
+
+    border:
+        1px solid
+        var(--border);
+
+    box-shadow:
+        0 20px 60px
+        rgba(0,0,0,.22);
+
+    animation:fadeUp .45s ease;
+}
+
+.profile-content{
+    display:flex;
+
+    align-items:center;
+
+    gap:20px;
+}
+
+.profile-photo{
+    width:95px;
+    height:95px;
+
+    border-radius:50%;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    background:#112039;
+
+    border:
+        3px solid
+        rgba(216,180,90,.6);
+
+    color:var(--gold-light);
+
+    font-size:30px;
+
+    overflow:hidden;
+
+    flex-shrink:0;
+}
+
+.profile-photo img{
+    width:100%;
+    height:100%;
+
+    object-fit:cover;
+}
+
+.profile-data h2{
+    font-size:25px;
+
+    margin-bottom:7px;
+}
+
+.profile-data p{
+    color:var(--muted);
+
+    font-size:12px;
+
+    word-break:break-word;
+}
+
+.status{
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:6px;
+
+    margin-top:11px;
+
+    padding:6px 10px;
+
+    border-radius:30px;
+
+    background:
+        rgba(53,208,127,.08);
+
+    border:
+        1px solid
+        rgba(53,208,127,.18);
+
+    color:#7ce9ae;
+
+    font-size:10px;
+}
+
+
+/* =========================================================
+   CARTES
+========================================================= */
+
+.info-card,
+.referral{
+    margin:
+        18px 0 0 0 !important;
+
+    padding:21px !important;
+
+    border-radius:20px;
+
+    background:
+        rgba(9,17,30,.88);
+
+    border:
+        1px solid
+        rgba(255,255,255,.07);
+
+    box-shadow:
+        0 15px 45px
+        rgba(0,0,0,.12);
+}
+
+.section-title{
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    margin:
+        0 0 16px 0 !important;
+}
+
+.section-title i{
+    color:var(--gold-light);
+}
+
+.section-title h3{
+    font-size:15px;
+}
+
+.info-grid{
+    display:grid;
+
+    grid-template-columns:
+        repeat(2,1fr);
+
+    gap:11px;
+}
+
+.info{
+    padding:14px !important;
+
+    border-radius:13px;
+
+    background:
+        rgba(255,255,255,.025);
+
+    border:
+        1px solid
+        rgba(255,255,255,.05);
+}
+
+.info span{
+    display:block;
+
+    color:var(--muted);
+
+    font-size:10px;
+
+    margin-bottom:6px;
+}
+
+.info strong{
+    display:block;
+
+    font-size:13px;
+
+    word-break:break-word;
+}
+
+.gold{
+    color:var(--gold-light);
+}
+
+
+/* =========================================================
+   PARRAINAGE
+========================================================= */
+
+.referral-box{
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    gap:15px;
+
+    padding:15px !important;
+
+    border-radius:14px;
+
+    background:
+        rgba(216,180,90,.06);
+
+    border:
+        1px solid
+        rgba(216,180,90,.14);
+}
+
+.referral-label{
+    color:var(--muted);
+
+    font-size:10px;
+
+    margin-bottom:5px;
+}
+
+.referral-code{
+    color:var(--gold-light);
+
+    font-size:18px;
+
+    font-weight:800;
+
+    letter-spacing:1px;
+}
+
+.copy-btn{
+    border:0;
+
+    cursor:pointer;
+
+    padding:10px 13px !important;
+
+    border-radius:10px;
+
+    background:var(--gold);
+
+    color:#080b12;
+
+    font-weight:800;
+
+    transition:.2s;
+}
+
+.copy-btn:hover{
+    background:var(--gold-light);
+}
+
+
+/* =========================================================
+   PARAMÈTRES
+========================================================= */
+
+.settings-area{
+    margin:
+        18px 0 0 0 !important;
+}
+
+.settings-button{
+    width:100%;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    padding:17px 19px !important;
+
+    margin:0 !important;
+
+    border:
+        1px solid
+        rgba(216,180,90,.22);
+
+    border-radius:18px;
+
+    color:#fff;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(216,180,90,.12),
+            rgba(255,255,255,.025)
+        );
+
+    cursor:pointer;
+
+    text-align:left;
+
+    transition:.25s;
+}
+
+.settings-button:hover{
+    transform:translateY(-2px);
+
+    border-color:
+        rgba(216,180,90,.4);
+
+    box-shadow:
+        0 12px 35px
+        rgba(0,0,0,.2);
+}
+
+.settings-left{
+    display:flex;
+
+    align-items:center;
+
+    gap:13px;
+}
+
+.settings-icon{
+    width:44px;
+    height:44px;
+
+    border-radius:12px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    background:
+        rgba(216,180,90,.10);
+
+    color:var(--gold-light);
+
+    font-size:18px;
+}
+
+.settings-button strong{
+    display:block;
+
+    font-size:14px;
+}
+
+.settings-button small{
+    display:block;
+
+    color:var(--muted);
+
+    font-size:10px;
+
+    margin-top:4px;
+}
+
+.settings-arrow{
+    color:var(--gold-light);
+}
+
+
+/* =========================================================
+   PANNEAU PARAMÈTRES
+========================================================= */
+
+.settings-panel{
+    display:none;
+
+    margin:
+        12px 0 0 0 !important;
+
+    padding:20px !important;
+
+    border-radius:20px;
+
+    background:
+        rgba(9,17,30,.97);
+
+    border:
+        1px solid
+        rgba(216,180,90,.18);
+}
+
+.settings-panel.open{
+    display:block;
+
+    animation:openPanel .3s ease;
+}
+
+.settings-header{
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    margin:
+        0 0 17px 0 !important;
+}
+
+.settings-header h3{
+    font-size:16px;
+}
+
+.close-settings{
+    width:35px;
+    height:35px;
+
+    border:0;
+
+    border-radius:10px;
+
+    background:
+        rgba(255,255,255,.05);
+
+    color:#fff;
+
+    cursor:pointer;
+}
+
+.close-settings:hover{
+    color:var(--gold-light);
+}
+
+.setting-list{
+    display:flex;
+
+    flex-direction:column;
+
+    gap:9px;
+}
+
+.setting-item{
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    gap:12px;
+
+    padding:14px !important;
+
+    border-radius:13px;
+
+    background:
+        rgba(255,255,255,.025);
+
+    border:
+        1px solid
+        rgba(255,255,255,.055);
+}
+
+.setting-left{
+    display:flex;
+
+    align-items:center;
+
+    gap:11px;
+}
+
+.setting-icon{
+    width:39px;
+    height:39px;
+
+    border-radius:11px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    background:
+        rgba(216,180,90,.08);
+
+    color:var(--gold-light);
+
+    flex-shrink:0;
+}
+
+.setting-text strong{
+    display:block;
+
+    font-size:12px;
+}
+
+.setting-text span{
+    display:block;
+
+    color:var(--muted);
+
+    font-size:10px;
+
+    margin-top:3px;
+}
+
+.setting-link{
+    color:var(--gold-light);
+
+    text-decoration:none;
+
+    font-size:11px;
+
+    font-weight:700;
+}
+
+
+/* =========================================================
+   SWITCH
+========================================================= */
+
+.switch{
+    position:relative;
+
+    width:43px;
+    height:23px;
+
+    flex-shrink:0;
+}
+
+.switch input{
+    display:none;
+}
+
+.slider{
+    position:absolute;
+
+    inset:0;
+
+    background:#26354a;
+
+    border-radius:30px;
+
+    cursor:pointer;
+
+    transition:.25s;
+}
+
+.slider::before{
+    content:"";
+
+    position:absolute;
+
+    width:17px;
+    height:17px;
+
+    top:3px;
+    left:3px;
+
+    border-radius:50%;
+
+    background:#fff;
+
+    transition:.25s;
+}
+
+.switch input:checked + .slider{
+    background:var(--gold);
+}
+
+.switch input:checked + .slider::before{
+    transform:translateX(20px);
+}
+
+
+/* =========================================================
+   DÉCONNEXION
+========================================================= */
+
+.logout{
+    width:100%;
+
+    margin:
+        13px 0 0 0 !important;
+
+    padding:13px !important;
+
+    border-radius:12px;
+
+    border:
+        1px solid
+        rgba(255,101,117,.2);
+
+    background:
+        rgba(255,101,117,.06);
+
+    color:#ff8995;
+
+    cursor:pointer;
+
+    font-weight:800;
+}
+
+.logout:hover{
+    background:
+        rgba(255,101,117,.11);
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.footer{
+    text-align:center;
+
+    color:#617087;
+
+    font-size:10px;
+
+    padding:
+        28px 0 5px 0 !important;
+
+    margin:0 !important;
+}
+
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+.toast{
+    position:fixed;
+
+    right:18px;
+    bottom:18px;
+
+    padding:13px 16px;
+
+    border-radius:12px;
+
+    background:#101d31;
+
+    border:
+        1px solid
+        rgba(216,180,90,.25);
+
+    color:#fff;
+
+    font-size:12px;
+
+    opacity:0;
+
+    transform:translateY(20px);
+
+    pointer-events:none;
+
+    transition:.3s;
+
+    z-index:9999;
+}
+
+.toast.show{
+    opacity:1;
+
+    transform:translateY(0);
+}
+
+
+/* =========================================================
+   ANIMATIONS
+========================================================= */
+
+@keyframes fadeUp{
+
+    from{
+        opacity:0;
+        transform:translateY(12px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+
+}
+
+@keyframes openPanel{
+
+    from{
+        opacity:0;
+        transform:translateY(-8px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media(max-width:900px){
+
+    .sidebar{
+        width:225px;
+    }
+
+    .main{
+        margin-left:225px !important;
+    }
+
+}
+
+@media(max-width:700px){
+
+    .sidebar{
+        position:relative !important;
+
+        top:0 !important;
+
+        width:100%;
+
+        height:auto;
+
+        padding:14px !important;
+
+        border-right:0;
+
+        border-bottom:
+            1px solid
+            var(--border);
+    }
+
+    .main{
+        margin-left:0 !important;
+
+        margin-top:0 !important;
+
+        padding:
+            0
+            15px
+            30px
+            15px !important;
+    }
+
+    .mini-user{
+        display:none;
+    }
+
+    .nav{
+        display:grid;
+
+        grid-template-columns:
+            1fr 1fr;
+    }
+
+    .nav a{
+        font-size:11px;
+
+        padding:10px !important;
+    }
+
+    .topbar{
+        height:53px;
+
+        margin:
+            0 0 10px 0 !important;
+
+        padding:0 !important;
+    }
+
+    .profile-hero{
+        padding:20px !important;
+    }
+
+    .profile-photo{
+        width:75px;
+        height:75px;
+
+        font-size:24px;
+    }
+
+    .profile-data h2{
+        font-size:20px;
+    }
+
+    .info-grid{
+        grid-template-columns:1fr;
+    }
+
+}
+
+@media(max-width:430px){
+
+    .profile-content{
+        gap:13px;
+    }
+
+    .profile-photo{
+        width:65px;
+        height:65px;
+    }
+
+    .profile-data h2{
+        font-size:18px;
+    }
+
+    .referral-box{
+        flex-direction:column;
+
+        align-items:stretch;
+    }
+
+    .copy-btn{
+        width:100%;
+    }
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+
+<!-- =========================================================
+     SIDEBAR
+========================================================= -->
+
+<aside class="sidebar">
+
+    <div class="brand">
+
+        <div class="brand-logo">
+            <i class="fa-solid fa-chart-line"></i>
+        </div>
+
+        <div>
+            <strong>JASON INVEST</strong>
+            <span>Espace client</span>
+        </div>
+
+    </div>
+
+
+    <div class="mini-user">
+
+        <div
+            class="mini-avatar"
+            id="miniPhoto">
+
+            <i class="fa-solid fa-user"></i>
+
+        </div>
+
+        <div>
+
+            <strong id="sideName">
+                Chargement...
+            </strong>
+
+            <span id="sideEmail">
+                ...
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <nav class="nav">
+
+        <a href="dashboard.html">
+            <i class="fa-solid fa-house"></i>
+            Tableau de bord
+        </a>
+
+        <a href="investissement.html">
+            <i class="fa-solid fa-chart-column"></i>
+            Investissement
+        </a>
+
+        <a href="tache.html">
+            <i class="fa-solid fa-list-check"></i>
+            Tâches
+        </a>
+
+        <a href="activites.html">
+            <i class="fa-solid fa-bolt"></i>
+            Activités
+        </a>
+
+        <a href="fidelite.html">
+            <i class="fa-solid fa-star"></i>
+            Fidélité
+        </a>
+
+        <a href="vip.html">
+            <i class="fa-solid fa-crown"></i>
+            VIP
+        </a>
+
+        <a href="parrainage.html">
+            <i class="fa-solid fa-users"></i>
+            Parrainage
+        </a>
+
+        <a href="historique.html">
+            <i class="fa-solid fa-clock-rotate-left"></i>
+            Historique
+        </a>
+
+        <a href="notification.html">
+            <i class="fa-solid fa-bell"></i>
+            Notifications
+        </a>
+
+        <a href="translation.html">
+            <i class="fa-solid fa-wallet"></i>
+            Paiements
+        </a>
+
+        <a href="support.html">
+            <i class="fa-solid fa-headset"></i>
+            Support
+        </a>
+
+        <a
+            href="profil.html"
+            class="active">
+
+            <i class="fa-solid fa-user"></i>
+            Profil
+
+        </a>
+
+    </nav>
+
+</aside>
+
+
+<!-- =========================================================
+     CONTENU
+========================================================= -->
+
+<main class="main">
+
+
+    <!-- BARRE SUPÉRIEURE -->
+
+    <header class="topbar">
+
+        <a
+            href="dashboard.html"
+            class="back-button"
+            aria-label="Retour au tableau de bord">
+
+            <i class="fa-solid fa-arrow-left"></i>
+
+        </a>
+
+
+        <div class="top-title">
+
+            <h1>
+                Mon profil
+            </h1>
+
+            <p>
+                Informations de votre compte
+            </p>
+
+        </div>
+
+    </header>
+
+
+    <!-- =====================================================
+         PROFIL
+    ====================================================== -->
+
+    <section class="profile-hero">
+
+        <div class="profile-content">
+
+            <div
+                class="profile-photo"
+                id="profilePhoto">
+
+                <i class="fa-solid fa-user"></i>
+
+            </div>
+
+
+            <div class="profile-data">
+
+                <h2 id="profileName">
+                    Chargement...
+                </h2>
+
+                <p id="profileEmail">
+                    ...
+                </p>
+
+
+                <div class="status">
+
+                    <i class="fa-solid fa-circle"></i>
+
+                    Compte actif
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         INFORMATIONS
+    ====================================================== -->
+
+    <section class="info-card">
+
+        <div class="section-title">
+
+            <i class="fa-solid fa-id-card"></i>
+
+            <h3>
+                Informations du compte
+            </h3>
+
+        </div>
+
+
+        <div class="info-grid">
+
+
+            <div class="info">
+
+                <span>
+                    Nom complet
+                </span>
+
+                <strong id="infoName">
+                    Chargement...
+                </strong>
+
+            </div>
+
+
+            <div class="info">
+
+                <span>
+                    Adresse e-mail
+                </span>
+
+                <strong id="infoEmail">
+                    ...
+                </strong>
+
+            </div>
+
+
+            <div class="info">
+
+                <span>
+                    Téléphone
+                </span>
+
+                <strong id="infoPhone">
+                    ...
+                </strong>
+
+            </div>
+
+
+            <div class="info">
+
+                <span>
+                    Solde disponible
+                </span>
+
+                <strong
+                    class="gold"
+                    id="infoBalance">
+
+                    0 FC
+
+                </strong>
+
+            </div>
+
+
+            <div class="info">
+
+                <span>
+                    Points fidélité
+                </span>
+
+                <strong
+                    class="gold"
+                    id="infoPoints">
+
+                    0 points
+
+                </strong>
+
+            </div>
+
+
+            <div class="info">
+
+                <span>
+                    Niveau VIP
+                </span>
+
+                <strong
+                    class="gold"
+                    id="infoVip">
+
+                    VIP
+
+                </strong>
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         PARRAINAGE
+    ====================================================== -->
+
+    <section class="referral">
+
+        <div class="section-title">
+
+            <i class="fa-solid fa-users"></i>
+
+            <h3>
+                Mon code de parrainage
+            </h3>
+
+        </div>
+
+
+        <div class="referral-box">
+
+            <div>
+
+                <div class="referral-label">
+                    Votre code
+                </div>
+
+                <div
+                    class="referral-code"
+                    id="referralCode">
+
+                    JAS-...
+
+                </div>
+
+            </div>
+
+
+            <button
+                type="button"
+                class="copy-btn"
+                id="copyReferral">
+
+                <i class="fa-regular fa-copy"></i>
+
+                Copier
+
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         PARAMÈTRES
+    ====================================================== -->
+
+    <section class="settings-area">
+
+
+        <!-- UN SEUL BOUTON -->
+
+        <button
+            type="button"
+            class="settings-button"
+            id="openSettings">
+
+
+            <div class="settings-left">
+
+                <div class="settings-icon">
+
+                    <i class="fa-solid fa-gear"></i>
+
+                </div>
+
+
+                <div>
+
+                    <strong>
+                        ⚙️ Paramètres
+                    </strong>
+
+                    <small>
+                        Gérer les préférences de votre compte
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <div class="settings-arrow">
+
+                <i class="fa-solid fa-chevron-right"></i>
+
+            </div>
+
+        </button>
+
+
+        <!-- PANNEAU CACHÉ -->
+
+        <div
+            class="settings-panel"
+            id="settingsPanel">
+
+
+            <div class="settings-header">
+
+                <h3>
+                    ⚙️ Paramètres
+                </h3>
+
+
+                <button
+                    type="button"
+                    class="close-settings"
+                    id="closeSettings">
+
+                    <i class="fa-solid fa-xmark"></i>
+
+                </button>
+
+            </div>
+
+
+            <div class="setting-list">
+
+
+                <!-- Notifications -->
+
+                <div class="setting-item">
+
+                    <div class="setting-left">
+
+                        <div class="setting-icon">
+
+                            <i class="fa-solid fa-bell"></i>
+
+                        </div>
+
+
+                        <div class="setting-text">
+
+                            <strong>
+                                Notifications
+                            </strong>
+
+                            <span>
+                                Recevoir les notifications
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <label class="switch">
+
+                        <input
+                            type="checkbox"
+                            id="notificationsSetting"
+                            checked>
+
+                        <span class="slider"></span>
+
+                    </label>
+
+                </div>
+
+
+                <!-- Alertes -->
+
+                <div class="setting-item">
+
+                    <div class="setting-left">
+
+                        <div class="setting-icon">
+
+                            <i class="fa-solid fa-money-bill-transfer"></i>
+
+                        </div>
+
+
+                        <div class="setting-text">
+
+                            <strong>
+                                Alertes financières
+                            </strong>
+
+                            <span>
+                                Dépôts, retraits et opérations
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <label class="switch">
+
+                        <input
+                            type="checkbox"
+                            id="financialSetting"
+                            checked>
+
+                        <span class="slider"></span>
+
+                    </label>
+
+                </div>
+
+
+                <!-- Langue -->
+
+                <div class="setting-item">
+
+                    <div class="setting-left">
+
+                        <div class="setting-icon">
+
+                            <i class="fa-solid fa-language"></i>
+
+                        </div>
+
+
+                        <div class="setting-text">
+
+                            <strong>
+                                Langue
+                            </strong>
+
+                            <span>
+                                Français
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <a
+                        href="translation.html"
+                        class="setting-link">
+
+                        Modifier
+                        <i class="fa-solid fa-chevron-right"></i>
+
+                    </a>
+
+                </div>
+
+
+                <!-- Sécurité -->
+
+                <div class="setting-item">
+
+                    <div class="setting-left">
+
+                        <div class="setting-icon">
+
+                            <i class="fa-solid fa-shield-halved"></i>
+
+                        </div>
+
+
+                        <div class="setting-text">
+
+                            <strong>
+                                Sécurité
+                            </strong>
+
+                            <span>
+                                Protection du compte
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <a
+                        href="support.html"
+                        class="setting-link">
+
+                        Gérer
+                        <i class="fa-solid fa-chevron-right"></i>
+
+                    </a>
+
+                </div>
+
+
+                <!-- Paiements -->
+
+                <div class="setting-item">
+
+                    <div class="setting-left">
+
+                        <div class="setting-icon">
+
+                            <i class="fa-solid fa-wallet"></i>
+
+                        </div>
+
+
+                        <div class="setting-text">
+
+                            <strong>
+                                Paiements
+                            </strong>
+
+                            <span>
+                                Moyens de paiement
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <a
+                        href="translation.html"
+                        class="setting-link">
+
+                        Ouvrir
+                        <i class="fa-solid fa-chevron-right"></i>
+
+                    </a>
+
+                </div>
+
+
+                <!-- Support -->
+
+                <div class="setting-item">
+
+                    <div class="setting-left">
+
+                        <div class="setting-icon">
+
+                            <i class="fa-solid fa-headset"></i>
+
+                        </div>
+
+
+                        <div class="setting-text">
+
+                            <strong>
+                                Support
+                            </strong>
+
+                            <span>
+                                Besoin d'aide ?
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <a
+                        href="support.html"
+                        class="setting-link">
+
+                        Ouvrir
+                        <i class="fa-solid fa-chevron-right"></i>
+
+                    </a>
+
+                </div>
+
+
+            </div>
+
+
+            <button
+                type="button"
+                class="logout"
+                data-action="logout">
+
+                <i class="fa-solid fa-right-from-bracket"></i>
+
+                &nbsp; Se déconnecter
+
+            </button>
+
+
+        </div>
+
+    </section>
+
+
+    <!-- FOOTER -->
+
+    <footer class="footer">
+
+        JASON INVEST ©
+        <span id="currentYear"></span>
+        — Espace client
+
+    </footer>
+
+
+</main>
+
+
+<!-- TOAST -->
+
+<div
+    class="toast"
+    id="toast">
+</div>
+
+
+<!-- =========================================================
+     JS CENTRAL
+========================================================= -->
+
+<script src="app.js"></script>
+
+
+<script>
+
+/* =========================================================
+   INITIALISATION
+========================================================= */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function(){
+
+        /* ANNÉE */
+
+        const year =
+            document.getElementById(
+                "currentYear"
+            );
+
+        if(year){
+
+            year.textContent =
+                new Date().getFullYear();
+
+        }
+
+
+        /* PARAMÈTRES */
+
+        const open =
+            document.getElementById(
+                "openSettings"
+            );
+
+        const close =
+            document.getElementById(
+                "closeSettings"
+            );
+
+        const panel =
+            document.getElementById(
+                "settingsPanel"
+            );
+
+
+        if(open && panel){
+
+            open.addEventListener(
+                "click",
+                function(){
+
+                    panel.classList.add(
+                        "open"
+                    );
+
+                    setTimeout(
+                        function(){
+
+                            panel.scrollIntoView({
+                                behavior:"smooth",
+                                block:"start"
+                            });
+
+                        },
+                        100
+                    );
+
+                }
+            );
+
+        }
+
+
+        if(close && panel){
+
+            close.addEventListener(
+                "click",
+                function(){
+
+                    panel.classList.remove(
+                        "open"
+                    );
+
+                }
+            );
+
+        }
+
+
+        /* COPIE PARRAINAGE */
+
+        const copy =
+            document.getElementById(
+                "copyReferral"
+            );
+
+        const referral =
+            document.getElementById(
+                "referralCode"
+            );
+
+
+        if(copy && referral){
+
+            copy.addEventListener(
+                "click",
+                async function(){
+
+                    const code =
+                        referral.textContent.trim();
+
+
+                    if(
+                        !code ||
+                        code === "JAS-..."
+                    ){
+
+                        showProfileToast(
+                            "Code indisponible."
+                        );
+
+                        return;
+
+                    }
+
+
+                    try{
+
+                        await navigator.clipboard.writeText(
+                            code
+                        );
+
+                        showProfileToast(
+                            "Code copié."
+                        );
+
+                    }catch(error){
+
+                        showProfileToast(
+                            "Impossible de copier."
+                        );
+
+                    }
+
+                }
+            );
+
+        }
+
+
+        /* RÉGLAGES LOCAUX */
+
+        const notifications =
+            document.getElementById(
+                "notificationsSetting"
+            );
+
+        const financial =
+            document.getElementById(
+                "financialSetting"
+            );
+
+
+        restoreSetting(
+            notifications,
+            "jason_notifications"
+        );
+
+        restoreSetting(
+            financial,
+            "jason_financial"
+        );
+
+
+        if(notifications){
+
+            notifications.addEventListener(
+                "change",
+                function(){
+
+                    saveSetting(
+                        "jason_notifications",
+                        notifications.checked
+                    );
+
+                }
+            );
+
+        }
+
+
+        if(financial){
+
+            financial.addEventListener(
+                "change",
+                function(){
+
+                    saveSetting(
+                        "jason_financial",
+                        financial.checked
+                    );
+
+                }
+            );
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   LOCAL STORAGE
+========================================================= */
+
+function restoreSetting(
+    input,
+    key
+){
+
+    if(!input) return;
+
+    try{
+
+        const value =
+            localStorage.getItem(key);
+
+        if(value !== null){
+
+            input.checked =
+                value === "true";
+
+        }
+
+    }catch(error){}
+
+}
+
+
+function saveSetting(
+    key,
+    value
+){
+
+    try{
+
+        localStorage.setItem(
+            key,
+            value ? "true" : "false"
+        );
+
+    }catch(error){}
+
+}
+
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+function showProfileToast(
+    message
+){
+
+    const toast =
+        document.getElementById(
+            "toast"
+        );
+
+    if(!toast) return;
+
+    toast.textContent =
+        message;
+
+    toast.classList.add(
+        "show"
+    );
+
+
+    setTimeout(
+        function(){
+
+            toast.classList.remove(
+                "show"
+            );
+
+        },
+        2500
+    );
+
+}
+
+</script>
+
+
+</body>
+</html>

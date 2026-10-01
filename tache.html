@@ -1,0 +1,1219 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Tâche quotidienne — JASON INVEST</title>
+
+<style>
+:root{
+  --bg:#050912;
+  --surface:#0d1727;
+  --surface2:#111f33;
+  --gold:#d8b45a;
+  --gold-light:#f1d98b;
+  --text:#f4f7fb;
+  --muted:#8997aa;
+  --border:rgba(255,255,255,.09);
+  --green:#37d67a;
+  --red:#ff6678;
+  --blue:#4da3ff;
+  --shadow:0 20px 50px rgba(0,0,0,.30);
+}
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+body{
+  font-family:Arial,Helvetica,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  min-height:100vh;
+}
+
+button,
+input{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+  position:fixed;
+  left:0;
+  top:0;
+  width:260px;
+  height:100vh;
+  background:#08111f;
+  border-right:1px solid var(--border);
+  padding:22px 16px;
+  z-index:1000;
+  overflow-y:auto;
+}
+
+.logo{
+  text-align:center;
+  padding:10px 5px 25px;
+  border-bottom:1px solid var(--border);
+  margin-bottom:18px;
+}
+
+.logo-icon{
+  width:58px;
+  height:58px;
+  margin:auto;
+  border-radius:18px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:linear-gradient(145deg,#182b46,#0c1627);
+  border:1px solid rgba(216,180,90,.35);
+  color:var(--gold-light);
+  font-size:25px;
+  font-weight:900;
+}
+
+.logo h1{
+  margin-top:12px;
+  font-size:19px;
+  letter-spacing:1px;
+}
+
+.logo p{
+  margin-top:5px;
+  color:var(--muted);
+  font-size:11px;
+}
+
+.nav{
+  display:flex;
+  flex-direction:column;
+  gap:7px;
+}
+
+.nav a{
+  display:flex;
+  align-items:center;
+  gap:11px;
+  text-decoration:none;
+  color:#c9d2df;
+  padding:12px 13px;
+  border-radius:12px;
+  transition:.2s;
+  font-size:14px;
+}
+
+.nav a:hover,
+.nav a.active{
+  background:rgba(216,180,90,.12);
+  color:var(--gold-light);
+}
+
+.nav a.active{
+  border:1px solid rgba(216,180,90,.18);
+}
+
+/* MAIN */
+
+.main{
+  margin-left:260px;
+  min-height:100vh;
+}
+
+/* TOPBAR */
+
+.topbar{
+  height:70px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 30px;
+  border-bottom:1px solid var(--border);
+  background:rgba(5,9,18,.85);
+  backdrop-filter:blur(12px);
+  position:sticky;
+  top:0;
+  z-index:500;
+}
+
+.topbar-title{
+  font-weight:700;
+}
+
+.topbar-right{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.balance-mini{
+  background:var(--surface);
+  border:1px solid var(--border);
+  padding:9px 13px;
+  border-radius:12px;
+  font-size:13px;
+}
+
+.balance-mini strong{
+  color:var(--gold-light);
+}
+
+.menu-btn{
+  display:none;
+  border:1px solid var(--border);
+  background:var(--surface);
+  color:white;
+  width:42px;
+  height:42px;
+  border-radius:12px;
+}
+
+/* CONTENT */
+
+.content{
+  padding:30px;
+  max-width:1200px;
+  margin:auto;
+}
+
+.page-header{
+  margin-bottom:24px;
+}
+
+.page-header h2{
+  font-size:29px;
+  margin-bottom:7px;
+}
+
+.page-header p{
+  color:var(--muted);
+  line-height:1.6;
+}
+
+/* USER CARD */
+
+.account-card{
+  background:
+    radial-gradient(circle at top right,rgba(216,180,90,.13),transparent 35%),
+    var(--surface);
+  border:1px solid var(--border);
+  border-radius:20px;
+  padding:22px;
+  box-shadow:var(--shadow);
+  margin-bottom:20px;
+}
+
+.account-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:15px;
+}
+
+.account-item{
+  background:rgba(255,255,255,.025);
+  border:1px solid var(--border);
+  padding:16px;
+  border-radius:14px;
+}
+
+.account-item span{
+  display:block;
+  color:var(--muted);
+  font-size:12px;
+  margin-bottom:8px;
+}
+
+.account-item strong{
+  font-size:18px;
+}
+
+/* TASK */
+
+.task-card{
+  background:
+    linear-gradient(145deg,rgba(216,180,90,.08),transparent 50%),
+    var(--surface);
+  border:1px solid rgba(216,180,90,.18);
+  border-radius:24px;
+  padding:28px;
+  box-shadow:var(--shadow);
+  text-align:center;
+}
+
+.task-icon{
+  width:72px;
+  height:72px;
+  margin:0 auto 16px;
+  border-radius:22px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:rgba(216,180,90,.12);
+  border:1px solid rgba(216,180,90,.22);
+  font-size:34px;
+}
+
+.task-card h3{
+  font-size:23px;
+  margin-bottom:8px;
+}
+
+.task-card .description{
+  color:var(--muted);
+  max-width:650px;
+  margin:0 auto 25px;
+  line-height:1.7;
+}
+
+.investment-box{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+  margin:20px auto 25px;
+  max-width:760px;
+}
+
+.info-box{
+  background:#091321;
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:16px;
+}
+
+.info-box span{
+  display:block;
+  color:var(--muted);
+  font-size:12px;
+  margin-bottom:7px;
+}
+
+.info-box strong{
+  color:var(--gold-light);
+  font-size:18px;
+}
+
+/* TIMER */
+
+.timer-container{
+  margin:28px auto;
+}
+
+.timer-label{
+  color:var(--muted);
+  font-size:13px;
+  margin-bottom:9px;
+}
+
+.timer{
+  font-size:58px;
+  font-weight:900;
+  letter-spacing:3px;
+  color:var(--gold-light);
+}
+
+.progress{
+  width:100%;
+  max-width:600px;
+  height:10px;
+  margin:18px auto 25px;
+  background:#08111d;
+  border-radius:20px;
+  overflow:hidden;
+  border:1px solid var(--border);
+}
+
+.progress-bar{
+  width:0%;
+  height:100%;
+  background:linear-gradient(90deg,var(--gold),var(--gold-light));
+  transition:width:1s linear;
+}
+
+/* BUTTON */
+
+.start-btn{
+  width:100%;
+  max-width:420px;
+  border:0;
+  border-radius:14px;
+  padding:15px 20px;
+  background:linear-gradient(135deg,#d8b45a,#f1d98b);
+  color:#111;
+  font-weight:900;
+  font-size:15px;
+  box-shadow:0 10px 30px rgba(216,180,90,.18);
+}
+
+.start-btn:hover{
+  transform:translateY(-1px);
+}
+
+.start-btn:disabled{
+  opacity:.45;
+  cursor:not-allowed;
+  transform:none;
+}
+
+.status{
+  margin:18px auto 0;
+  max-width:650px;
+  padding:13px 15px;
+  border-radius:12px;
+  font-size:13px;
+  display:none;
+}
+
+.status.show{
+  display:block;
+}
+
+.status.info{
+  background:rgba(77,163,255,.08);
+  border:1px solid rgba(77,163,255,.2);
+  color:#9dccff;
+}
+
+.status.success{
+  background:rgba(55,214,122,.08);
+  border:1px solid rgba(55,214,122,.2);
+  color:#79eaa5;
+}
+
+.status.error{
+  background:rgba(255,102,120,.08);
+  border:1px solid rgba(255,102,120,.2);
+  color:#ff9aa7;
+}
+
+/* DAILY HISTORY */
+
+.history-card{
+  margin-top:20px;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:20px;
+  padding:22px;
+}
+
+.history-card h3{
+  margin-bottom:16px;
+}
+
+.history-list{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+.history-item{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
+  background:#091321;
+  border:1px solid var(--border);
+  padding:14px;
+  border-radius:13px;
+}
+
+.history-left strong{
+  display:block;
+  margin-bottom:5px;
+}
+
+.history-left span{
+  color:var(--muted);
+  font-size:12px;
+}
+
+.history-right{
+  text-align:right;
+}
+
+.history-right strong{
+  color:var(--green);
+}
+
+.badge{
+  display:inline-block;
+  margin-top:5px;
+  font-size:11px;
+  padding:5px 8px;
+  border-radius:8px;
+  background:rgba(55,214,122,.1);
+  color:var(--green);
+}
+
+/* NOTICE */
+
+.notice{
+  margin-top:20px;
+  padding:18px;
+  background:rgba(216,180,90,.06);
+  border:1px solid rgba(216,180,90,.15);
+  border-radius:15px;
+  color:#c8d0dc;
+  line-height:1.7;
+  font-size:13px;
+}
+
+.notice strong{
+  color:var(--gold-light);
+}
+
+/* MOBILE */
+
+@media(max-width:900px){
+
+  .sidebar{
+    transform:translateX(-100%);
+    transition:.25s;
+  }
+
+  .sidebar.open{
+    transform:translateX(0);
+  }
+
+  .main{
+    margin-left:0;
+  }
+
+  .menu-btn{
+    display:block;
+  }
+
+  .topbar{
+    padding:0 16px;
+  }
+
+  .content{
+    padding:20px 15px 30px;
+  }
+
+  .account-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .investment-box{
+    grid-template-columns:1fr;
+  }
+}
+
+@media(max-width:520px){
+
+  .page-header h2{
+    font-size:23px;
+  }
+
+  .account-grid{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .timer{
+    font-size:45px;
+  }
+
+  .task-card{
+    padding:20px 15px;
+  }
+
+  .balance-mini{
+    display:none;
+  }
+
+  .history-item{
+    align-items:flex-start;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+
+  <div class="logo">
+    <div class="logo-icon">JI</div>
+    <h1>JASON INVEST</h1>
+    <p>Plateforme d'investissement</p>
+  </div>
+
+  <nav class="nav">
+
+    <a href="dashboard.html">
+      🏠 <span>Dashboard</span>
+    </a>
+
+    <a href="investissement.html">
+      📈 <span>Investissement</span>
+    </a>
+
+    <a href="tache.html" class="active">
+      ⏱️ <span>Tâche quotidienne</span>
+    </a>
+
+    <a href="activites.html">
+      📢 <span>Activités</span>
+    </a>
+
+    <a href="fidelite.html">
+      ⭐ <span>Fidélité</span>
+    </a>
+
+    <a href="parrainage.html">
+      👥 <span>Parrainage</span>
+    </a>
+
+    <a href="historique.html">
+      🧾 <span>Historique</span>
+    </a>
+
+    <a href="notification.html">
+      🔔 <span>Notifications</span>
+    </a>
+
+    <a href="profil.html">
+      👤 <span>Profil</span>
+    </a>
+
+    <a href="translation.html">
+      💸 <span>Dépôt & retrait</span>
+    </a>
+
+    <a href="support.html">
+      🎧 <span>Support</span>
+    </a>
+
+    <a href="#" data-action="logout">
+      🚪 <span>Déconnexion</span>
+    </a>
+
+  </nav>
+
+</aside>
+
+<!-- MAIN -->
+<main class="main">
+
+  <header class="topbar">
+
+    <div style="display:flex;align-items:center;gap:12px;">
+      <button class="menu-btn" id="menuBtn">☰</button>
+      <div class="topbar-title">Tâche quotidienne</div>
+    </div>
+
+    <div class="topbar-right">
+      <div class="balance-mini">
+        Solde :
+        <strong id="topBalance">0 FC</strong>
+      </div>
+
+      <a href="notification.html"
+         style="text-decoration:none;color:white;font-size:20px;">
+        🔔
+      </a>
+    </div>
+
+  </header>
+
+  <section class="content">
+
+    <div class="page-header">
+      <h2>⏱️ Ma tâche quotidienne</h2>
+      <p>
+        Effectuez votre tâche du jour pendant 5 minutes.
+        Si la tâche est validée, le gain prévu pour aujourd'hui
+        peut être crédité par le système.
+      </p>
+    </div>
+
+    <!-- ACCOUNT -->
+    <div class="account-card">
+
+      <div class="account-grid">
+
+        <div class="account-item">
+          <span>Solde disponible</span>
+          <strong id="balance">0 FC</strong>
+        </div>
+
+        <div class="account-item">
+          <span>Investissement actif</span>
+          <strong id="investmentAmount">0 FC</strong>
+        </div>
+
+        <div class="account-item">
+          <span>Gain quotidien prévu</span>
+          <strong id="dailyGain">0 FC</strong>
+        </div>
+
+        <div class="account-item">
+          <span>Jours restants</span>
+          <strong id="daysRemaining">0</strong>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- TASK -->
+    <div class="task-card">
+
+      <div class="task-icon">⚡</div>
+
+      <h3>Tâche du jour</h3>
+
+      <p class="description">
+        Votre tâche quotidienne doit être effectuée pendant
+        toute la durée prévue. Lorsque les 5 minutes sont
+        terminées, le serveur vérifie la validation de la tâche.
+      </p>
+
+      <div class="investment-box">
+
+        <div class="info-box">
+          <span>Plan</span>
+          <strong id="planName">Aucun plan</strong>
+        </div>
+
+        <div class="info-box">
+          <span>Gain du jour</span>
+          <strong id="taskGain">0 FC</strong>
+        </div>
+
+        <div class="info-box">
+          <span>Jour</span>
+          <strong id="currentDay">0 / 30</strong>
+        </div>
+
+      </div>
+
+      <div class="timer-container">
+
+        <div class="timer-label">
+          Temps restant
+        </div>
+
+        <div class="timer" id="timer">
+          05:00
+        </div>
+
+        <div class="progress">
+          <div class="progress-bar" id="progressBar"></div>
+        </div>
+
+      </div>
+
+      <button
+        class="start-btn"
+        id="startTask">
+        ▶️ Commencer la tâche
+      </button>
+
+      <div class="status" id="status"></div>
+
+    </div>
+
+    <!-- HISTORY -->
+    <div class="history-card">
+
+      <h3>📅 Mes tâches récentes</h3>
+
+      <div class="history-list" id="taskHistory">
+
+        <div class="history-item">
+
+          <div class="history-left">
+            <strong>Aucune tâche enregistrée</strong>
+            <span>
+              Votre historique apparaîtra ici après connexion à l'API.
+            </span>
+          </div>
+
+          <div class="history-right">
+            —
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- NOTICE -->
+    <div class="notice">
+
+      <strong>ℹ️ Important :</strong><br>
+
+      Une seule tâche peut être validée par jour pour un
+      investissement actif. Le compte à rebours affiché sur
+      cette page ne suffit pas à créditer un gain : la validation
+      finale doit être effectuée par le serveur.
+
+      <br><br>
+
+      Si vous ne réalisez pas la tâche du jour, aucun gain
+      quotidien ne doit être crédité pour cette journée.
+
+    </div>
+
+  </section>
+
+</main>
+
+<script src="app.js"></script>
+
+<script>
+/* ==========================================================
+   JASON INVEST — TÂCHE QUOTIDIENNE
+   Interface 5 minutes
+   Le crédit réel doit être confirmé par l'API.
+========================================================== */
+
+(function(){
+
+  "use strict";
+
+  const TASK_DURATION = 5 * 60;
+
+  let timerInterval = null;
+  let remaining = TASK_DURATION;
+  let running = false;
+
+  const $ = id => document.getElementById(id);
+
+  const timer = $("timer");
+  const progressBar = $("progressBar");
+  const startBtn = $("startTask");
+  const status = $("status");
+
+  const balance = $("balance");
+  const topBalance = $("topBalance");
+  const investmentAmount = $("investmentAmount");
+  const dailyGain = $("dailyGain");
+  const taskGain = $("taskGain");
+  const daysRemaining = $("daysRemaining");
+  const currentDay = $("currentDay");
+  const planName = $("planName");
+
+  /* ----------------------------------------------------------
+     FORMATTAGE
+  ---------------------------------------------------------- */
+
+  function money(value){
+
+    const number = Number(value || 0);
+
+    return number.toLocaleString("fr-FR") + " FC";
+  }
+
+  function showStatus(message,type){
+
+    status.textContent = message;
+    status.className = "status show " + type;
+
+  }
+
+  function formatTime(seconds){
+
+    const min = Math.floor(seconds / 60);
+    const sec = seconds % 60;
+
+    return String(min).padStart(2,"0")
+      + ":"
+      + String(sec).padStart(2,"0");
+
+  }
+
+  /* ----------------------------------------------------------
+     COMPTEUR
+  ---------------------------------------------------------- */
+
+  function updateTimer(){
+
+    timer.textContent = formatTime(remaining);
+
+    const completed =
+      ((TASK_DURATION - remaining) / TASK_DURATION) * 100;
+
+    progressBar.style.width =
+      Math.max(0,Math.min(100,completed)) + "%";
+
+  }
+
+  /* ----------------------------------------------------------
+     DÉMARRAGE
+  ---------------------------------------------------------- */
+
+  function startTask(){
+
+    if(running) return;
+
+    running = true;
+
+    remaining = TASK_DURATION;
+
+    startBtn.disabled = true;
+
+    startBtn.textContent = "⏳ Tâche en cours...";
+
+    showStatus(
+      "La tâche a commencé. Restez sur cette page pendant les 5 minutes.",
+      "info"
+    );
+
+    updateTimer();
+
+    timerInterval = setInterval(async function(){
+
+      remaining--;
+
+      updateTimer();
+
+      if(remaining <= 0){
+
+        clearInterval(timerInterval);
+
+        timerInterval = null;
+
+        running = false;
+
+        timer.textContent = "00:00";
+
+        progressBar.style.width = "100%";
+
+        startBtn.disabled = true;
+
+        startBtn.textContent = "⏳ Validation...";
+
+        await completeTask();
+
+      }
+
+    },1000);
+
+  }
+
+  /* ----------------------------------------------------------
+     VALIDATION SERVEUR
+  ---------------------------------------------------------- */
+
+  async function completeTask(){
+
+    showStatus(
+      "Les 5 minutes sont terminées. Vérification de votre tâche...",
+      "info"
+    );
+
+    try{
+
+      /*
+        Cette route sera créée dans l'API :
+
+        POST /api/tasks/complete
+
+        Le serveur devra vérifier :
+        - utilisateur connecté
+        - investissement actif
+        - tâche du jour non déjà validée
+        - durée / session de tâche
+        - investissement encore dans les 30 jours
+        - montant du gain
+        - date du jour
+
+        Le serveur créditera ensuite le gain
+        s'il est réellement dû.
+      */
+
+      const response = await fetch(
+        "/api/tasks/complete",
+        {
+          method:"POST",
+          credentials:"include",
+          headers:{
+            "Content-Type":"application/json"
+          },
+          body:JSON.stringify({
+            action:"complete_daily_task"
+          })
+        }
+      );
+
+      if(!response.ok){
+
+        throw new Error(
+          "La validation serveur n'est pas encore disponible."
+        );
+
+      }
+
+      const data = await response.json();
+
+      if(data.success){
+
+        showStatus(
+          "✅ Tâche validée. Le gain du jour a été traité par le serveur.",
+          "success"
+        );
+
+        startBtn.textContent = "✅ Tâche terminée aujourd'hui";
+
+        loadTaskData();
+
+      }else{
+
+        throw new Error(
+          data.message || "La tâche n'a pas été validée."
+        );
+
+      }
+
+    }catch(error){
+
+      console.error(error);
+
+      showStatus(
+        "La validation automatique sera disponible lorsque l'API des tâches sera connectée.",
+        "error"
+      );
+
+      startBtn.disabled = true;
+
+      startBtn.textContent = "Tâche terminée";
+
+    }
+
+  }
+
+  /* ----------------------------------------------------------
+     CHARGEMENT DES DONNÉES
+  ---------------------------------------------------------- */
+
+  async function loadTaskData(){
+
+    try{
+
+      const response = await fetch(
+        "/api/tasks/today",
+        {
+          method:"GET",
+          credentials:"include",
+          headers:{
+            "Accept":"application/json"
+          }
+        }
+      );
+
+      if(!response.ok){
+
+        throw new Error("API indisponible");
+
+      }
+
+      const data = await response.json();
+
+      if(!data.success) return;
+
+      const user = data.user || {};
+      const task = data.task || {};
+      const investment = data.investment || {};
+
+      const currentBalance =
+        Number(user.balance || 0);
+
+      const invested =
+        Number(investment.amount || 0);
+
+      const gain =
+        Number(task.dailyGain || investment.dailyGain || 0);
+
+      balance.textContent = money(currentBalance);
+
+      topBalance.textContent = money(currentBalance);
+
+      investmentAmount.textContent =
+        money(invested);
+
+      dailyGain.textContent =
+        money(gain);
+
+      taskGain.textContent =
+        money(gain);
+
+      planName.textContent =
+        investment.planName || "Plan actif";
+
+      const day =
+        Number(investment.currentDay || 0);
+
+      const totalDays =
+        Number(investment.duration || 30);
+
+      currentDay.textContent =
+        day + " / " + totalDays;
+
+      daysRemaining.textContent =
+        Math.max(0,totalDays - day);
+
+      if(task.completed){
+
+        startBtn.disabled = true;
+
+        startBtn.textContent =
+          "✅ Tâche déjà effectuée aujourd'hui";
+
+        showStatus(
+          "Vous avez déjà validé la tâche d'aujourd'hui.",
+          "success"
+        );
+
+      }else{
+
+        startBtn.disabled = false;
+
+        startBtn.textContent =
+          "▶️ Commencer la tâche";
+
+      }
+
+      renderHistory(data.history || []);
+
+    }catch(error){
+
+      console.log(
+        "API des tâches pas encore connectée.",
+        error
+      );
+
+      /*
+        Données d'affichage temporaires.
+        Elles ne créditent aucun argent.
+      */
+
+      balance.textContent = "0 FC";
+      topBalance.textContent = "0 FC";
+      investmentAmount.textContent = "0 FC";
+      dailyGain.textContent = "0 FC";
+      taskGain.textContent = "0 FC";
+      daysRemaining.textContent = "0";
+      currentDay.textContent = "0 / 30";
+      planName.textContent = "Aucun plan";
+
+    }
+
+  }
+
+  /* ----------------------------------------------------------
+     HISTORIQUE
+  ---------------------------------------------------------- */
+
+  function renderHistory(history){
+
+    const container =
+      $("taskHistory");
+
+    if(!history.length){
+
+      container.innerHTML = `
+        <div class="history-item">
+          <div class="history-left">
+            <strong>Aucune tâche enregistrée</strong>
+            <span>Votre historique apparaîtra ici.</span>
+          </div>
+          <div class="history-right">—</div>
+        </div>
+      `;
+
+      return;
+
+    }
+
+    container.innerHTML =
+      history.slice(0,10).map(item => {
+
+        return `
+          <div class="history-item">
+
+            <div class="history-left">
+              <strong>
+                Tâche du ${item.date || ""}
+              </strong>
+
+              <span>
+                ${item.status || "Validée"}
+              </span>
+            </div>
+
+            <div class="history-right">
+
+              <strong>
+                +${money(item.amount || 0)}
+              </strong>
+
+              <div class="badge">
+                ${item.status || "Validée"}
+              </div>
+
+            </div>
+
+          </div>
+        `;
+
+      }).join("");
+
+  }
+
+  /* ----------------------------------------------------------
+     MENU MOBILE
+  ---------------------------------------------------------- */
+
+  const menuBtn =
+    $("menuBtn");
+
+  const sidebar =
+    $("sidebar");
+
+  if(menuBtn){
+
+    menuBtn.addEventListener(
+      "click",
+      function(){
+
+        sidebar.classList.toggle("open");
+
+      }
+    );
+
+  }
+
+  /* ----------------------------------------------------------
+     BOUTON
+  ---------------------------------------------------------- */
+
+  startBtn.addEventListener(
+    "click",
+    startTask
+  );
+
+  /* ----------------------------------------------------------
+     DÉMARRAGE
+  ---------------------------------------------------------- */
+
+  updateTimer();
+
+  loadTaskData();
+
+})();
+</script>
+
+</body>
+</html>

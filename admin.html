@@ -1,0 +1,5682 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>JASON INVEST — Administration</title>
+
+<meta name="description" content="Espace administration sécurisé de JASON INVEST">
+<meta name="theme-color" content="#050b16">
+
+<style>
+:root{
+  --bg:#050b16;
+  --bg2:#081221;
+  --surface:#0d1829;
+  --surface2:#111f33;
+  --border:#203149;
+  --gold:#d8b45a;
+  --gold2:#f1d98b;
+  --text:#f5f7fb;
+  --muted:#91a0b5;
+  --green:#37d39b;
+  --red:#ff6675;
+  --blue:#4da3ff;
+  --orange:#ffb454;
+  --shadow:0 20px 50px rgba(0,0,0,.30);
+  --radius:18px;
+}
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  font-family:Arial,Helvetica,sans-serif;
+  background:
+    radial-gradient(circle at 20% 10%,rgba(216,180,90,.05),transparent 25%),
+    radial-gradient(circle at 90% 80%,rgba(77,163,255,.04),transparent 25%),
+    var(--bg);
+  color:var(--text);
+  min-height:100vh;
+}
+
+button,
+input,
+select,
+textarea{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
+}
+
+.hidden{
+  display:none!important;
+}
+
+/* =========================
+   LOGIN
+========================= */
+
+.login-screen{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  background:
+    radial-gradient(circle at top,#12233b 0,#050b16 45%,#03070e 100%);
+}
+
+.login-box{
+  width:100%;
+  max-width:430px;
+  background:rgba(13,24,41,.96);
+  border:1px solid var(--border);
+  border-radius:24px;
+  padding:32px;
+  box-shadow:var(--shadow);
+  animation:loginAppear .7s ease;
+}
+
+@keyframes loginAppear{
+  from{
+    opacity:0;
+    transform:translateY(25px) scale(.97);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0) scale(1);
+  }
+}
+
+.login-logo{
+  width:74px;
+  height:74px;
+  margin:0 auto 18px;
+  border-radius:20px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:linear-gradient(135deg,var(--gold2),var(--gold));
+  color:#111;
+  font-size:28px;
+  font-weight:900;
+  box-shadow:0 0 30px rgba(216,180,90,.18);
+  animation:logoFloat 3s ease-in-out infinite;
+}
+
+@keyframes logoFloat{
+  50%{
+    transform:translateY(-5px);
+  }
+}
+
+.login-title{
+  text-align:center;
+  font-size:25px;
+  margin-bottom:7px;
+}
+
+.login-subtitle{
+  text-align:center;
+  color:var(--muted);
+  font-size:14px;
+  margin-bottom:28px;
+}
+
+.field{
+  margin-bottom:17px;
+}
+
+.field label{
+  display:block;
+  color:#dbe3ef;
+  font-size:13px;
+  margin-bottom:8px;
+}
+
+.field input,
+.field select,
+.field textarea{
+  width:100%;
+  border:1px solid var(--border);
+  outline:none;
+  background:#091424;
+  color:var(--text);
+  border-radius:12px;
+  padding:13px 14px;
+  transition:.2s;
+}
+
+.field textarea{
+  min-height:110px;
+  resize:vertical;
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus{
+  border-color:var(--gold);
+  box-shadow:0 0 0 3px rgba(216,180,90,.10);
+}
+
+.login-button{
+  width:100%;
+  border:0;
+  border-radius:12px;
+  padding:14px;
+  background:linear-gradient(135deg,var(--gold2),var(--gold));
+  color:#111;
+  font-weight:800;
+  margin-top:5px;
+  transition:.2s;
+}
+
+.login-button:hover{
+  transform:translateY(-2px);
+  box-shadow:0 10px 25px rgba(216,180,90,.15);
+}
+
+.login-button:disabled{
+  opacity:.6;
+  cursor:not-allowed;
+}
+
+.login-error{
+  display:none;
+  margin-top:15px;
+  padding:11px 13px;
+  border-radius:10px;
+  background:rgba(255,102,117,.10);
+  border:1px solid rgba(255,102,117,.35);
+  color:#ff9aa5;
+  font-size:13px;
+}
+
+.login-security{
+  margin-top:20px;
+  padding:12px;
+  border-radius:12px;
+  background:#091424;
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.5;
+  text-align:center;
+}
+
+/* =========================
+   APP
+========================= */
+
+.app{
+  min-height:100vh;
+  display:flex;
+}
+
+.sidebar{
+  width:270px;
+  position:fixed;
+  top:0;
+  left:0;
+  bottom:0;
+  background:#07101d;
+  border-right:1px solid var(--border);
+  padding:20px 14px;
+  overflow-y:auto;
+  z-index:1000;
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:6px 8px 22px;
+  border-bottom:1px solid var(--border);
+  margin-bottom:15px;
+}
+
+.brand-logo{
+  width:45px;
+  height:45px;
+  border-radius:13px;
+  background:linear-gradient(135deg,var(--gold2),var(--gold));
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#111;
+  font-weight:900;
+  box-shadow:0 0 20px rgba(216,180,90,.12);
+}
+
+.brand-title{
+  font-weight:800;
+  font-size:15px;
+}
+
+.brand-subtitle{
+  color:var(--muted);
+  font-size:11px;
+  margin-top:3px;
+}
+
+.nav-title{
+  color:#66768e;
+  font-size:10px;
+  text-transform:uppercase;
+  letter-spacing:1.4px;
+  margin:18px 10px 8px;
+}
+
+.nav-btn{
+  width:100%;
+  display:flex;
+  align-items:center;
+  gap:11px;
+  border:1px solid transparent;
+  background:transparent;
+  color:#aebbd0;
+  border-radius:11px;
+  padding:11px 12px;
+  text-align:left;
+  margin-bottom:4px;
+  transition:.2s;
+}
+
+.nav-btn:hover,
+.nav-btn.active{
+  background:#101d30;
+  color:var(--gold2);
+  border-color:#243650;
+  transform:translateX(2px);
+}
+
+.nav-icon{
+  width:22px;
+  text-align:center;
+}
+
+.sidebar-bottom{
+  margin-top:20px;
+  padding-top:15px;
+  border-top:1px solid var(--border);
+}
+
+.logout-btn{
+  color:#ff8995;
+}
+
+/* MAIN */
+
+.main{
+  margin-left:270px;
+  width:calc(100% - 270px);
+  min-height:100vh;
+}
+
+.topbar{
+  height:72px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 28px;
+  background:rgba(5,11,22,.90);
+  border-bottom:1px solid var(--border);
+  position:sticky;
+  top:0;
+  z-index:900;
+  backdrop-filter:blur(12px);
+}
+
+.topbar-title{
+  font-size:18px;
+  font-weight:800;
+}
+
+.admin-status{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  color:var(--muted);
+  font-size:12px;
+}
+
+.status-dot{
+  width:8px;
+  height:8px;
+  background:var(--green);
+  border-radius:50%;
+  box-shadow:0 0 10px rgba(55,211,155,.5);
+}
+
+.menu-mobile{
+  display:none;
+  border:1px solid var(--border);
+  background:#0c1828;
+  color:white;
+  border-radius:10px;
+  padding:8px 10px;
+}
+
+.content{
+  padding:28px;
+  max-width:1600px;
+  margin:auto;
+}
+
+/* SECTIONS */
+
+.admin-section{
+  display:none;
+  animation:sectionAppear .3s ease;
+}
+
+.admin-section.active{
+  display:block;
+}
+
+@keyframes sectionAppear{
+  from{
+    opacity:0;
+    transform:translateY(8px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+.page-head{
+  margin-bottom:23px;
+}
+
+.page-head h1{
+  font-size:26px;
+  margin-bottom:7px;
+}
+
+.page-head p{
+  color:var(--muted);
+  font-size:14px;
+}
+
+/* CARDS */
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:15px;
+  margin-bottom:22px;
+}
+
+.stat{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:20px;
+  transition:.25s;
+}
+
+.stat:hover{
+  transform:translateY(-4px);
+  border-color:#304663;
+  box-shadow:var(--shadow);
+}
+
+.stat-label{
+  color:var(--muted);
+  font-size:12px;
+  margin-bottom:10px;
+}
+
+.stat-value{
+  font-size:25px;
+  font-weight:900;
+}
+
+.stat-icon{
+  font-size:22px;
+  margin-bottom:10px;
+}
+
+/* PANELS */
+
+.panel{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:20px;
+  margin-bottom:20px;
+}
+
+.panel-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  margin-bottom:17px;
+}
+
+.panel-title{
+  font-size:17px;
+  font-weight:800;
+}
+
+.panel-subtitle{
+  color:var(--muted);
+  font-size:12px;
+  margin-top:4px;
+}
+
+/* GRID */
+
+.grid-2{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:20px;
+}
+
+.grid-3{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:15px;
+}
+
+/* BUTTONS */
+
+.btn{
+  border:1px solid var(--border);
+  background:#0c1829;
+  color:#e9eef7;
+  border-radius:10px;
+  padding:10px 13px;
+  transition:.2s;
+}
+
+.btn:hover{
+  border-color:#38506e;
+  transform:translateY(-1px);
+}
+
+.btn-gold{
+  border-color:var(--gold);
+  background:linear-gradient(135deg,var(--gold2),var(--gold));
+  color:#111;
+  font-weight:800;
+}
+
+.btn-green{
+  border-color:rgba(55,211,155,.35);
+  background:rgba(55,211,155,.10);
+  color:#6ee6b6;
+}
+
+.btn-red{
+  border-color:rgba(255,102,117,.35);
+  background:rgba(255,102,117,.10);
+  color:#ff8995;
+}
+
+.btn-blue{
+  border-color:rgba(77,163,255,.35);
+  background:rgba(77,163,255,.10);
+  color:#80bdff;
+}
+
+/* TABLE */
+
+.table-wrap{
+  overflow-x:auto;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  min-width:700px;
+}
+
+th,
+td{
+  padding:13px 12px;
+  border-bottom:1px solid #1a2a40;
+  text-align:left;
+  font-size:13px;
+}
+
+th{
+  color:#7e8ea5;
+  font-size:11px;
+  text-transform:uppercase;
+  letter-spacing:.5px;
+}
+
+td{
+  color:#dce4ef;
+}
+
+tr:hover td{
+  background:rgba(255,255,255,.015);
+}
+
+/* BADGES */
+
+.badge{
+  display:inline-flex;
+  align-items:center;
+  padding:5px 8px;
+  border-radius:999px;
+  font-size:10px;
+  font-weight:800;
+}
+
+.badge-green{
+  color:#69e4b1;
+  background:rgba(55,211,155,.10);
+}
+
+.badge-red{
+  color:#ff8995;
+  background:rgba(255,102,117,.10);
+}
+
+.badge-orange{
+  color:#ffc674;
+  background:rgba(255,180,84,.10);
+}
+
+.badge-blue{
+  color:#82bdff;
+  background:rgba(77,163,255,.10);
+}
+
+/* PLAN */
+
+.plan-card{
+  background:#091525;
+  border:1px solid var(--border);
+  border-radius:15px;
+  padding:18px;
+}
+
+.plan-card h3{
+  margin-bottom:15px;
+}
+
+.plan-fields{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+
+.plan-fields .field{
+  margin:0;
+}
+
+/* CLIENT */
+
+.search-row{
+  display:flex;
+  gap:10px;
+  margin-bottom:17px;
+}
+
+.search-row input{
+  flex:1;
+  border:1px solid var(--border);
+  background:#091424;
+  color:white;
+  border-radius:10px;
+  padding:11px 13px;
+  outline:none;
+}
+
+/* TASK */
+
+.task-card{
+  background:#091525;
+  border:1px solid var(--border);
+  border-radius:15px;
+  padding:18px;
+  margin-bottom:12px;
+  transition:.2s;
+}
+
+.task-card:hover{
+  border-color:#304663;
+  transform:translateY(-2px);
+}
+
+.task-meta{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-top:12px;
+}
+
+/* EMPTY */
+
+.empty{
+  padding:35px 15px;
+  text-align:center;
+  color:var(--muted);
+}
+
+.empty-icon{
+  font-size:35px;
+  margin-bottom:10px;
+}
+
+/* TOAST */
+
+.toast{
+  position:fixed;
+  right:20px;
+  bottom:20px;
+  z-index:5000;
+  max-width:360px;
+  background:#101d30;
+  border:1px solid var(--border);
+  border-left:4px solid var(--gold);
+  border-radius:12px;
+  padding:13px 15px;
+  box-shadow:var(--shadow);
+  transform:translateY(120px);
+  opacity:0;
+  transition:.25s;
+  pointer-events:none;
+}
+
+.toast.show{
+  transform:translateY(0);
+  opacity:1;
+}
+
+.toast.success{
+  border-left-color:var(--green);
+}
+
+.toast.error{
+  border-left-color:var(--red);
+}
+
+/* LOADING */
+
+.loading{
+  padding:25px;
+  color:var(--muted);
+  text-align:center;
+}
+
+/* MOBILE */
+
+@media(max-width:1100px){
+
+  .stats{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .grid-3{
+    grid-template-columns:1fr 1fr;
+  }
+
+}
+
+@media(max-width:800px){
+
+  .sidebar{
+    transform:translateX(-100%);
+    transition:.25s;
+  }
+
+  .sidebar.open{
+    transform:translateX(0);
+  }
+
+  .main{
+    margin-left:0;
+    width:100%;
+  }
+
+  .menu-mobile{
+    display:block;
+  }
+
+  .topbar{
+    padding:0 15px;
+  }
+
+  .content{
+    padding:18px 14px;
+  }
+
+  .grid-2,
+  .grid-3{
+    grid-template-columns:1fr;
+  }
+
+  .stats{
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+  }
+
+  .stat{
+    padding:15px;
+  }
+
+  .stat-value{
+    font-size:20px;
+  }
+
+  .page-head h1{
+    font-size:22px;
+  }
+
+}
+
+@media(max-width:500px){
+
+  .stats{
+    grid-template-columns:1fr;
+  }
+
+  .login-box{
+    padding:23px;
+  }
+
+  .panel{
+    padding:15px;
+  }
+
+  .search-row{
+    flex-direction:column;
+  }
+
+  .admin-status{
+    display:none;
+  }
+
+}
+</style>
+</head>
+
+<body>
+
+<!-- ==================================================
+     CONNEXION ADMIN
+================================================== -->
+
+<div id="adminLogin" class="login-screen">
+
+  <div class="login-box">
+
+    <div class="login-logo">
+      JI
+    </div>
+
+    <h1 class="login-title">
+      JASON INVEST
+    </h1>
+
+    <p class="login-subtitle">
+      Espace administration sécurisé
+    </p>
+
+    <form id="loginForm">
+
+      <div class="field">
+        <label for="adminIdentifier">
+          Identifiant administrateur
+        </label>
+
+        <input
+          id="adminIdentifier"
+          type="text"
+          autocomplete="username"
+          placeholder="Votre identifiant"
+          required
+        >
+      </div>
+
+      <div class="field">
+        <label for="adminPassword">
+          Mot de passe
+        </label>
+
+        <input
+          id="adminPassword"
+          type="password"
+          autocomplete="current-password"
+          placeholder="Votre mot de passe"
+          required
+        >
+      </div>
+
+      <button
+        id="loginButton"
+        class="login-button"
+        type="submit"
+      >
+        🔐 Se connecter
+      </button>
+
+      <div id="loginError" class="login-error"></div>
+
+    </form>
+
+    <div class="login-security">
+      🔒 Les identifiants administrateur sont vérifiés
+      côté serveur et ne sont pas enregistrés dans cette page.
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- ==================================================
+     APPLICATION ADMIN
+================================================== -->
+
+<div id="adminApp" class="app hidden">
+
+  <!-- SIDEBAR -->
+
+  <aside id="sidebar" class="sidebar">
+
+    <div class="brand">
+
+      <div class="brand-logo">
+        JI
+      </div>
+
+      <div>
+        <div class="brand-title">
+          JASON INVEST
+        </div>
+
+        <div class="brand-subtitle">
+          Administration
+        </div>
+      </div>
+
+    </div>
+
+
+    <div class="nav-title">
+      Principal
+    </div>
+
+    <button class="nav-btn active" data-section="dashboard">
+      <span class="nav-icon">📊</span>
+      Dashboard
+    </button>
+
+    <button class="nav-btn" data-section="clients">
+      <span class="nav-icon">👥</span>
+      Clients
+    </button>
+
+    <button class="nav-btn" data-section="transactions">
+      <span class="nav-icon">🧾</span>
+      Transactions
+    </button>
+
+
+    <div class="nav-title">
+      Finance
+    </div>
+
+    <button class="nav-btn" data-section="deposits">
+      <span class="nav-icon">💰</span>
+      Dépôts
+    </button>
+
+    <button class="nav-btn" data-section="withdrawals">
+      <span class="nav-icon">💸</span>
+      Retraits
+    </button>
+
+    <button class="nav-btn" data-section="payments">
+      <span class="nav-icon">📱</span>
+      Moyens de paiement
+    </button>
+
+
+    <div class="nav-title">
+      Plateforme
+    </div>
+
+    <button class="nav-btn" data-section="investments">
+      <span class="nav-icon">📈</span>
+      Investissements
+    </button>
+
+    <button class="nav-btn" data-section="tasks">
+      <span class="nav-icon">📝</span>
+      Tâches
+    </button>
+
+    <button class="nav-btn" data-section="activities">
+      <span class="nav-icon">📢</span>
+      Activités
+    </button>
+
+    <button class="nav-btn" data-section="fidelity">
+      <span class="nav-icon">⭐</span>
+      Fidélité & VIP
+    </button>
+
+    <button class="nav-btn" data-section="referral">
+      <span class="nav-icon">👥</span>
+      Parrainage
+    </button>
+
+    <button class="nav-btn" data-section="notifications">
+      <span class="nav-icon">🔔</span>
+      Notifications
+    </button>
+
+
+    <div class="nav-title">
+      Assistance
+    </div>
+
+    <button class="nav-btn" data-section="support">
+      <span class="nav-icon">🎧</span>
+      Support
+    </button>
+
+    <button class="nav-btn" data-section="settings">
+      <span class="nav-icon">⚙️</span>
+      Paramètres
+    </button>
+
+
+    <div class="sidebar-bottom">
+
+      <button id="logoutButton" class="nav-btn logout-btn">
+        <span class="nav-icon">🚪</span>
+        Déconnexion
+      </button>
+
+    </div>
+
+  </aside>
+
+
+  <!-- MAIN -->
+
+  <main class="main">
+
+    <header class="topbar">
+
+      <div style="display:flex;align-items:center;gap:12px;">
+
+        <button id="mobileMenu" class="menu-mobile">
+          ☰
+        </button>
+
+        <div id="topbarTitle" class="topbar-title">
+          Dashboard
+        </div>
+
+      </div>
+
+      <div class="admin-status">
+        <span class="status-dot"></span>
+        Administrateur connecté
+      </div>
+
+    </header>
+
+
+    <div class="content">
+
+      <!-- DASHBOARD -->
+
+      <section id="section-dashboard" class="admin-section active">
+
+        <div class="page-head">
+          <h1>Dashboard</h1>
+          <p>Vue générale de JASON INVEST.</p>
+        </div>
+
+        <div class="stats">
+
+          <div class="stat">
+            <div class="stat-icon">👥</div>
+            <div class="stat-label">Clients</div>
+            <div id="statClients" class="stat-value">—</div>
+          </div>
+
+          <div class="stat">
+            <div class="stat-icon">💰</div>
+            <div class="stat-label">Dépôts</div>
+            <div id="statDeposits" class="stat-value">—</div>
+          </div>
+
+          <div class="stat">
+            <div class="stat-icon">💸</div>
+            <div class="stat-label">Retraits</div>
+            <div id="statWithdrawals" class="stat-value">—</div>
+          </div>
+
+          <div class="stat">
+            <div class="stat-icon">📈</div>
+            <div class="stat-label">Investissements</div>
+            <div id="statInvestments" class="stat-value">—</div>
+          </div>
+
+        </div>
+
+        <div class="grid-2">
+
+          <div class="panel">
+
+            <div class="panel-head">
+
+              <div>
+                <div class="panel-title">
+                  Activité récente
+                </div>
+
+                <div class="panel-subtitle">
+                  Dernières opérations
+                </div>
+              </div>
+
+              <button class="btn" onclick="loadDashboard()">
+                Actualiser
+              </button>
+
+            </div>
+
+            <div id="recentTransactions">
+              <div class="loading">
+                Chargement...
+              </div>
+            </div>
+
+          </div>
+
+
+          <div class="panel">
+
+            <div class="panel-head">
+
+              <div>
+                <div class="panel-title">
+                  État de la plateforme
+                </div>
+
+                <div class="panel-subtitle">
+                  Informations générales
+                </div>
+              </div>
+
+            </div>
+
+            <div id="platformStatus">
+              <p style="color:var(--muted);font-size:13px;">
+                Vérification du serveur...
+              </p>
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- CLIENTS -->
+
+      <section id="section-clients" class="admin-section">
+
+        <div class="page-head">
+          <h1>Clients</h1>
+          <p>Gestion des comptes utilisateurs.</p>
+        </div>
+
+        <div class="panel">
+
+          <div class="search-row">
+
+            <input
+              id="clientSearch"
+              type="search"
+              placeholder="Rechercher par nom, téléphone ou e-mail..."
+            >
+
+            <button class="btn" onclick="loadClients()">
+              🔄 Actualiser
+            </button>
+
+          </div>
+
+          <div class="table-wrap">
+
+            <table>
+
+              <thead>
+                <tr>
+                  <th>Client</th>
+                  <th>Téléphone</th>
+                  <th>Solde</th>
+                  <th>VIP</th>
+                  <th>Statut</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+
+              <tbody id="clientsTable">
+
+                <tr>
+                  <td colspan="6" class="empty">
+                    Chargement...
+                  </td>
+                </tr>
+
+              </tbody>
+
+            </table>
+
+          </div>
+
+        </div>
+
+
+        <div class="panel">
+
+          <div class="panel-head">
+
+            <div>
+              <div class="panel-title">
+                Réinitialiser le mot de passe d'un client
+              </div>
+
+              <div class="panel-subtitle">
+                La modification est effectuée côté serveur.
+              </div>
+            </div>
+
+          </div>
+
+          <div class="grid-2">
+
+            <div class="field">
+
+              <label>Client</label>
+
+              <select id="passwordClient">
+                <option value="">
+                  Sélectionner un client
+                </option>
+              </select>
+
+            </div>
+
+
+            <div class="field">
+
+              <label>Nouveau mot de passe temporaire</label>
+
+              <input
+                id="newClientPassword"
+                type="text"
+                placeholder="Générer ou saisir"
+              >
+
+            </div>
+
+          </div>
+
+          <button
+            class="btn btn-gold"
+            onclick="resetClientPassword()"
+          >
+            🔑 Réinitialiser
+          </button>
+
+        </div>
+
+      </section>
+
+
+      <!-- TRANSACTIONS -->
+
+      <section id="section-transactions" class="admin-section">
+
+        <div class="page-head">
+          <h1>Transactions</h1>
+          <p>Historique global des opérations.</p>
+        </div>
+
+        <div class="panel">
+
+          <div class="panel-head">
+
+            <div class="panel-title">
+              Transactions
+            </div>
+
+            <button class="btn" onclick="loadTransactions()">
+              🔄 Actualiser
+            </button>
+
+          </div>
+
+          <div class="table-wrap">
+
+            <table>
+
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Client</th>
+                  <th>Type</th>
+                  <th>Description</th>
+                  <th>Montant</th>
+                  <th>Statut</th>
+                </tr>
+              </thead>
+
+              <tbody id="transactionsTable">
+
+                <tr>
+                  <td colspan="6" class="empty">
+                    Chargement...
+                  </td>
+                </tr>
+
+              </tbody>
+
+            </table>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- DEPOTS -->
+
+      <section id="section-deposits" class="admin-section">
+
+        <div class="page-head">
+          <h1>Dépôts</h1>
+          <p>Validation des demandes de dépôt.</p>
+        </div>
+
+        <div class="panel">
+
+          <div class="panel-head">
+
+            <div class="panel-title">
+              Demandes de dépôt
+            </div>
+
+            <button class="btn" onclick="loadDeposits()">
+              🔄 Actualiser
+            </button>
+
+          </div>
+
+          <div class="table-wrap">
+
+            <table>
+
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Client</th>
+                  <th>Méthode</th>
+                  <th>Référence</th>
+                  <th>Montant</th>
+                  <th>Statut</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+
+              <tbody id="depositsTable">
+
+                <tr>
+                  <td colspan="7" class="empty">
+                    Chargement...
+                  </td>
+                </tr>
+
+              </tbody>
+
+            </table>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- RETRAITS -->
+
+      <section id="section-withdrawals" class="admin-section">
+
+        <div class="page-head">
+          <h1>Retraits</h1>
+          <p>Validation des demandes de retrait.</p>
+        </div>
+
+        <div class="panel">
+
+          <div class="panel-head">
+
+            <div class="panel-title">
+              Demandes de retrait
+            </div>
+
+            <button class="btn" onclick="loadWithdrawals()">
+              🔄 Actualiser
+            </button>
+
+          </div>
+
+          <div class="table-wrap">
+
+            <table>
+
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Client</th>
+                  <th>Méthode</th>
+                  <th>Téléphone</th>
+                  <th>Montant</th>
+                  <th>Statut</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+
+              <tbody id="withdrawalsTable">
+
+                <tr>
+                  <td colspan="7" class="empty">
+                    Chargement...
+                  </td>
+                </tr>
+
+              </tbody>
+
+            </table>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- PAIEMENTS -->
+
+      <section id="section-payments" class="admin-section">
+
+        <div class="page-head">
+          <h1>Moyens de paiement</h1>
+          <p>
+            Ajoutez ou désactivez les méthodes de dépôt et de retrait.
+          </p>
+        </div>
+
+        <div class="grid-2">
+
+          <div class="panel">
+
+            <div class="panel-head">
+              <div class="panel-title">
+                Ajouter un moyen
+              </div>
+            </div>
+
+            <div class="field">
+              <label>Nom</label>
+              <input id="paymentName" placeholder="Ex. Orange Money">
+            </div>
+
+            <div class="field">
+              <label>Numéro / compte</label>
+              <input id="paymentNumber" placeholder="+243...">
+            </div>
+
+            <div class="field">
+
+              <label>Type</label>
+
+              <select id="paymentType">
+
+                <option value="deposit">
+                  Dépôt
+                </option>
+
+                <option value="withdrawal">
+                  Retrait
+                </option>
+
+                <option value="both">
+                  Dépôt + Retrait
+                </option>
+
+              </select>
+
+            </div>
+
+            <button
+              class="btn btn-gold"
+              onclick="addPaymentMethod()"
+            >
+              ➕ Ajouter
+            </button>
+
+          </div>
+
+
+          <div class="panel">
+
+            <div class="panel-head">
+
+              <div class="panel-title">
+                Moyens disponibles
+              </div>
+
+              <button
+                class="btn"
+                onclick="loadPaymentMethods()"
+              >
+                🔄
+              </button>
+
+            </div>
+
+            <div id="paymentMethodsList">
+              <div class="loading">
+                Chargement...
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- INVESTISSEMENTS -->
+
+      <section id="section-investments" class="admin-section">
+
+        <div class="page-head">
+          <h1>Investissements</h1>
+          <p>Configuration des plans disponibles.</p>
+        </div>
+
+        <div class="panel">
+
+          <div class="panel-head">
+
+            <div>
+
+              <div class="panel-title">
+                Plans d'investissement
+              </div>
+
+              <div class="panel-subtitle">
+                Les valeurs sont enregistrées côté serveur.
+              </div>
+
+            </div>
+
+            <button
+              class="btn btn-gold"
+              onclick="saveInvestmentPlans()"
+            >
+              💾 Enregistrer
+            </button>
+
+          </div>
+
+          <div id="plansContainer" class="grid-3"></div>
+
+        </div>
+
+      </section>
+
+
+      <!-- ==================================================
+           TACHES
+      ================================================== -->
+
+      <section id="section-tasks" class="admin-section">
+
+        <div class="page-head">
+
+          <h1>📝 Tâches quotidiennes</h1>
+
+          <p>
+            Créez et gérez les tâches que les clients
+            peuvent accomplir chaque jour.
+          </p>
+
+        </div>
+
+
+        <div class="grid-2">
+
+          <!-- CREATION -->
+
+          <div class="panel">
+
+            <div class="panel-head">
+
+              <div>
+
+                <div class="panel-title">
+                  Nouvelle tâche
+                </div>
+
+                <div class="panel-subtitle">
+                  Configuration de la tâche quotidienne.
+                </div>
+
+              </div>
+
+            </div>
+
+
+            <div class="field">
+
+              <label>
+                Nom de la tâche
+              </label>
+
+              <input
+                id="taskTitle"
+                type="text"
+                placeholder="Ex. Tâche du jour"
+              >
+
+            </div>
+
+
+            <div class="field">
+
+              <label>
+                Description
+              </label>
+
+              <textarea
+                id="taskDescription"
+                placeholder="Expliquez ce que le client doit faire..."
+              ></textarea>
+
+            </div>
+
+
+            <div class="grid-2">
+
+              <div class="field">
+
+                <label>
+                  Durée en minutes
+                </label>
+
+                <input
+                  id="taskDuration"
+                  type="number"
+                  min="1"
+                  value="5"
+                >
+
+              </div>
+
+
+              <div class="field">
+
+                <label>
+                  Gain FC
+                </label>
+
+                <input
+                  id="taskReward"
+                  type="number"
+                  min="0"
+                  value="0"
+                >
+
+              </div>
+
+            </div>
+
+
+            <div class="field">
+
+              <label>
+                Investissement minimum FC
+              </label>
+
+              <input
+                id="taskMinInvestment"
+                type="number"
+                min="0"
+                value="0"
+              >
+
+            </div>
+
+
+            <div class="field">
+
+              <label>
+                Statut
+              </label>
+
+              <select id="taskStatus">
+
+                <option value="active">
+                  Active
+                </option>
+
+                <option value="inactive">
+                  Désactivée
+                </option>
+
+              </select>
+
+            </div>
+
+
+            <button
+              class="btn btn-gold"
+              onclick="createTask()"
+            >
+              ➕ Créer la tâche
+            </button>
+
+          </div>
+
+
+          <!-- REGLES -->
+
+          <div class="panel">
+
+            <div class="panel-head">
+
+              <div>
+
+                <div class="panel-title">
+                  Fonctionnement
+                </div>
+
+                <div class="panel-subtitle">
+                  Règles du système de tâches
+                </div>
+
+              </div>
+
+            </div>
+
+
+            <div style="
+              padding:15px;
+              border-radius:13px;
+              background:rgba(77,163,255,.08);
+              border:1px solid rgba(77,163,255,.20);
+              margin-bottom:12px;
+            ">
+
+              <strong style="color:#80bdff;">
+                ⏱️ Durée
+              </strong>
+
+              <p style="
+                color:var(--muted);
+                font-size:12px;
+                line-height:1.6;
+                margin-top:6px;
+              ">
+                Le client doit terminer la durée demandée
+                avant de pouvoir demander la validation.
+              </p>
+
+            </div>
+
+
+            <div style="
+              padding:15px;
+              border-radius:13px;
+              background:rgba(55,211,155,.08);
+              border:1px solid rgba(55,211,155,.20);
+              margin-bottom:12px;
+            ">
+
+              <strong style="color:#69e4b1;">
+                📅 Une fois par jour
+              </strong>
+
+              <p style="
+                color:var(--muted);
+                font-size:12px;
+                line-height:1.6;
+                margin-top:6px;
+              ">
+                Une tâche ne doit pas pouvoir être validée
+                plusieurs fois pour le même investissement
+                pendant la même journée.
+              </p>
+
+            </div>
+
+
+            <div style="
+              padding:15px;
+              border-radius:13px;
+              background:rgba(255,180,84,.08);
+              border:1px solid rgba(255,180,84,.20);
+            ">
+
+              <strong style="color:#ffc674;">
+                🔐 Sécurité
+              </strong>
+
+              <p style="
+                color:var(--muted);
+                font-size:12px;
+                line-height:1.6;
+                margin-top:6px;
+              ">
+                Le navigateur ne doit jamais créditer
+                directement le solde. Le serveur doit
+                contrôler la session, la date,
+                l'investissement et la validation.
+              </p>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- LISTE -->
+
+        <div class="panel">
+
+          <div class="panel-head">
+
+            <div>
+
+              <div class="panel-title">
+                Tâches publiées
+              </div>
+
+              <div class="panel-subtitle">
+                Tâches configurées dans la plateforme.
+              </div>
+
+            </div>
+
+            <button
+              class="btn"
+              onclick="loadTasks()"
+            >
+              🔄 Actualiser
+            </button>
+
+          </div>
+
+
+          <div id="tasksList">
+
+            <div class="loading">
+              Chargement...
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- ACTIVITES -->
+
+      <section id="section-activities" class="admin-section">
+
+        <div class="page-head">
+
+          <h1>Activités</h1>
+
+          <p>
+            Publiez les actualités et annonces visibles
+            par les clients.
+          </p>
+
+        </div>
+
+
+        <div class="grid-2">
+
+          <div class="panel">
+
+            <div class="panel-head">
+              <div class="panel-title">
+                Nouvelle activité
+              </div>
+            </div>
+
+
+            <div class="field">
+
+              <label>Titre</label>
+
+              <input
+                id="activityTitle"
+                placeholder="Titre de l'activité"
+              >
+
+            </div>
+
+
+            <div class="field">
+
+              <label>Catégorie</label>
+
+              <select id="activityCategory">
+
+                <option value="actualite">
+                  Actualité
+                </option>
+
+                <option value="evenement">
+                  Événement
+                </option>
+
+                <option value="annonce">
+                  Annonce
+                </option>
+
+              </select>
+
+            </div>
+
+
+            <div class="field">
+
+              <label>Description</label>
+
+              <textarea
+                id="activityDescription"
+                placeholder="Description..."
+              ></textarea>
+
+            </div>
+
+
+            <button
+              class="btn btn-gold"
+              onclick="publishActivity()"
+            >
+              📢 Publier
+            </button>
+
+          </div>
+
+
+          <div class="panel">
+
+            <div class="panel-head">
+
+              <div class="panel-title">
+                Activités publiées
+              </div>
+
+              <button
+                class="btn"
+                onclick="loadActivities()"
+              >
+                🔄
+              </button>
+
+            </div>
+
+
+            <div id="activitiesList">
+
+              <div class="loading">
+                Chargement...
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- FIDELITE -->
+
+      <section id="section-fidelity" class="admin-section">
+
+        <div class="page-head">
+
+          <h1>Fidélité & VIP</h1>
+
+          <p>
+            Gestion des niveaux et avantages.
+          </p>
+
+        </div>
+
+
+        <div class="grid-2">
+
+          <div class="panel">
+
+            <div class="panel-head">
+              <div class="panel-title">
+                Niveaux VIP
+              </div>
+            </div>
+
+
+            <div id="vipLevels">
+
+              <div class="plan-card">
+
+                <h3>🥉 Bronze</h3>
+
+                <div class="field">
+
+                  <label>Seuil FC</label>
+
+                  <input
+                    id="vipBronze"
+                    type="number"
+                    value="5000"
+                  >
+
+                </div>
+
+              </div>
+
+
+              <div class="plan-card">
+
+                <h3>🥈 Argent</h3>
+
+                <div class="field">
+
+                  <label>Seuil FC</label>
+
+                  <input
+                    id="vipSilver"
+                    type="number"
+                    value="10000"
+                  >
+
+                </div>
+
+              </div>
+
+
+              <div class="plan-card">
+
+                <h3>🥇 Or</h3>
+
+                <div class="field">
+
+                  <label>Seuil FC</label>
+
+                  <input
+                    id="vipGold"
+                    type="number"
+                    value="25000"
+                  >
+
+                </div>
+
+              </div>
+
+
+              <div class="plan-card">
+
+                <h3>💎 Diamant</h3>
+
+                <div class="field">
+
+                  <label>Seuil FC</label>
+
+                  <input
+                    id="vipDiamond"
+                    type="number"
+                    value="50000"
+                  >
+
+                </div>
+
+              </div>
+
+            </div>
+
+
+            <br>
+
+            <button
+              class="btn btn-gold"
+              onclick="saveFidelity()"
+            >
+              💾 Enregistrer
+            </button>
+
+          </div>
+
+
+          <div class="panel">
+
+            <div class="panel-head">
+
+              <div class="panel-title">
+                Points fidélité
+              </div>
+
+            </div>
+
+
+            <div class="field">
+
+              <label>
+                Points pour 1 000 FC dépensés
+              </label>
+
+              <input
+                id="pointsPer1000"
+                type="number"
+                value="10"
+              >
+
+            </div>
+
+
+            <div class="field">
+
+              <label>
+                Valeur de 100 points en FC
+              </label>
+
+              <input
+                id="pointsValue"
+                type="number"
+                value="1000"
+              >
+
+            </div>
+
+
+            <button
+              class="btn btn-gold"
+              onclick="saveFidelity()"
+            >
+              💾 Enregistrer
+            </button>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- PARRAINAGE -->
+
+      <section id="section-referral" class="admin-section">
+
+        <div class="page-head">
+
+          <h1>Parrainage</h1>
+
+          <p>
+            Configuration du système de parrainage.
+          </p>
+
+        </div>
+
+
+        <div class="panel">
+
+          <div class="grid-2">
+
+            <div class="field">
+
+              <label>
+                Bonus du parrain
+              </label>
+
+              <input
+                id="referralBonus"
+                type="number"
+                value="0"
+              >
+
+            </div>
+
+
+            <div class="field">
+
+              <label>
+                Préfixe des codes
+              </label>
+
+              <input
+                id="referralPrefix"
+                value="JAS-"
+              >
+
+            </div>
+
+          </div>
+
+
+          <button
+            class="btn btn-gold"
+            onclick="saveReferralSettings()"
+          >
+            💾 Enregistrer
+          </button>
+
+        </div>
+
+
+        <div class="panel">
+
+          <div class="panel-title">
+            Règles
+          </div>
+
+          <p style="
+            color:var(--muted);
+            font-size:13px;
+            line-height:1.7;
+            margin-top:10px;
+          ">
+            Les bonus de parrainage doivent être calculés
+            et validés côté serveur.
+          </p>
+
+        </div>
+
+      </section>
+
+
+      <!-- NOTIFICATIONS -->
+
+      <section id="section-notifications" class="admin-section">
+
+        <div class="page-head">
+
+          <h1>Notifications</h1>
+
+          <p>
+            Envoyer une notification aux clients.
+          </p>
+
+        </div>
+
+
+        <div class="panel">
+
+          <div class="field">
+
+            <label>Destinataire</label>
+
+            <select id="notificationRecipient">
+
+              <option value="all">
+                Tous les clients
+              </option>
+
+            </select>
+
+          </div>
+
+
+          <div class="field">
+
+            <label>Type</label>
+
+            <select id="notificationType">
+
+              <option value="system">
+                Système
+              </option>
+
+              <option value="deposit">
+                Dépôt
+              </option>
+
+              <option value="withdrawal">
+                Retrait
+              </option>
+
+              <option value="investment">
+                Investissement
+              </option>
+
+              <option value="vip">
+                VIP & Fidélité
+              </option>
+
+            </select>
+
+          </div>
+
+
+          <div class="field">
+
+            <label>Titre</label>
+
+            <input
+              id="notificationTitle"
+              placeholder="Titre de la notification"
+            >
+
+          </div>
+
+
+          <div class="field">
+
+            <label>Message</label>
+
+            <textarea
+              id="notificationMessage"
+              placeholder="Message..."
+            ></textarea>
+
+          </div>
+
+
+          <button
+            class="btn btn-gold"
+            onclick="sendNotification()"
+          >
+            🔔 Envoyer
+          </button>
+
+        </div>
+
+
+        <div class="panel">
+
+          <div class="panel-head">
+
+            <div class="panel-title">
+              Notifications récentes
+            </div>
+
+            <button
+              class="btn"
+              onclick="loadNotifications()"
+            >
+              🔄
+            </button>
+
+          </div>
+
+
+          <div id="notificationsList">
+
+            <div class="loading">
+              Chargement...
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- SUPPORT -->
+
+      <section id="section-support" class="admin-section">
+
+        <div class="page-head">
+
+          <h1>Support</h1>
+
+          <p>
+            Gestion des demandes clients.
+          </p>
+
+        </div>
+
+
+        <div class="panel">
+
+          <div class="panel-head">
+
+            <div class="panel-title">
+              Demandes reçues
+            </div>
+
+            <button
+              class="btn"
+              onclick="loadSupport()"
+            >
+              🔄 Actualiser
+            </button>
+
+          </div>
+
+
+          <div id="supportList">
+
+            <div class="loading">
+              Chargement...
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- PARAMETRES -->
+
+      <section id="section-settings" class="admin-section">
+
+        <div class="page-head">
+
+          <h1>Paramètres</h1>
+
+          <p>
+            Configuration générale de la plateforme.
+          </p>
+
+        </div>
+
+
+        <div class="panel">
+
+          <div class="grid-2">
+
+            <div class="field">
+
+              <label>
+                Nom de la plateforme
+              </label>
+
+              <input
+                id="settingName"
+                value="JASON INVEST"
+              >
+
+            </div>
+
+
+            <div class="field">
+
+              <label>
+                Devise
+              </label>
+
+              <input
+                id="settingCurrency"
+                value="FC"
+              >
+
+            </div>
+
+
+            <div class="field">
+
+              <label>
+                WhatsApp support
+              </label>
+
+              <input
+                id="settingWhatsapp"
+                placeholder="+243..."
+              >
+
+            </div>
+
+
+            <div class="field">
+
+              <label>
+                Dépôt minimum
+              </label>
+
+              <input
+                id="settingMinDeposit"
+                type="number"
+                value="2000"
+              >
+
+            </div>
+
+
+            <div class="field">
+
+              <label>
+                Retrait minimum
+              </label>
+
+              <input
+                id="settingMinWithdrawal"
+                type="number"
+                value="2000"
+              >
+
+            </div>
+
+          </div>
+
+
+          <button
+            class="btn btn-gold"
+            onclick="saveSettings()"
+          >
+            💾 Enregistrer les paramètres
+          </button>
+
+        </div>
+
+      </section>
+
+    </div>
+
+  </main>
+
+</div>
+
+
+<div id="toast" class="toast"></div>
+
+
+<script>
+/* ==========================================================
+   JASON INVEST — ADMIN
+========================================================== */
+
+const API = "/api";
+
+const state = {
+  clients: [],
+  plans: []
+};
+
+
+/* ==========================================================
+   OUTILS
+========================================================== */
+
+function $(id){
+  return document.getElementById(id);
+}
+
+function escapeHTML(value){
+
+  return String(value ?? "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+
+}
+
+function money(value){
+
+  const number = Number(value || 0);
+
+  return new Intl.NumberFormat("fr-FR")
+    .format(number) + " FC";
+
+}
+
+function dateFormat(value){
+
+  if(!value) return "—";
+
+  const date = new Date(value);
+
+  if(Number.isNaN(date.getTime())){
+    return escapeHTML(value);
+  }
+
+  return date.toLocaleString("fr-FR");
+
+}
+
+function toast(message,type=""){
+
+  const element = $("toast");
+
+  element.textContent = message;
+
+  element.className =
+    "toast show " + type;
+
+  clearTimeout(window.__toastTimer);
+
+  window.__toastTimer =
+    setTimeout(()=>{
+      element.className = "toast";
+    },3500);
+
+}
+
+
+/* ==========================================================
+   API
+========================================================== */
+
+async function api(path,options={}){
+
+  const config = {
+
+    credentials:"include",
+
+    headers:{
+      "Content-Type":"application/json",
+      ...(options.headers || {})
+    },
+
+    ...options
+
+  };
+
+  const response =
+    await fetch(API + path,config);
+
+  let data = {};
+
+  try{
+
+    data = await response.json();
+
+  }catch{
+
+    data = {};
+
+  }
+
+  if(!response.ok){
+
+    const error = new Error(
+      data.message ||
+      data.error ||
+      "Une erreur est survenue."
+    );
+
+    error.status =
+      response.status;
+
+    throw error;
+
+  }
+
+  return data;
+
+}
+
+
+/* ==========================================================
+   AUTH ADMIN
+========================================================== */
+
+async function checkAdminSession(){
+
+  try{
+
+    await api("/auth/admin-me");
+
+    showAdmin();
+
+    await loadDashboard();
+
+  }catch{
+
+    $("adminLogin")
+      .classList.remove("hidden");
+
+    $("adminApp")
+      .classList.add("hidden");
+
+  }
+
+}
+
+
+async function loginAdmin(event){
+
+  event.preventDefault();
+
+  const identifier =
+    $("adminIdentifier")
+      .value.trim();
+
+  const password =
+    $("adminPassword")
+      .value;
+
+  const button =
+    $("loginButton");
+
+  const errorBox =
+    $("loginError");
+
+  errorBox.style.display =
+    "none";
+
+  button.disabled =
+    true;
+
+  button.textContent =
+    "Connexion...";
+
+  try{
+
+    await api(
+      "/auth/admin-login",
+      {
+        method:"POST",
+
+        body:JSON.stringify({
+          identifier,
+          password
+        })
+      }
+    );
+
+    $("adminPassword").value = "";
+
+    showAdmin();
+
+    toast(
+      "Connexion administrateur réussie.",
+      "success"
+    );
+
+    await loadDashboard();
+
+  }catch(error){
+
+    errorBox.textContent =
+      error.message ||
+      "Identifiants incorrects.";
+
+    errorBox.style.display =
+      "block";
+
+  }finally{
+
+    button.disabled =
+      false;
+
+    button.textContent =
+      "🔐 Se connecter";
+
+  }
+
+}
+
+
+function showAdmin(){
+
+  $("adminLogin")
+    .classList.add("hidden");
+
+  $("adminApp")
+    .classList.remove("hidden");
+
+}
+
+
+/* ==========================================================
+   NAVIGATION
+========================================================== */
+
+const sectionTitles = {
+
+  dashboard:"Dashboard",
+  clients:"Clients",
+  transactions:"Transactions",
+  deposits:"Dépôts",
+  withdrawals:"Retraits",
+  payments:"Moyens de paiement",
+  investments:"Investissements",
+  tasks:"Tâches",
+  activities:"Activités",
+  fidelity:"Fidélité & VIP",
+  referral:"Parrainage",
+  notifications:"Notifications",
+  support:"Support",
+  settings:"Paramètres"
+
+};
+
+
+function openSection(name){
+
+  document
+    .querySelectorAll(".admin-section")
+    .forEach(section=>{
+      section.classList.remove("active");
+    });
+
+
+  document
+    .querySelectorAll(".nav-btn[data-section]")
+    .forEach(button=>{
+      button.classList.remove("active");
+    });
+
+
+  const section =
+    $("section-" + name);
+
+  if(section){
+    section.classList.add("active");
+  }
+
+
+  const button =
+    document.querySelector(
+      `.nav-btn[data-section="${name}"]`
+    );
+
+  if(button){
+    button.classList.add("active");
+  }
+
+
+  $("topbarTitle").textContent =
+    sectionTitles[name] ||
+    "Administration";
+
+
+  $("sidebar")
+    .classList.remove("open");
+
+
+  if(name === "dashboard")
+    loadDashboard();
+
+  if(name === "clients")
+    loadClients();
+
+  if(name === "transactions")
+    loadTransactions();
+
+  if(name === "deposits")
+    loadDeposits();
+
+  if(name === "withdrawals")
+    loadWithdrawals();
+
+  if(name === "payments")
+    loadPaymentMethods();
+
+  if(name === "investments")
+    loadInvestmentPlans();
+
+  if(name === "tasks")
+    loadTasks();
+
+  if(name === "activities")
+    loadActivities();
+
+  if(name === "notifications")
+    loadNotifications();
+
+  if(name === "support")
+    loadSupport();
+
+}
+
+
+/* ==========================================================
+   DASHBOARD
+========================================================== */
+
+async function loadDashboard(){
+
+  $("recentTransactions").innerHTML =
+    `<div class="loading">Chargement...</div>`;
+
+  try{
+
+    const data =
+      await api("/admin/dashboard");
+
+
+    $("statClients").textContent =
+      data.clients ??
+      data.totalClients ??
+      0;
+
+
+    $("statDeposits").textContent =
+      data.deposits ??
+      data.totalDeposits ??
+      0;
+
+
+    $("statWithdrawals").textContent =
+      data.withdrawals ??
+      data.totalWithdrawals ??
+      0;
+
+
+    $("statInvestments").textContent =
+      data.investments ??
+      data.totalInvestments ??
+      0;
+
+
+    const transactions =
+      data.recentTransactions ||
+      data.transactions ||
+      [];
+
+
+    if(!transactions.length){
+
+      $("recentTransactions").innerHTML = `
+        <div class="empty">
+          <div class="empty-icon">🧾</div>
+          Aucune transaction récente.
+        </div>
+      `;
+
+    }else{
+
+      $("recentTransactions").innerHTML =
+        transactions.slice(0,8)
+        .map(item=>`
+
+          <div style="
+            padding:12px 0;
+            border-bottom:1px solid var(--border);
+          ">
+
+            <div style="
+              display:flex;
+              justify-content:space-between;
+              gap:10px;
+            ">
+
+              <strong>
+                ${escapeHTML(
+                  item.description ||
+                  item.type ||
+                  "Transaction"
+                )}
+              </strong>
+
+              <span>
+                ${money(item.amount)}
+              </span>
+
+            </div>
+
+            <div style="
+              color:var(--muted);
+              font-size:11px;
+              margin-top:5px;
+            ">
+              ${dateFormat(
+                item.createdAt ||
+                item.date
+              )}
+            </div>
+
+          </div>
+
+        `).join("");
+
+    }
+
+
+    $("platformStatus").innerHTML = `
+
+      <div style="
+        padding:15px;
+        border-radius:12px;
+        background:rgba(55,211,155,.08);
+        border:1px solid rgba(55,211,155,.2);
+      ">
+
+        <div style="
+          color:var(--green);
+          font-weight:800;
+          margin-bottom:6px;
+        ">
+          ● Serveur opérationnel
+        </div>
+
+        <div style="
+          color:var(--muted);
+          font-size:12px;
+        ">
+          API administrateur accessible.
+        </div>
+
+      </div>
+
+    `;
+
+  }catch{
+
+    $("recentTransactions").innerHTML = `
+      <div class="empty">
+        Impossible de charger les données.
+      </div>
+    `;
+
+
+    $("platformStatus").innerHTML = `
+
+      <div style="
+        padding:15px;
+        border-radius:12px;
+        background:rgba(255,102,117,.08);
+        border:1px solid rgba(255,102,117,.2);
+        color:#ff9aa5;
+      ">
+        API indisponible ou non configurée.
+      </div>
+
+    `;
+
+  }
+
+}
+
+
+/* ==========================================================
+   CLIENTS
+========================================================== */
+
+async function loadClients(){
+
+  const table =
+    $("clientsTable");
+
+  table.innerHTML = `
+    <tr>
+      <td colspan="6" class="empty">
+        Chargement...
+      </td>
+    </tr>
+  `;
+
+
+  try{
+
+    const data =
+      await api("/admin/clients");
+
+    state.clients =
+      data.clients ||
+      data ||
+      [];
+
+    renderClients(
+      state.clients
+    );
+
+    populateClientSelect();
+
+  }catch{
+
+    table.innerHTML = `
+      <tr>
+        <td colspan="6" class="empty">
+          Impossible de charger les clients.
+        </td>
+      </tr>
+    `;
+
+  }
+
+}
+
+
+function renderClients(clients){
+
+  const table =
+    $("clientsTable");
+
+  if(!clients.length){
+
+    table.innerHTML = `
+      <tr>
+        <td colspan="6" class="empty">
+          Aucun client trouvé.
+        </td>
+      </tr>
+    `;
+
+    return;
+
+  }
+
+
+  table.innerHTML =
+    clients.map(client=>{
+
+      const id =
+        client.id ||
+        client._id ||
+        client.userId;
+
+
+      return `
+
+        <tr>
+
+          <td>
+
+            <strong>
+              ${escapeHTML(
+                client.name ||
+                client.fullName ||
+                "Client"
+              )}
+            </strong>
+
+            <div style="
+              color:var(--muted);
+              font-size:11px;
+              margin-top:3px;
+            ">
+              ${escapeHTML(
+                client.email ||
+                "—"
+              )}
+            </div>
+
+          </td>
+
+
+          <td>
+            ${escapeHTML(
+              client.phone ||
+              "—"
+            )}
+          </td>
+
+
+          <td>
+            ${money(
+              client.balance ??
+              client.solde ??
+              0
+            )}
+          </td>
+
+
+          <td>
+            ${escapeHTML(
+              client.vip ||
+              client.vipLevel ||
+              "—"
+            )}
+          </td>
+
+
+          <td>
+
+            <span class="badge badge-green">
+              ${escapeHTML(
+                client.status ||
+                "Actif"
+              )}
+            </span>
+
+          </td>
+
+
+          <td>
+
+            <button
+              class="btn btn-blue"
+              onclick="selectClientForReset('${escapeHTML(id)}')"
+            >
+              🔑
+            </button>
+
+          </td>
+
+        </tr>
+
+      `;
+
+    }).join("");
+
+}
+
+
+$("clientSearch")
+  .addEventListener(
+    "input",
+    function(){
+
+      const query =
+        this.value
+          .toLowerCase()
+          .trim();
+
+
+      if(!query){
+
+        renderClients(
+          state.clients
+        );
+
+        return;
+
+      }
+
+
+      const filtered =
+        state.clients.filter(client=>{
+
+          const text = [
+
+            client.name,
+            client.fullName,
+            client.email,
+            client.phone
+
+          ]
+          .join(" ")
+          .toLowerCase();
+
+
+          return text.includes(
+            query
+          );
+
+        });
+
+
+      renderClients(filtered);
+
+    }
+  );
+
+
+function populateClientSelect(){
+
+  const select =
+    $("passwordClient");
+
+  select.innerHTML = `
+    <option value="">
+      Sélectionner un client
+    </option>
+  `;
+
+
+  state.clients.forEach(client=>{
+
+    const id =
+      client.id ||
+      client._id ||
+      client.userId;
+
+
+    const option =
+      document.createElement(
+        "option"
+      );
+
+
+    option.value = id;
+
+
+    option.textContent =
+      `${client.name || "Client"} — ${
+        client.phone ||
+        client.email ||
+        id
+      }`;
+
+
+    select.appendChild(option);
+
+  });
+
+}
+
+
+function selectClientForReset(id){
+
+  $("passwordClient").value =
+    id;
+
+  $("newClientPassword").focus();
+
+}
+
+
+function generateTemporaryPassword(){
+
+  const chars =
+    "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789";
+
+  let password = "";
+
+  for(let i=0;i<10;i++){
+
+    password +=
+      chars[
+        Math.floor(
+          Math.random() *
+          chars.length
+        )
+      ];
+
+  }
+
+  return password;
+
+}
+
+
+async function resetClientPassword(){
+
+  const clientId =
+    $("passwordClient").value;
+
+  let password =
+    $("newClientPassword")
+      .value.trim();
+
+
+  if(!clientId){
+
+    toast(
+      "Sélectionnez un client.",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  if(!password){
+
+    password =
+      generateTemporaryPassword();
+
+    $("newClientPassword").value =
+      password;
+
+  }
+
+
+  if(password.length < 8){
+
+    toast(
+      "Le mot de passe doit contenir au moins 8 caractères.",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  if(!confirm(
+    "Réinitialiser le mot de passe de ce client ?"
+  )){
+
+    return;
+
+  }
+
+
+  try{
+
+    await api(
+      `/admin/clients/${encodeURIComponent(clientId)}/reset-password`,
+      {
+        method:"POST",
+
+        body:JSON.stringify({
+          password
+        })
+
+      }
+    );
+
+
+    toast(
+      "Mot de passe réinitialisé.",
+      "success"
+    );
+
+
+    $("newClientPassword").value =
+      "";
+
+  }catch(error){
+
+    toast(
+      error.message ||
+      "Impossible de réinitialiser le mot de passe.",
+      "error"
+    );
+
+  }
+
+}
+
+
+/* ==========================================================
+   TRANSACTIONS
+========================================================== */
+
+async function loadTransactions(){
+
+  const table =
+    $("transactionsTable");
+
+  table.innerHTML = `
+    <tr>
+      <td colspan="6" class="empty">
+        Chargement...
+      </td>
+    </tr>
+  `;
+
+
+  try{
+
+    const data =
+      await api("/admin/transactions");
+
+
+    const rows =
+      data.transactions ||
+      data ||
+      [];
+
+
+    if(!rows.length){
+
+      table.innerHTML = `
+        <tr>
+          <td colspan="6" class="empty">
+            Aucune transaction.
+          </td>
+        </tr>
+      `;
+
+      return;
+
+    }
+
+
+    table.innerHTML =
+      rows.map(item=>`
+
+        <tr>
+
+          <td>
+            ${dateFormat(
+              item.createdAt ||
+              item.date
+            )}
+          </td>
+
+          <td>
+            ${escapeHTML(
+              item.userName ||
+              item.clientName ||
+              "—"
+            )}
+          </td>
+
+          <td>
+            ${escapeHTML(
+              item.type ||
+              "—"
+            )}
+          </td>
+
+          <td>
+            ${escapeHTML(
+              item.description ||
+              "—"
+            )}
+          </td>
+
+          <td>
+            ${money(item.amount)}
+          </td>
+
+          <td>
+
+            <span class="badge badge-blue">
+              ${escapeHTML(
+                item.status ||
+                "—"
+              )}
+            </span>
+
+          </td>
+
+        </tr>
+
+      `).join("");
+
+  }catch{
+
+    table.innerHTML = `
+      <tr>
+        <td colspan="6" class="empty">
+          Erreur de chargement.
+        </td>
+      </tr>
+    `;
+
+  }
+
+}
+
+
+/* ==========================================================
+   DEPOTS
+========================================================== */
+
+async function loadDeposits(){
+
+  const table =
+    $("depositsTable");
+
+  table.innerHTML = `
+    <tr>
+      <td colspan="7" class="empty">
+        Chargement...
+      </td>
+    </tr>
+  `;
+
+
+  try{
+
+    const data =
+      await api("/admin/deposits");
+
+
+    const rows =
+      data.deposits ||
+      data ||
+      [];
+
+
+    if(!rows.length){
+
+      table.innerHTML = `
+        <tr>
+          <td colspan="7" class="empty">
+            Aucun dépôt.
+          </td>
+        </tr>
+      `;
+
+      return;
+
+    }
+
+
+    table.innerHTML =
+      rows.map(item=>{
+
+        const id =
+          item.id ||
+          item._id;
+
+
+        const status =
+          String(
+            item.status || ""
+          ).toLowerCase();
+
+
+        let badge =
+          "badge-orange";
+
+
+        if(
+          status === "approved" ||
+          status === "valid" ||
+          status === "completed"
+        ){
+
+          badge =
+            "badge-green";
+
+        }
+
+
+        if(status === "rejected"){
+
+          badge =
+            "badge-red";
+
+        }
+
+
+        return `
+
+          <tr>
+
+            <td>
+              ${dateFormat(
+                item.createdAt ||
+                item.date
+              )}
+            </td>
+
+            <td>
+              ${escapeHTML(
+                item.userName ||
+                item.clientName ||
+                "—"
+              )}
+            </td>
+
+            <td>
+              ${escapeHTML(
+                item.method ||
+                item.paymentMethod ||
+                "—"
+              )}
+            </td>
+
+            <td>
+              ${escapeHTML(
+                item.reference ||
+                "—"
+              )}
+            </td>
+
+            <td>
+              ${money(item.amount)}
+            </td>
+
+            <td>
+
+              <span class="badge ${badge}">
+                ${escapeHTML(
+                  item.status ||
+                  "pending"
+                )}
+              </span>
+
+            </td>
+
+            <td>
+
+              ${
+                status === "pending" ||
+                !status
+
+                ? `
+
+                  <button
+                    class="btn btn-green"
+                    onclick="approveDeposit('${escapeHTML(id)}')"
+                  >
+                    ✓
+                  </button>
+
+                  <button
+                    class="btn btn-red"
+                    onclick="rejectDeposit('${escapeHTML(id)}')"
+                  >
+                    ✕
+                  </button>
+
+                `
+
+                : "—"
+              }
+
+            </td>
+
+          </tr>
+
+        `;
+
+      }).join("");
+
+  }catch{
+
+    table.innerHTML = `
+      <tr>
+        <td colspan="7" class="empty">
+          Erreur de chargement.
+        </td>
+      </tr>
+    `;
+
+  }
+
+}
+
+
+async function approveDeposit(id){
+
+  if(!confirm(
+    "Valider ce dépôt ?"
+  )) return;
+
+
+  try{
+
+    await api(
+      `/admin/deposits/${encodeURIComponent(id)}/approve`,
+      {
+        method:"POST"
+      }
+    );
+
+
+    toast(
+      "Dépôt validé.",
+      "success"
+    );
+
+
+    await loadDeposits();
+
+  }catch(error){
+
+    toast(
+      error.message ||
+      "Impossible de valider le dépôt.",
+      "error"
+    );
+
+  }
+
+}
+
+
+async function rejectDeposit(id){
+
+  if(!confirm(
+    "Refuser ce dépôt ?"
+  )) return;
+
+
+  try{
+
+    await api(
+      `/admin/deposits/${encodeURIComponent(id)}/reject`,
+      {
+        method:"POST"
+      }
+    );
+
+
+    toast(
+      "Dépôt refusé.",
+      "success"
+    );
+
+
+    await loadDeposits();
+
+  }catch(error){
+
+    toast(
+      error.message ||
+      "Impossible de refuser le dépôt.",
+      "error"
+    );
+
+  }
+
+}
+
+
+/* ==========================================================
+   RETRAITS
+========================================================== */
+
+async function loadWithdrawals(){
+
+  const table =
+    $("withdrawalsTable");
+
+  table.innerHTML = `
+    <tr>
+      <td colspan="7" class="empty">
+        Chargement...
+      </td>
+    </tr>
+  `;
+
+
+  try{
+
+    const data =
+      await api("/admin/withdrawals");
+
+
+    const rows =
+      data.withdrawals ||
+      data ||
+      [];
+
+
+    if(!rows.length){
+
+      table.innerHTML = `
+        <tr>
+          <td colspan="7" class="empty">
+            Aucun retrait.
+          </td>
+        </tr>
+      `;
+
+      return;
+
+    }
+
+
+    table.innerHTML =
+      rows.map(item=>{
+
+        const id =
+          item.id ||
+          item._id;
+
+
+        const status =
+          String(
+            item.status || ""
+          ).toLowerCase();
+
+
+        let badge =
+          "badge-orange";
+
+
+        if(
+          status === "approved" ||
+          status === "completed"
+        ){
+
+          badge =
+            "badge-green";
+
+        }
+
+
+        if(status === "rejected"){
+
+          badge =
+            "badge-red";
+
+        }
+
+
+        return `
+
+          <tr>
+
+            <td>
+              ${dateFormat(
+                item.createdAt ||
+                item.date
+              )}
+            </td>
+
+            <td>
+              ${escapeHTML(
+                item.userName ||
+                item.clientName ||
+                "—"
+              )}
+            </td>
+
+            <td>
+              ${escapeHTML(
+                item.method ||
+                "—"
+              )}
+            </td>
+
+            <td>
+              ${escapeHTML(
+                item.phone ||
+                "—"
+              )}
+            </td>
+
+            <td>
+              ${money(item.amount)}
+            </td>
+
+            <td>
+
+              <span class="badge ${badge}">
+                ${escapeHTML(
+                  item.status ||
+                  "pending"
+                )}
+              </span>
+
+            </td>
+
+            <td>
+
+              ${
+                status === "pending" ||
+                !status
+
+                ? `
+
+                  <button
+                    class="btn btn-green"
+                    onclick="approveWithdrawal('${escapeHTML(id)}')"
+                  >
+                    ✓
+                  </button>
+
+                  <button
+                    class="btn btn-red"
+                    onclick="rejectWithdrawal('${escapeHTML(id)}')"
+                  >
+                    ✕
+                  </button>
+
+                `
+
+                : "—"
+              }
+
+            </td>
+
+          </tr>
+
+        `;
+
+      }).join("");
+
+  }catch{
+
+    table.innerHTML = `
+      <tr>
+        <td colspan="7" class="empty">
+          Erreur de chargement.
+        </td>
+      </tr>
+    `;
+
+  }
+
+}
+
+
+async function approveWithdrawal(id){
+
+  if(!confirm(
+    "Valider ce retrait ?"
+  )) return;
+
+
+  try{
+
+    await api(
+      `/admin/withdrawals/${encodeURIComponent(id)}/approve`,
+      {
+        method:"POST"
+      }
+    );
+
+
+    toast(
+      "Retrait validé.",
+      "success"
+    );
+
+
+    await loadWithdrawals();
+
+  }catch(error){
+
+    toast(
+      error.message ||
+      "Impossible de valider le retrait.",
+      "error"
+    );
+
+  }
+
+}
+
+
+async function rejectWithdrawal(id){
+
+  if(!confirm(
+    "Refuser ce retrait ?"
+  )) return;
+
+
+  try{
+
+    await api(
+      `/admin/withdrawals/${encodeURIComponent(id)}/reject`,
+      {
+        method:"POST"
+      }
+    );
+
+
+    toast(
+      "Retrait refusé.",
+      "success"
+    );
+
+
+    await loadWithdrawals();
+
+  }catch(error){
+
+    toast(
+      error.message ||
+      "Impossible de refuser le retrait.",
+      "error"
+    );
+
+  }
+
+}
+
+
+/* ==========================================================
+   PAIEMENTS
+========================================================== */
+
+async function loadPaymentMethods(){
+
+  const container =
+    $("paymentMethodsList");
+
+  container.innerHTML =
+    `<div class="loading">Chargement...</div>`;
+
+
+  try{
+
+    const data =
+      await api(
+        "/admin/payment-methods"
+      );
+
+
+    const methods =
+      data.paymentMethods ||
+      data.methods ||
+      data ||
+      [];
+
+
+    if(!methods.length){
+
+      container.innerHTML = `
+        <div class="empty">
+          Aucun moyen de paiement configuré.
+        </div>
+      `;
+
+      return;
+
+    }
+
+
+    container.innerHTML =
+      methods.map(method=>{
+
+        const id =
+          method.id ||
+          method._id;
+
+
+        const active =
+          method.active !== false;
+
+
+        return `
+
+          <div style="
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            gap:12px;
+            padding:13px 0;
+            border-bottom:1px solid var(--border);
+          ">
+
+            <div>
+
+              <strong>
+                ${escapeHTML(
+                  method.name ||
+                  "Paiement"
+                )}
+              </strong>
+
+              <div style="
+                color:var(--muted);
+                font-size:11px;
+                margin-top:4px;
+              ">
+                ${escapeHTML(
+                  method.number ||
+                  method.account ||
+                  "—"
+                )}
+              </div>
+
+            </div>
+
+
+            <button
+              class="btn ${
+                active
+                  ? "btn-green"
+                  : "btn-red"
+              }"
+              onclick="togglePaymentMethod('${escapeHTML(id)}',${active})"
+            >
+              ${
+                active
+                  ? "Actif"
+                  : "Inactif"
+              }
+            </button>
+
+          </div>
+
+        `;
+
+      }).join("");
+
+  }catch{
+
+    container.innerHTML = `
+      <div class="empty">
+        Impossible de charger les moyens de paiement.
+      </div>
+    `;
+
+  }
+
+}
+
+
+async function addPaymentMethod(){
+
+  const name =
+    $("paymentName")
+      .value.trim();
+
+  const number =
+    $("paymentNumber")
+      .value.trim();
+
+  const type =
+    $("paymentType")
+      .value;
+
+
+  if(!name){
+
+    toast(
+      "Entrez le nom du moyen de paiement.",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  try{
+
+    await api(
+      "/admin/payment-methods",
+      {
+        method:"POST",
+
+        body:JSON.stringify({
+          name,
+          number,
+          type,
+          active:true
+        })
+      }
+    );
+
+
+    $("paymentName").value = "";
+    $("paymentNumber").value = "";
+
+
+    toast(
+      "Moyen de paiement ajouté.",
+      "success"
+    );
+
+
+    await loadPaymentMethods();
+
+  }catch(error){
+
+    toast(
+      error.message ||
+      "Impossible d'ajouter le moyen.",
+      "error"
+    );
+
+  }
+
+}
+
+
+async function togglePaymentMethod(
+  id,
+  active
+){
+
+  try{
+
+    await api(
+      `/admin/payment-methods/${encodeURIComponent(id)}`,
+      {
+        method:"PATCH",
+
+        body:JSON.stringify({
+          active:!active
+        })
+
+      }
+    );
+
+
+    await loadPaymentMethods();
+
+  }catch(error){
+
+    toast(
+      error.message ||
+      "Impossible de modifier le moyen.",
+      "error"
+    );
+
+  }
+
+}
+
+
+/* ==========================================================
+   INVESTISSEMENTS
+========================================================== */
+
+const defaultPlans = [
+
+  {
+    name:"20 000 FC",
+    amount:20000,
+    daily:1500,
+    monthly:45000,
+    total:65000
+  },
+
+  {
+    name:"50 000 FC",
+    amount:50000,
+    daily:4000,
+    monthly:120000,
+    total:170000
+  },
+
+  {
+    name:"100 000 FC",
+    amount:100000,
+    daily:8000,
+    monthly:240000,
+    total:340000
+  },
+
+  {
+    name:"300 000 FC",
+    amount:300000,
+    daily:24000,
+    monthly:720000,
+    total:1020000
+  },
+
+  {
+    name:"500 000 FC",
+    amount:500000,
+    daily:40000,
+    monthly:1200000,
+    total:1700000
+  },
+
+  {
+    name:"1 000 000 FC",
+    amount:1000000,
+    daily:80000,
+    monthly:2400000,
+    total:3400000
+  },
+
+  {
+    name:"2 000 000 FC",
+    amount:2000000,
+    daily:160000,
+    monthly:4800000,
+    total:6800000
+  },
+
+  {
+    name:"3 000 000 FC",
+    amount:3000000,
+    daily:240000,
+    monthly:7200000,
+    total:10200000
+  },
+
+  {
+    name:"5 000 000 FC",
+    amount:5000000,
+    daily:400000,
+    monthly:12000000,
+    total:17000000
+  }
+
+];
+
+
+async function loadInvestmentPlans(){
+
+  try{
+
+    const data =
+      await api(
+        "/admin/investments"
+      );
+
+
+    state.plans =
+      data.plans ||
+      data.investments ||
+      defaultPlans;
+
+  }catch{
+
+    state.plans =
+      defaultPlans;
+
+  }
+
+
+  renderInvestmentPlans();
+
+}
+
+
+function renderInvestmentPlans(){
+
+  const container =
+    $("plansContainer");
+
+
+  container.innerHTML =
+    state.plans.map(
+      (plan,index)=>`
+
+        <div class="plan-card">
+
+          <h3>
+            Plan ${index + 1}
+          </h3>
+
+
+          <div class="field">
+
+            <label>Nom</label>
+
+            <input
+              data-plan="${index}"
+              data-field="name"
+              value="${escapeHTML(
+                plan.name || ""
+              )}"
+            >
+
+          </div>
+
+
+          <div class="field">
+
+            <label>Montant FC</label>
+
+            <input
+              type="number"
+              data-plan="${index}"
+              data-field="amount"
+              value="${Number(
+                plan.amount || 0
+              )}"
+            >
+
+          </div>
+
+
+          <div class="field">
+
+            <label>Gain journalier FC</label>
+
+            <input
+              type="number"
+              data-plan="${index}"
+              data-field="daily"
+              value="${Number(
+                plan.daily || 0
+              )}"
+            >
+
+          </div>
+
+
+          <div class="field">
+
+            <label>Total 30 jours FC</label>
+
+            <input
+              type="number"
+              data-plan="${index}"
+              data-field="total"
+              value="${Number(
+                plan.total || 0
+              )}"
+            >
+
+          </div>
+
+        </div>
+
+      `
+    ).join("");
+
+}
+
+
+async function saveInvestmentPlans(){
+
+  const inputs =
+    document.querySelectorAll(
+      "[data-plan][data-field]"
+    );
+
+
+  const plans =
+    state.plans.map(
+      (plan,index)=>{
+
+        const result = {
+          ...plan
+        };
+
+
+        inputs.forEach(input=>{
+
+          if(
+            Number(
+              input.dataset.plan
+            ) !== index
+          ){
+
+            return;
+
+          }
+
+
+          const field =
+            input.dataset.field;
+
+
+          result[field] =
+            field === "name"
+              ? input.value
+              : Number(
+                  input.value || 0
+                );
+
+        });
+
+
+        return result;
+
+      }
+    );
+
+
+  try{
+
+    await api(
+      "/admin/investments",
+      {
+        method:"PUT",
+
+        body:JSON.stringify({
+          plans
+        })
+      }
+    );
+
+
+    state.plans =
+      plans;
+
+
+    toast(
+      "Plans enregistrés.",
+      "success"
+    );
+
+  }catch(error){
+
+    toast(
+      error.message ||
+      "Impossible d'enregistrer les plans.",
+      "error"
+    );
+
+  }
+
+}
+
+
+/* ==========================================================
+   TACHES
+========================================================== */
+
+async function loadTasks(){
+
+  const container =
+    $("tasksList");
+
+  container.innerHTML =
+    `<div class="loading">Chargement...</div>`;
+
+
+  try{
+
+    const data =
+      await api("/admin/tasks");
+
+
+    const tasks =
+      data.tasks ||
+      data ||
+      [];
+
+
+    if(!tasks.length){
+
+      container.innerHTML = `
+        <div class="empty">
+
+          <div class="empty-icon">
+            📝
+          </div>
+
+          Aucune tâche créée.
+
+        </div>
+      `;
+
+      return;
+
+    }
+
+
+    container.innerHTML =
+      tasks.map(task=>{
+
+        const id =
+          task.id ||
+          task._id;
+
+
+        const active =
+          task.active !== false &&
+          task.status !== "inactive";
+
+
+        return `
+
+          <div class="task-card">
+
+            <div style="
+              display:flex;
+              justify-content:space-between;
+              align-items:flex-start;
+              gap:15px;
+            ">
+
+              <div>
+
+                <strong style="font-size:15px;">
+                  ${escapeHTML(
+                    task.title ||
+                    "Tâche"
+                  )}
+                </strong>
+
+                <div style="
+                  color:var(--muted);
+                  font-size:12px;
+                  margin-top:6px;
+                  line-height:1.6;
+                ">
+                  ${escapeHTML(
+                    task.description ||
+                    "Aucune description."
+                  )}
+                </div>
+
+              </div>
+
+
+              <span class="badge ${
+                active
+                  ? "badge-green"
+                  : "badge-red"
+              }">
+
+                ${
+                  active
+                    ? "Active"
+                    : "Inactive"
+                }
+
+              </span>
+
+            </div>
+
+
+            <div class="task-meta">
+
+              <span class="badge badge-blue">
+                ⏱️ ${
+                  Number(
+                    task.duration || 5
+                  )
+                } min
+              </span>
+
+
+              <span class="badge badge-orange">
+                💰 ${
+                  money(
+                    task.reward || 0
+                  )
+                }
+              </span>
+
+
+              <span class="badge badge-blue">
+                📊 Min. ${
+                  money(
+                    task.minInvestment || 0
+                  )
+                }
+              </span>
+
+            </div>
+
+
+            <div style="
+              display:flex;
+              gap:8px;
+              margin-top:14px;
+            ">
+
+              <button
+                class="btn ${
+                  active
+                    ? "btn-red"
+                    : "btn-green"
+                }"
+                onclick="toggleTask('${escapeHTML(id)}',${active})"
+              >
+
+                ${
+                  active
+                    ? "⏸ Désactiver"
+                    : "▶ Activer"
+                }
+
+              </button>
+
+
+              <button
+                class="btn btn-red"
+                onclick="deleteTask('${escapeHTML(id)}')"
+              >
+                🗑 Supprimer
+              </button>
+
+            </div>
+
+          </div>
+
+        `;
+
+      }).join("");
+
+  }catch{
+
+    container.innerHTML = `
+      <div class="empty">
+        Impossible de charger les tâches.
+      </div>
+    `;
+
+  }
+
+}
+
+
+async function createTask(){
+
+  const title =
+    $("taskTitle")
+      .value.trim();
+
+  const description =
+    $("taskDescription")
+      .value.trim();
+
+  const duration =
+    Number(
+      $("taskDuration")
+        .value || 0
+    );
+
+  const reward =
+    Number(
+      $("taskReward")
+        .value || 0
+    );
+
+  const minInvestment =
+    Number(
+      $("taskMinInvestment")
+        .value || 0
+    );
+
+  const status =
+    $("taskStatus")
+      .value;
+
+
+  if(!title){
+
+    toast(
+      "Entrez le nom de la tâche.",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  if(duration <= 0){
+
+    toast(
+      "La durée doit être supérieure à 0.",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  if(reward < 0){
+
+    toast(
+      "Le gain ne peut pas être négatif.",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  try{
+
+    await api(
+      "/admin/tasks",
+      {
+        method:"POST",
+
+        body:JSON.stringify({
+
+          title,
+          description,
+          duration,
+          reward,
+          minInvestment,
+
+          active:
+            status === "active"
+
+        })
+
+      }
+    );
+
+
+    $("taskTitle").value = "";
+    $("taskDescription").value = "";
+    $("taskDuration").value = "5";
+    $("taskReward").value = "0";
+    $("taskMinInvestment").value = "0";
+    $("taskStatus").value = "active";
+
+
+    toast(
+      "Tâche créée avec succès.",
+      "success"
+    );
+
+
+    await loadTasks();
+
+  }catch(error){
+
+    toast(
+      error.message ||
+      "Impossible de créer la tâche.",
+      "error"
+    );
+
+  }
+
+}
+
+
+async function toggleTask(
+  id,
+  active
+){
+
+  try{
+
+    await api(
+      `/admin/tasks/${encodeURIComponent(id)}`,
+      {
+        method:"PATCH",
+
+        body:JSON.stringify({
+          active:!active
+        })
+
+      }
+    );
+
+
+    toast(
+      active
+        ? "Tâche désactivée."
+        : "Tâche activée.",
+      "success"
+    );
+
+
+    await loadTasks();
+
+  }catch(error){
+
+    toast(
+      error.message ||
+      "Impossible de modifier la tâche.",
+      "error"
+    );
+
+  }
+
+}
+
+
+async function deleteTask(id){
+
+  if(!confirm(
+    "Supprimer définitivement cette tâche ?"
+  )){
+
+    return;
+
+  }
+
+
+  try{
+
+    await api(
+      `/admin/tasks/${encodeURIComponent(id)}`,
+      {
+        method:"DELETE"
+      }
+    );
+
+
+    toast(
+      "Tâche supprimée.",
+      "success"
+    );
+
+
+    await loadTasks();
+
+  }catch(error){
+
+    toast(
+      error.message ||
+      "Impossible de supprimer la tâche.",
+      "error"
+    );
+
+  }
+
+}
+
+
+/* ==========================================================
+   ACTIVITES
+========================================================== */
+
+async function loadActivities(){
+
+  const container =
+    $("activitiesList");
+
+  container.innerHTML =
+    `<div class="loading">Chargement...</div>`;
+
+
+  try{
+
+    const data =
+      await api(
+        "/admin/activities"
+      );
+
+
+    const activities =
+      data.activities ||
+      data ||
+      [];
+
+
+    if(!activities.length){
+
+      container.innerHTML = `
+        <div class="empty">
+          Aucune activité publiée.
+        </div>
+      `;
+
+      return;
+
+    }
+
+
+    container.innerHTML =
+      activities.map(item=>`
+
+        <div style="
+          padding:13px 0;
+          border-bottom:1px solid var(--border);
+        ">
+
+          <strong>
+            ${escapeHTML(
+              item.title ||
+              "Activité"
+            )}
+          </strong>
+
+          <div style="
+            color:var(--muted);
+            font-size:11px;
+            margin:5px 0;
+          ">
+
+            ${escapeHTML(
+              item.category ||
+              "annonce"
+            )}
+
+            ·
+
+            ${dateFormat(
+              item.createdAt ||
+              item.date
+            )}
+
+          </div>
+
+          <div style="
+            color:#c6d0de;
+            font-size:13px;
+          ">
+            ${escapeHTML(
+              item.description ||
+              ""
+            )}
+          </div>
+
+        </div>
+
+      `).join("");
+
+  }catch{
+
+    container.innerHTML = `
+      <div class="empty">
+        Impossible de charger les activités.
+      </div>
+    `;
+
+  }
+
+}
+
+
+async function publishActivity(){
+
+  const title =
+    $("activityTitle")
+      .value.trim();
+
+  const category =
+    $("activityCategory")
+      .value;
+
+  const description =
+    $("activityDescription")
+      .value.trim();
+
+
+  if(!title || !description){
+
+    toast(
+      "Remplissez le titre et la description.",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  try{
+
+    await api(
+      "/admin/activities",
+      {
+        method:"POST",
+
+        body:JSON.stringify({
+          title,
+          category,
+          description
+        })
+
+      }
+    );
+
+
+    $("activityTitle").value = "";
+    $("activityDescription").value = "";
+
+
+    toast(
+      "Activité publiée.",
+      "success"
+    );
+
+
+    await loadActivities();
+
+  }catch(error){
+
+    toast(
+      error.message ||
+      "Impossible de publier l'activité.",
+      "error"
+    );
+
+  }
+
+}
+
+
+/* ==========================================================
+   FIDELITE
+========================================================== */
+
+async function saveFidelity(){
+
+  const data = {
+
+    vip:{
+
+      bronze:Number(
+        $("vipBronze").value || 0
+      ),
+
+      silver:Number(
+        $("vipSilver").value || 0
+      ),
+
+      gold:Number(
+        $("vipGold").value || 0
+      ),
+
+      diamond:Number(
+        $("vipDiamond").value || 0
+      )
+
+    },
+
+    points:{
+
+      per1000:Number(
+        $("pointsPer1000").value || 0
+      ),
+
+      value:Number(
+        $("pointsValue").value || 0
+      )
+
+    }
+
+  };
+
+
+  try{
+
+    await api(
+      "/admin/fidelity",
+      {
+        method:"PUT",
+
+        body:JSON.stringify(data)
+      }
+    );
+
+
+    toast(
+      "Paramètres fidélité enregistrés.",
+      "success"
+    );
+
+  }catch(error){
+
+    toast(
+      error.message ||
+      "Impossible d'enregistrer.",
+      "error"
+    );
+
+  }
+
+}
+
+
+/* ==========================================================
+   PARRAINAGE
+========================================================== */
+
+async function saveReferralSettings(){
+
+  try{
+
+    await api(
+      "/admin/referral",
+      {
+        method:"PUT",
+
+        body:JSON.stringify({
+
+          bonus:Number(
+            $("referralBonus")
+              .value || 0
+          ),
+
+          prefix:
+            $("referralPrefix")
+              .value.trim() ||
+            "JAS-"
+
+        })
+
+      }
+    );
+
+
+    toast(
+      "Paramètres de parrainage enregistrés.",
+      "success"
+    );
+
+  }catch(error){
+
+    toast(
+      error.message ||
+      "Impossible d'enregistrer.",
+      "error"
+    );
+
+  }
+
+}
+
+
+/* ==========================================================
+   NOTIFICATIONS
+========================================================== */
+
+async function loadNotifications(){
+
+  const container =
+    $("notificationsList");
+
+  container.innerHTML =
+    `<div class="loading">Chargement...</div>`;
+
+
+  try{
+
+    const data =
+      await api(
+        "/admin/notifications"
+      );
+
+
+    const rows =
+      data.notifications ||
+      data ||
+      [];
+
+
+    if(!rows.length){
+
+      container.innerHTML = `
+        <div class="empty">
+          Aucune notification.
+        </div>
+      `;
+
+      return;
+
+    }
+
+
+    container.innerHTML =
+      rows.slice(0,20)
+      .map(item=>`
+
+        <div style="
+          padding:13px 0;
+          border-bottom:1px solid var(--border);
+        ">
+
+          <strong>
+            ${escapeHTML(
+              item.title ||
+              "Notification"
+            )}
+          </strong>
+
+          <div style="
+            color:#bdc9d8;
+            font-size:13px;
+            margin:5px 0;
+          ">
+            ${escapeHTML(
+              item.message ||
+              ""
+            )}
+          </div>
+
+          <div style="
+            color:var(--muted);
+            font-size:11px;
+          ">
+            ${dateFormat(
+              item.createdAt ||
+              item.date
+            )}
+          </div>
+
+        </div>
+
+      `).join("");
+
+  }catch{
+
+    container.innerHTML = `
+      <div class="empty">
+        Impossible de charger les notifications.
+      </div>
+    `;
+
+  }
+
+}
+
+
+async function sendNotification(){
+
+  const recipient =
+    $("notificationRecipient")
+      .value;
+
+  const type =
+    $("notificationType")
+      .value;
+
+  const title =
+    $("notificationTitle")
+      .value.trim();
+
+  const message =
+    $("notificationMessage")
+      .value.trim();
+
+
+  if(!title || !message){
+
+    toast(
+      "Remplissez le titre et le message.",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  try{
+
+    await api(
+      "/admin/notifications",
+      {
+        method:"POST",
+
+        body:JSON.stringify({
+
+          recipient,
+          type,
+          title,
+          message
+
+        })
+
+      }
+    );
+
+
+    $("notificationTitle").value = "";
+    $("notificationMessage").value = "";
+
+
+    toast(
+      "Notification envoyée.",
+      "success"
+    );
+
+
+    await loadNotifications();
+
+  }catch(error){
+
+    toast(
+      error.message ||
+      "Impossible d'envoyer la notification.",
+      "error"
+    );
+
+  }
+
+}
+
+
+/* ==========================================================
+   SUPPORT
+========================================================== */
+
+async function loadSupport(){
+
+  const container =
+    $("supportList");
+
+  container.innerHTML =
+    `<div class="loading">Chargement...</div>`;
+
+
+  try{
+
+    const data =
+      await api(
+        "/admin/support"
+      );
+
+
+    const rows =
+      data.requests ||
+      data.support ||
+      data ||
+      [];
+
+
+    if(!rows.length){
+
+      container.innerHTML = `
+        <div class="empty">
+          Aucune demande de support.
+        </div>
+      `;
+
+      return;
+
+    }
+
+
+    container.innerHTML =
+      rows.map(item=>`
+
+        <div style="
+          padding:15px 0;
+          border-bottom:1px solid var(--border);
+        ">
+
+          <div style="
+            display:flex;
+            justify-content:space-between;
+            gap:10px;
+          ">
+
+            <strong>
+              ${escapeHTML(
+                item.subject ||
+                item.title ||
+                "Demande"
+              )}
+            </strong>
+
+            <span class="badge badge-orange">
+              ${escapeHTML(
+                item.status ||
+                "Ouvert"
+              )}
+            </span>
+
+          </div>
+
+          <div style="
+            color:var(--muted);
+            font-size:11px;
+            margin:5px 0;
+          ">
+
+            ${escapeHTML(
+              item.userName ||
+              item.clientName ||
+              "Client"
+            )}
+
+            ·
+
+            ${dateFormat(
+              item.createdAt ||
+              item.date
+            )}
+
+          </div>
+
+          <div style="
+            color:#cbd5e2;
+            font-size:13px;
+          ">
+            ${escapeHTML(
+              item.message ||
+              item.description ||
+              ""
+            )}
+          </div>
+
+        </div>
+
+      `).join("");
+
+  }catch{
+
+    container.innerHTML = `
+      <div class="empty">
+        Impossible de charger le support.
+      </div>
+    `;
+
+  }
+
+}
+
+
+/* ==========================================================
+   PARAMETRES
+========================================================== */
+
+async function saveSettings(){
+
+  const data = {
+
+    name:
+      $("settingName")
+        .value.trim(),
+
+    currency:
+      $("settingCurrency")
+        .value.trim(),
+
+    whatsapp:
+      $("settingWhatsapp")
+        .value.trim(),
+
+    minDeposit:Number(
+      $("settingMinDeposit")
+        .value || 0
+    ),
+
+    minWithdrawal:Number(
+      $("settingMinWithdrawal")
+        .value || 0
+    )
+
+  };
+
+
+  try{
+
+    await api(
+      "/admin/settings",
+      {
+        method:"PUT",
+
+        body:JSON.stringify(data)
+      }
+    );
+
+
+    toast(
+      "Paramètres enregistrés.",
+      "success"
+    );
+
+  }catch(error){
+
+    toast(
+      error.message ||
+      "Impossible d'enregistrer.",
+      "error"
+    );
+
+  }
+
+}
+
+
+/* ==========================================================
+   DECONNEXION
+========================================================== */
+
+async function logoutAdmin(){
+
+  try{
+
+    await api(
+      "/auth/admin-logout",
+      {
+        method:"POST"
+      }
+    );
+
+  }catch{
+
+    /* fermeture locale de l'interface */
+  }
+
+
+  $("adminApp")
+    .classList.add("hidden");
+
+  $("adminLogin")
+    .classList.remove("hidden");
+
+
+  $("adminIdentifier").value = "";
+  $("adminPassword").value = "";
+
+
+  toast(
+    "Session administrateur fermée."
+  );
+
+}
+
+
+/* ==========================================================
+   EVENEMENTS
+========================================================== */
+
+$("loginForm")
+  .addEventListener(
+    "submit",
+    loginAdmin
+  );
+
+
+document
+  .querySelectorAll(
+    ".nav-btn[data-section]"
+  )
+  .forEach(button=>{
+
+    button.addEventListener(
+      "click",
+      ()=>{
+        openSection(
+          button.dataset.section
+        );
+      }
+    );
+
+  });
+
+
+$("mobileMenu")
+  .addEventListener(
+    "click",
+    ()=>{
+      $("sidebar")
+        .classList.toggle("open");
+    }
+  );
+
+
+$("logoutButton")
+  .addEventListener(
+    "click",
+    logoutAdmin
+  );
+
+
+/* ==========================================================
+   INITIALISATION
+========================================================== */
+
+document.addEventListener(
+  "DOMContentLoaded",
+  ()=>{
+    checkAdminSession();
+  }
+);
+
+</script>
+
+</body>
+</html>
